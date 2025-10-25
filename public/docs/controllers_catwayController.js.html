@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>controllers/catwayController.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-RoutesCatways.html">RoutesCatways</a></li><li><a href="module-RoutesReservations.html">RoutesReservations</a></li><li><a href="module-RoutesUsers.html">RoutesUsers</a></li><li><a href="module-catwayController.html">catwayController</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-catwayController.html#.createCatway">createCatway</a></li><li data-type='method' style='display: none;'><a href="module-catwayController.html#.deleteCatway">deleteCatway</a></li><li data-type='method' style='display: none;'><a href="module-catwayController.html#.getAllCatways">getAllCatways</a></li><li data-type='method' style='display: none;'><a href="module-catwayController.html#.getByNumber">getByNumber</a></li><li data-type='method' style='display: none;'><a href="module-catwayController.html#.updateCatway">updateCatway</a></li></ul></li><li><a href="module-catwayService.html">catwayService</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-catwayService.html#.createCatway">createCatway</a></li><li data-type='method' style='display: none;'><a href="module-catwayService.html#.deleteCatway">deleteCatway</a></li><li data-type='method' style='display: none;'><a href="module-catwayService.html#.getAllCatways">getAllCatways</a></li><li data-type='method' style='display: none;'><a href="module-catwayService.html#.getByNumber">getByNumber</a></li><li data-type='method' style='display: none;'><a href="module-catwayService.html#.updateCatway">updateCatway</a></li></ul></li><li><a href="module-reservationController.html">reservationController</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-reservationController.html#.createReservation">createReservation</a></li><li data-type='method' style='display: none;'><a href="module-reservationController.html#.deleteReservation">deleteReservation</a></li><li data-type='method' style='display: none;'><a href="module-reservationController.html#.getAllReservations">getAllReservations</a></li><li data-type='method' style='display: none;'><a href="module-reservationController.html#.getById">getById</a></li><li data-type='method' style='display: none;'><a href="module-reservationController.html#.updateReservation">updateReservation</a></li></ul></li><li><a href="module-reservationsService.html">reservationsService</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-reservationsService.html#.createReservation">createReservation</a></li><li data-type='method' style='display: none;'><a href="module-reservationsService.html#.deleteReservation">deleteReservation</a></li><li data-type='method' style='display: none;'><a href="module-reservationsService.html#.getAllReservations">getAllReservations</a></li><li data-type='method' style='display: none;'><a href="module-reservationsService.html#.getById">getById</a></li><li data-type='method' style='display: none;'><a href="module-reservationsService.html#.updateReservation">updateReservation</a></li></ul></li><li><a href="module-userController.html">userController</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-userController.html#.createUser">createUser</a></li><li data-type='method' style='display: none;'><a href="module-userController.html#.deleteUser">deleteUser</a></li><li data-type='method' style='display: none;'><a href="module-userController.html#.getAllUsers">getAllUsers</a></li><li data-type='method' style='display: none;'><a href="module-userController.html#.getByEmail">getByEmail</a></li><li data-type='method' style='display: none;'><a href="module-userController.html#.updateUser">updateUser</a></li></ul></li><li><a href="module-usersService.html">usersService</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-usersService.html#.createUser">createUser</a></li><li data-type='method' style='display: none;'><a href="module-usersService.html#.deleteUser">deleteUser</a></li><li data-type='method' style='display: none;'><a href="module-usersService.html#.getAllUsers">getAllUsers</a></li><li data-type='method' style='display: none;'><a href="module-usersService.html#.getByEmail">getByEmail</a></li><li data-type='method' style='display: none;'><a href="module-usersService.html#.updateUser">updateUser</a></li></ul></li></ul><h3>Namespaces</h3><ul><li><a href="Catway.html">Catway</a></li><li><a href="Reservation.html">Reservation</a><ul class='methods'><li data-type='method' style='display: none;'><a href="Reservation.html#.validateDates">validateDates</a></li></ul></li><li><a href="User.html">User</a><ul class='methods'><li data-type='method' style='display: none;'><a href="User.html#.hashPasswordMiddleware">hashPasswordMiddleware</a></li></ul></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">controllers/catwayController.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const catwayService = require("../services/catways");
+
+/** Controller pour gérer les catways
+ * @module catwayController
+ */
+
+/** Afficher l'ensemble des catways
+ * @param {object} req - Ojet requête Express
+ * @param {object} res - Objet réponse Express
+ * @returns {Promise&lt;void>}
+ * @throws {Error} Si erreur serveur
+ */
+
+exports.getAllCatways = async (req, res) => {
+  try {
+    const catways = await catwayService.getAllCatways();
+    res.status(200).json(catways);
+  } catch (err) {
+    res.status(500).json({ message: "Erreur serveur", error: err.message });
+  }
+};
+
+/** Obtenir les informations sur un catway en particulier avec le numéro du catway
+ * @param {object} req - Objet requête Express
+ * @param {object} res - Objet réponse Express
+ * @returns {Promise&lt;void>}
+ * @throws {Error} Si le catway n'existe pas ou erreur serveur
+ */
+
+exports.getByNumber = async (req, res) => {
+  try {
+    const catwayNumber = req.params.id;
+    const catway = await catwayService.getByNumber(catwayNumber);
+    if (!catway) return res.status(404).json({ message: "Catway introuvable" });
+    res.status(200).json(catway);
+  } catch (err) {
+    res.status(500).json({ message: "Erreur serveur", error: err.message });
+  }
+};
+
+/**  Créer un nouveau Catway
+ * @param {object} req - Objet requête Express, req.body contient les données du catway
+ * @param {object} res - Objet réponse Express
+ * @returns {Promise&lt;void>}
+ * @throws {Error} Si le catway existe déjà ou erreur serveur
+ */
+
+exports.createCatway = async (req, res) => {
+  try {
+    const catway = await catwayService.createCatway(req.body);
+    res.status(201).json(catway);
+  } catch (err) {
+    if (err.statusCode === 400) {
+      res.status(400).json({ message: err.message });
+    } else {
+      res.status(500).json({ message: "Erreur serveur" });
+    }
+  }
+};
+
+/** Modifier les informations d'un catway existant
+ * @param {object} req - Objet requête Express, req.params.id = numéro du catway, req.body = données à modifier
+ * @param {object} res - Objet réponse Express
+ * @returns {Promise&lt;void>}
+ * @throws {Error} Si le catway n'existe pas ou erreur serveur
+ */
+
+exports.updateCatway = async (req, res) => {
+  try {
+    const catwayNumber = req.params.id;
+    const updatedCatway = await catwayService.updateCatway(
+      catwayNumber,
+      req.body
+    );
+    if (!updatedCatway)
+      return res.status(404).json({ message: "Catway introuvable " });
+    res.status(200).json(updatedCatway);
+  } catch (error) {
+    res.status(500).json({ message: "Erreur serveur", error: err.message });
+  }
+};
+
+/** Supprimer un catway
+ * @param {object} req - Objet requête Express, req.params.id = numéro du catway à supprimer
+ * @param {object} res - Objet réponse Express
+ * @returns {Promise&lt;void>}
+ * @throws {Error} Si le catway n'existe pas ou erreur serveur
+ */
+
+exports.deleteCatway = async (req, res) => {
+  const catwayNumber = req.params.id;
+  console.log("Catway reçu :", catwayNumber);
+  try {
+    const deletedCatway = await catwayService.deleteCatway(catwayNumber);
+    if (!deletedCatway)
+      return res.status(404).json({ message: "Catway introuvable " });
+    res.status(204).send();
+  } catch (error) {
+    res.status(500).json({ message: "Erreur serveur", error: err.message });
+  }
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a> on Sat Oct 25 2025 20:45:22 GMT+0200 (heure d’été d’Europe centrale) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+<script src="scripts/collapse.js" defer></script>
+
+
+</body>
+</html>

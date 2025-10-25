@@ -1,5 +1,16 @@
 const reservationService = require("../services/reservations");
 
+/** Controller pour gérer les réservations
+ * @module reservationController
+ */
+
+/** Afficher l'ensemble des réservations
+ * @param {object} req - Objet requête Express, req.params.id = numéro du catway où l'on souhaite voir l'ensemble des réservations
+ * @param {object} res - Objet réponse Express
+ * @returns {Promise<void>}
+ * @throws {Error} Si erreur serveur
+ */
+
 exports.getAllReservations = async (req, res) => {
   try {
     const catwayNumber = Number(req.params.id);
@@ -11,6 +22,13 @@ exports.getAllReservations = async (req, res) => {
     res.status(500).json({ message: "Erreur serveur", error: err.message });
   }
 };
+
+/** Obtenir des informations sur une réservation spécifique
+ * @param {object} req - Objet requête Express, req.params.id = numéro du catway où se trouve la réservation, req.params.idReservation = ID de la réservation
+ * @param {object} res - Objet réponse Express
+ * @returns {Promise<void>}
+ * @throws {Error} Si la réservation n'existe pas ou erreur serveur
+ */
 
 exports.getById = async (req, res) => {
   try {
@@ -30,6 +48,13 @@ exports.getById = async (req, res) => {
   }
 };
 
+/** Créer une réservation
+ * @param {object} req - Objet requête Express, req.params.id = numéro du catway où la réservation doit être créée, req.body = données de la réservation
+ * @param {object} res - Objet réponse Express
+ * @returns {Promise<void>}
+ * @throws {Error} Si la réservation entre en conflit avec d'autres réservations ou erreur serveur.
+ */
+
 exports.createReservation = async (req, res) => {
   try {
     const catwayNumber = Number(req.params.id);
@@ -45,6 +70,13 @@ exports.createReservation = async (req, res) => {
     }
   }
 };
+
+/** Modifier une réservation existante
+ * @param {object} req - Objet requête Express, req.params.id = numéro du catway où se trouve la réservation, req.params.idReservation =  ID de la réservation, req.body = données à modifier
+ * @param {object} res - Objet réponse Express
+ * @returns {Promise<void>}
+ * @throws {Error} Si la réservation n'existe pas ou entre en conflit avec d'autres réservations ou erreur serveur.
+ */
 
 exports.updateReservation = async (req, res) => {
   try {
@@ -73,6 +105,13 @@ exports.updateReservation = async (req, res) => {
     }
   }
 };
+
+/** Supprimer une réservation
+ * @param {object} req - Objet requête Express, req.params.id = numéro du catway où se trouve la réservation, req.params.idReservation = ID de la réservation
+ * @param {object} res - Objet réponse Express
+ * @returns {Promise<void>}
+ * @throws {Error} Si la réservation est introuvable ou erreur serveur
+ */
 
 exports.deleteReservation = async (req, res) => {
   const { id: catwayNumber, idReservation } = req.params;

@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>catwayService - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-RoutesCatways.html">RoutesCatways</a></li><li><a href="module-RoutesReservations.html">RoutesReservations</a></li><li><a href="module-RoutesUsers.html">RoutesUsers</a></li><li><a href="module-catwayController.html">catwayController</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-catwayController.html#.createCatway">createCatway</a></li><li data-type='method' style='display: none;'><a href="module-catwayController.html#.deleteCatway">deleteCatway</a></li><li data-type='method' style='display: none;'><a href="module-catwayController.html#.getAllCatways">getAllCatways</a></li><li data-type='method' style='display: none;'><a href="module-catwayController.html#.getByNumber">getByNumber</a></li><li data-type='method' style='display: none;'><a href="module-catwayController.html#.updateCatway">updateCatway</a></li></ul></li><li><a href="module-catwayService.html">catwayService</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-catwayService.html#.createCatway">createCatway</a></li><li data-type='method' style='display: none;'><a href="module-catwayService.html#.deleteCatway">deleteCatway</a></li><li data-type='method' style='display: none;'><a href="module-catwayService.html#.getAllCatways">getAllCatways</a></li><li data-type='method' style='display: none;'><a href="module-catwayService.html#.getByNumber">getByNumber</a></li><li data-type='method' style='display: none;'><a href="module-catwayService.html#.updateCatway">updateCatway</a></li></ul></li><li><a href="module-reservationController.html">reservationController</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-reservationController.html#.createReservation">createReservation</a></li><li data-type='method' style='display: none;'><a href="module-reservationController.html#.deleteReservation">deleteReservation</a></li><li data-type='method' style='display: none;'><a href="module-reservationController.html#.getAllReservations">getAllReservations</a></li><li data-type='method' style='display: none;'><a href="module-reservationController.html#.getById">getById</a></li><li data-type='method' style='display: none;'><a href="module-reservationController.html#.updateReservation">updateReservation</a></li></ul></li><li><a href="module-reservationsService.html">reservationsService</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-reservationsService.html#.createReservation">createReservation</a></li><li data-type='method' style='display: none;'><a href="module-reservationsService.html#.deleteReservation">deleteReservation</a></li><li data-type='method' style='display: none;'><a href="module-reservationsService.html#.getAllReservations">getAllReservations</a></li><li data-type='method' style='display: none;'><a href="module-reservationsService.html#.getById">getById</a></li><li data-type='method' style='display: none;'><a href="module-reservationsService.html#.updateReservation">updateReservation</a></li></ul></li><li><a href="module-userController.html">userController</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-userController.html#.createUser">createUser</a></li><li data-type='method' style='display: none;'><a href="module-userController.html#.deleteUser">deleteUser</a></li><li data-type='method' style='display: none;'><a href="module-userController.html#.getAllUsers">getAllUsers</a></li><li data-type='method' style='display: none;'><a href="module-userController.html#.getByEmail">getByEmail</a></li><li data-type='method' style='display: none;'><a href="module-userController.html#.updateUser">updateUser</a></li></ul></li><li><a href="module-usersService.html">usersService</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-usersService.html#.createUser">createUser</a></li><li data-type='method' style='display: none;'><a href="module-usersService.html#.deleteUser">deleteUser</a></li><li data-type='method' style='display: none;'><a href="module-usersService.html#.getAllUsers">getAllUsers</a></li><li data-type='method' style='display: none;'><a href="module-usersService.html#.getByEmail">getByEmail</a></li><li data-type='method' style='display: none;'><a href="module-usersService.html#.updateUser">updateUser</a></li></ul></li></ul><h3>Namespaces</h3><ul><li><a href="Catway.html">Catway</a></li><li><a href="Reservation.html">Reservation</a><ul class='methods'><li data-type='method' style='display: none;'><a href="Reservation.html#.validateDates">validateDates</a></li></ul></li><li><a href="User.html">User</a><ul class='methods'><li data-type='method' style='display: none;'><a href="User.html#.hashPasswordMiddleware">hashPasswordMiddleware</a></li></ul></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">catwayService</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        
+            
+        
+    
+</header>
+
+<article>
+    
+        <div class="container-overview">
+        
+            
+                <div class="description usertext">Service pour gérer les catways</div>
+            
+
+            
+                
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li>Service pour gérer les catways</li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="services_catways.js.html">services/catways.js</a>, <a href="services_catways.js.html#line3">line 3</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+        
+        </div>
+    
+
+    
+
+    
+
+    
+    
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".createCatway"><span class="type-signature type-signature-static">(static) </span>createCatway<span class="signature">(data)</span><span class="type-signature"> &rarr; {Promise.&lt;object>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li>Crée un nouveau catway</li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="services_catways.js.html">services/catways.js</a>, <a href="services_catways.js.html#line30">line 30</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>data</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-throws">Throws:</h5>
+
+        
+
+<dl>
+    <dt>
+        <div class="param-desc usertext">
+        Si le catway existe déjà
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl class="param-type">
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">Error</span>
+
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+
+    
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;object></span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".deleteCatway"><span class="type-signature type-signature-static">(static) </span>deleteCatway<span class="signature">(catwayNumber)</span><span class="type-signature"> &rarr; {Promise.&lt;(object|null)>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li>Supprime le catway spécifié</li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="services_catways.js.html">services/catways.js</a>, <a href="services_catways.js.html#line70">line 70</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>catwayNumber</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;(object|null)></span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".getAllCatways"><span class="type-signature type-signature-static">(static) </span>getAllCatways<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;Array>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li>Affiche l'ensemble des catways enregistrés</li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="services_catways.js.html">services/catways.js</a>, <a href="services_catways.js.html#line11">line 11</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;Array></span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".getByNumber"><span class="type-signature type-signature-static">(static) </span>getByNumber<span class="signature">(catwayNumber)</span><span class="type-signature"> &rarr; {Promise.&lt;(object|null)>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li>Affiche le catway demandé grâce au numéro de catway spécifié</li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="services_catways.js.html">services/catways.js</a>, <a href="services_catways.js.html#line20">line 20</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>catwayNumber</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;(object|null)></span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".updateCatway"><span class="type-signature type-signature-static">(static) </span>updateCatway<span class="signature">(catwayNumber, data<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;(object|null)>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li>Modifie les informations du catway spécifié</li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="services_catways.js.html">services/catways.js</a>, <a href="services_catways.js.html#line53">line 53</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>catwayNumber</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>data</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;(object|null)></span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a> on Sat Oct 25 2025 20:45:22 GMT+0200 (heure d’été d’Europe centrale) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+<script src="scripts/collapse.js" defer></script>
+
+
+</body>
+</html>
