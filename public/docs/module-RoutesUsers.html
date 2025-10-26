@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>RoutesUsers - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-RoutesAuthentification.html">RoutesAuthentification</a></li><li><a href="module-RoutesCatways.html">RoutesCatways</a></li><li><a href="module-RoutesDashboard.html">RoutesDashboard</a></li><li><a href="module-RoutesReservations.html">RoutesReservations</a></li><li><a href="module-RoutesUsers.html">RoutesUsers</a></li><li><a href="module-catwayController.html">catwayController</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-catwayController.html#.createCatway">createCatway</a></li><li data-type='method' style='display: none;'><a href="module-catwayController.html#.deleteCatway">deleteCatway</a></li><li data-type='method' style='display: none;'><a href="module-catwayController.html#.getAllCatways">getAllCatways</a></li><li data-type='method' style='display: none;'><a href="module-catwayController.html#.getByNumber">getByNumber</a></li><li data-type='method' style='display: none;'><a href="module-catwayController.html#.updateCatway">updateCatway</a></li></ul></li><li><a href="module-catwayService.html">catwayService</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-catwayService.html#.createCatway">createCatway</a></li><li data-type='method' style='display: none;'><a href="module-catwayService.html#.deleteCatway">deleteCatway</a></li><li data-type='method' style='display: none;'><a href="module-catwayService.html#.getAllCatways">getAllCatways</a></li><li data-type='method' style='display: none;'><a href="module-catwayService.html#.getByNumber">getByNumber</a></li><li data-type='method' style='display: none;'><a href="module-catwayService.html#.updateCatway">updateCatway</a></li></ul></li><li><a href="module-reservationController.html">reservationController</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-reservationController.html#.createReservation">createReservation</a></li><li data-type='method' style='display: none;'><a href="module-reservationController.html#.deleteReservation">deleteReservation</a></li><li data-type='method' style='display: none;'><a href="module-reservationController.html#.getAllReservations">getAllReservations</a></li><li data-type='method' style='display: none;'><a href="module-reservationController.html#.getById">getById</a></li><li data-type='method' style='display: none;'><a href="module-reservationController.html#.updateReservation">updateReservation</a></li></ul></li><li><a href="module-reservationsService.html">reservationsService</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-reservationsService.html#.createReservation">createReservation</a></li><li data-type='method' style='display: none;'><a href="module-reservationsService.html#.deleteReservation">deleteReservation</a></li><li data-type='method' style='display: none;'><a href="module-reservationsService.html#.getAllReservations">getAllReservations</a></li><li data-type='method' style='display: none;'><a href="module-reservationsService.html#.getById">getById</a></li><li data-type='method' style='display: none;'><a href="module-reservationsService.html#.updateReservation">updateReservation</a></li></ul></li><li><a href="module-userController.html">userController</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-userController.html#.createUser">createUser</a></li><li data-type='method' style='display: none;'><a href="module-userController.html#.deleteUser">deleteUser</a></li><li data-type='method' style='display: none;'><a href="module-userController.html#.getAllUsers">getAllUsers</a></li><li data-type='method' style='display: none;'><a href="module-userController.html#.getByEmail">getByEmail</a></li><li data-type='method' style='display: none;'><a href="module-userController.html#.loginUser">loginUser</a></li><li data-type='method' style='display: none;'><a href="module-userController.html#.logoutUser">logoutUser</a></li><li data-type='method' style='display: none;'><a href="module-userController.html#.updateUser">updateUser</a></li></ul></li><li><a href="module-usersService.html">usersService</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-usersService.html#.createUser">createUser</a></li><li data-type='method' style='display: none;'><a href="module-usersService.html#.deleteUser">deleteUser</a></li><li data-type='method' style='display: none;'><a href="module-usersService.html#.getAllUsers">getAllUsers</a></li><li data-type='method' style='display: none;'><a href="module-usersService.html#.getByEmail">getByEmail</a></li><li data-type='method' style='display: none;'><a href="module-usersService.html#.loginUser">loginUser</a></li><li data-type='method' style='display: none;'><a href="module-usersService.html#.updateUser">updateUser</a></li></ul></li></ul><h3>Namespaces</h3><ul><li><a href="Catway.html">Catway</a></li><li><a href="Reservation.html">Reservation</a><ul class='methods'><li data-type='method' style='display: none;'><a href="Reservation.html#.validateDates">validateDates</a></li></ul></li><li><a href="User.html">User</a><ul class='methods'><li data-type='method' style='display: none;'><a href="User.html#.hashPassword">hashPassword</a></li></ul></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">RoutesUsers</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        
+            
+        
+    
+</header>
+
+<article>
+    
+        <div class="container-overview">
+        
+            
+                <div class="description usertext">Routes des utilisateurs</div>
+            
+
+            
+                
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li>Routes des utilisateurs</li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="routes_users.js.html">routes/users.js</a>, <a href="routes_users.js.html#line5">line 5</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+        
+        </div>
+    
+
+    
+
+    
+
+    
+    
+    
+
+     
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id="Createauser"><span class="type-signature type-signature-route">(route) </span>Create a user<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><h5>Route:</h5>
+                            <table class="params">
+                            <thead><tr><th>Method</th><th class="last">Path</th></tr></thead>
+                            <tr>
+                            <td class="type">POST</td>
+                            <td class="name last">/users</td>
+                            </tr>
+                            </table>
+                            Crée un utilisateur</li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="routes_users.js.html">routes/users.js</a>, <a href="routes_users.js.html#line22">line 22</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <h5>Route:</h5>
+                            <table class="params">
+                            <thead><tr><th>Method</th><th class="last">Path</th></tr></thead>
+                            <tr>
+                            <td class="type">POST</td>
+                            <td class="name last">/users</td>
+                            </tr>
+                            </table>
+                            Crée un utilisateur
+</div>
+
+
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="Deleteauser"><span class="type-signature type-signature-route">(route) </span>Delete a user<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><h5>Route:</h5>
+                            <table class="params">
+                            <thead><tr><th>Method</th><th class="last">Path</th></tr></thead>
+                            <tr>
+                            <td class="type">email</td>
+                            <td class="name last">DELETE</td>
+                            </tr>
+                            </table>
+                            Supprimer un utilisateur
+                            <h5>Route Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">:email</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last">Email de l'utilisateur</td>
+          </tr>
+          </table></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="routes_users.js.html">routes/users.js</a>, <a href="routes_users.js.html#line35">line 35</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <h5>Route:</h5>
+                            <table class="params">
+                            <thead><tr><th>Method</th><th class="last">Path</th></tr></thead>
+                            <tr>
+                            <td class="type">email</td>
+                            <td class="name last">DELETE</td>
+                            </tr>
+                            </table>
+                            Supprimer un utilisateur
+                            <h5>Route Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">:email</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last">Email de l'utilisateur</td>
+          </tr>
+          </table>
+</div>
+
+
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="Getauserbyemail"><span class="type-signature type-signature-route">(route) </span>Get a user by email<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><h5>Route:</h5>
+                            <table class="params">
+                            <thead><tr><th>Method</th><th class="last">Path</th></tr></thead>
+                            <tr>
+                            <td class="type">GET</td>
+                            <td class="name last">/users/{email}</td>
+                            </tr>
+                            </table>
+                            Récupère un utilisateur
+                            <h5>Route Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">:email</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last">Email de l'utilisateur</td>
+          </tr>
+          </table></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="routes_users.js.html">routes/users.js</a>, <a href="routes_users.js.html#line15">line 15</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <h5>Route:</h5>
+                            <table class="params">
+                            <thead><tr><th>Method</th><th class="last">Path</th></tr></thead>
+                            <tr>
+                            <td class="type">GET</td>
+                            <td class="name last">/users/{email}</td>
+                            </tr>
+                            </table>
+                            Récupère un utilisateur
+                            <h5>Route Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">:email</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last">Email de l'utilisateur</td>
+          </tr>
+          </table>
+</div>
+
+
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="Getallusers"><span class="type-signature type-signature-route">(route) </span>Get all users<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><h5>Route:</h5>
+                            <table class="params">
+                            <thead><tr><th>Method</th><th class="last">Path</th></tr></thead>
+                            <tr>
+                            <td class="type">GET</td>
+                            <td class="name last">/users</td>
+                            </tr>
+                            </table>
+                            Récupère tous les utilisateurs</li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="routes_users.js.html">routes/users.js</a>, <a href="routes_users.js.html#line9">line 9</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <h5>Route:</h5>
+                            <table class="params">
+                            <thead><tr><th>Method</th><th class="last">Path</th></tr></thead>
+                            <tr>
+                            <td class="type">GET</td>
+                            <td class="name last">/users</td>
+                            </tr>
+                            </table>
+                            Récupère tous les utilisateurs
+</div>
+
+
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="Updateauser"><span class="type-signature type-signature-route">(route) </span>Update a user<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><h5>Route:</h5>
+                            <table class="params">
+                            <thead><tr><th>Method</th><th class="last">Path</th></tr></thead>
+                            <tr>
+                            <td class="type">PUT</td>
+                            <td class="name last">/users/{email}</td>
+                            </tr>
+                            </table>
+                            Met à jour un utilisateur
+                            <h5>Route Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">:email</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last">Email de l'utilisateur</td>
+          </tr>
+          </table></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="routes_users.js.html">routes/users.js</a>, <a href="routes_users.js.html#line28">line 28</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <h5>Route:</h5>
+                            <table class="params">
+                            <thead><tr><th>Method</th><th class="last">Path</th></tr></thead>
+                            <tr>
+                            <td class="type">PUT</td>
+                            <td class="name last">/users/{email}</td>
+                            </tr>
+                            </table>
+                            Met à jour un utilisateur
+                            <h5>Route Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">:email</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last">Email de l'utilisateur</td>
+          </tr>
+          </table>
+</div>
+
+
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a> on Sun Oct 26 2025 11:07:55 GMT+0100 (heure normale d’Europe centrale) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+<script src="scripts/collapse.js" defer></script>
+
+
+</body>
+</html>

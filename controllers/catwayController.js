@@ -1,13 +1,35 @@
 const catwayService = require("../services/catways");
 
+/** Controller pour gérer les catways
+ * @module catwayController
+ */
+
+/** Afficher l'ensemble des catways
+ * @param {object} req - Ojet requête Express
+ * @param {object} res - Objet réponse Express
+ * @returns {Promise<void>}
+ * @throws {Error} Si erreur serveur
+ */
+
 exports.getAllCatways = async (req, res) => {
   try {
-    const catways = await catwayService.getAllCatways();
-    res.status(200).json(catways);
+    const catways = await catwayService
+      .getAllCatways()
+      .sort({ catwayNumber: 1 })
+      .lean();
+    res.render("catways", { catways });
   } catch (err) {
-    res.status(500).json({ message: "Erreur serveur", error: err.message });
+    console.error(err);
+    res.status(500).send("Erreur serveur");
   }
 };
+
+/** Obtenir les informations sur un catway en particulier avec le numéro du catway
+ * @param {object} req - Objet requête Express
+ * @param {object} res - Objet réponse Express
+ * @returns {Promise<void>}
+ * @throws {Error} Si le catway n'existe pas ou erreur serveur
+ */
 
 exports.getByNumber = async (req, res) => {
   try {
@@ -19,6 +41,13 @@ exports.getByNumber = async (req, res) => {
     res.status(500).json({ message: "Erreur serveur", error: err.message });
   }
 };
+
+/**  Créer un nouveau Catway
+ * @param {object} req - Objet requête Express, req.body contient les données du catway
+ * @param {object} res - Objet réponse Express
+ * @returns {Promise<void>}
+ * @throws {Error} Si le catway existe déjà ou erreur serveur
+ */
 
 exports.createCatway = async (req, res) => {
   try {
@@ -32,6 +61,13 @@ exports.createCatway = async (req, res) => {
     }
   }
 };
+
+/** Modifier les informations d'un catway existant
+ * @param {object} req - Objet requête Express, req.params.id = numéro du catway, req.body = données à modifier
+ * @param {object} res - Objet réponse Express
+ * @returns {Promise<void>}
+ * @throws {Error} Si le catway n'existe pas ou erreur serveur
+ */
 
 exports.updateCatway = async (req, res) => {
   try {
@@ -47,6 +83,13 @@ exports.updateCatway = async (req, res) => {
     res.status(500).json({ message: "Erreur serveur", error: err.message });
   }
 };
+
+/** Supprimer un catway
+ * @param {object} req - Objet requête Express, req.params.id = numéro du catway à supprimer
+ * @param {object} res - Objet réponse Express
+ * @returns {Promise<void>}
+ * @throws {Error} Si le catway n'existe pas ou erreur serveur
+ */
 
 exports.deleteCatway = async (req, res) => {
   const catwayNumber = req.params.id;

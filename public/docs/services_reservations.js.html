@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>services/reservations.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-RoutesAuthentification.html">RoutesAuthentification</a></li><li><a href="module-RoutesCatways.html">RoutesCatways</a></li><li><a href="module-RoutesDashboard.html">RoutesDashboard</a></li><li><a href="module-RoutesReservations.html">RoutesReservations</a></li><li><a href="module-RoutesUsers.html">RoutesUsers</a></li><li><a href="module-catwayController.html">catwayController</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-catwayController.html#.createCatway">createCatway</a></li><li data-type='method' style='display: none;'><a href="module-catwayController.html#.deleteCatway">deleteCatway</a></li><li data-type='method' style='display: none;'><a href="module-catwayController.html#.getAllCatways">getAllCatways</a></li><li data-type='method' style='display: none;'><a href="module-catwayController.html#.getByNumber">getByNumber</a></li><li data-type='method' style='display: none;'><a href="module-catwayController.html#.updateCatway">updateCatway</a></li></ul></li><li><a href="module-catwayService.html">catwayService</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-catwayService.html#.createCatway">createCatway</a></li><li data-type='method' style='display: none;'><a href="module-catwayService.html#.deleteCatway">deleteCatway</a></li><li data-type='method' style='display: none;'><a href="module-catwayService.html#.getAllCatways">getAllCatways</a></li><li data-type='method' style='display: none;'><a href="module-catwayService.html#.getByNumber">getByNumber</a></li><li data-type='method' style='display: none;'><a href="module-catwayService.html#.updateCatway">updateCatway</a></li></ul></li><li><a href="module-reservationController.html">reservationController</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-reservationController.html#.createReservation">createReservation</a></li><li data-type='method' style='display: none;'><a href="module-reservationController.html#.deleteReservation">deleteReservation</a></li><li data-type='method' style='display: none;'><a href="module-reservationController.html#.getAllReservations">getAllReservations</a></li><li data-type='method' style='display: none;'><a href="module-reservationController.html#.getById">getById</a></li><li data-type='method' style='display: none;'><a href="module-reservationController.html#.updateReservation">updateReservation</a></li></ul></li><li><a href="module-reservationsService.html">reservationsService</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-reservationsService.html#.createReservation">createReservation</a></li><li data-type='method' style='display: none;'><a href="module-reservationsService.html#.deleteReservation">deleteReservation</a></li><li data-type='method' style='display: none;'><a href="module-reservationsService.html#.getAllReservations">getAllReservations</a></li><li data-type='method' style='display: none;'><a href="module-reservationsService.html#.getById">getById</a></li><li data-type='method' style='display: none;'><a href="module-reservationsService.html#.updateReservation">updateReservation</a></li></ul></li><li><a href="module-userController.html">userController</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-userController.html#.createUser">createUser</a></li><li data-type='method' style='display: none;'><a href="module-userController.html#.deleteUser">deleteUser</a></li><li data-type='method' style='display: none;'><a href="module-userController.html#.getAllUsers">getAllUsers</a></li><li data-type='method' style='display: none;'><a href="module-userController.html#.getByEmail">getByEmail</a></li><li data-type='method' style='display: none;'><a href="module-userController.html#.loginUser">loginUser</a></li><li data-type='method' style='display: none;'><a href="module-userController.html#.logoutUser">logoutUser</a></li><li data-type='method' style='display: none;'><a href="module-userController.html#.updateUser">updateUser</a></li></ul></li><li><a href="module-usersService.html">usersService</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-usersService.html#.createUser">createUser</a></li><li data-type='method' style='display: none;'><a href="module-usersService.html#.deleteUser">deleteUser</a></li><li data-type='method' style='display: none;'><a href="module-usersService.html#.getAllUsers">getAllUsers</a></li><li data-type='method' style='display: none;'><a href="module-usersService.html#.getByEmail">getByEmail</a></li><li data-type='method' style='display: none;'><a href="module-usersService.html#.loginUser">loginUser</a></li><li data-type='method' style='display: none;'><a href="module-usersService.html#.updateUser">updateUser</a></li></ul></li></ul><h3>Namespaces</h3><ul><li><a href="Catway.html">Catway</a></li><li><a href="Reservation.html">Reservation</a><ul class='methods'><li data-type='method' style='display: none;'><a href="Reservation.html#.validateDates">validateDates</a></li></ul></li><li><a href="User.html">User</a><ul class='methods'><li data-type='method' style='display: none;'><a href="User.html#.hashPassword">hashPassword</a></li></ul></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">services/reservations.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const Reservation = require("../models/reservation");
+const mongoose = require("mongoose");
+
+/** Service pour gérer les réservations
+ * @module reservationsService
+ */
+
+/** Affiche l'ensemble des réservations enregistrées sur le catway spécifié
+ * @param {number} catwayNumber
+ * @returns {Promise&lt;Array>}
+ */
+
+exports.getAllReservations = (catwayNumber) => {
+  return Reservation.find({ catwayNumber: catwayNumber });
+};
+
+/** Affiche la réservation spécifiée
+ * @param {number} catwayNumber
+ * @param {string} idReservation
+ * @returns {Promise&lt;object|null>}
+ */
+
+exports.getById = (catwayNumber, idReservation) => {
+  return Reservation.findOne({
+    _id: new mongoose.Types.ObjectId(idReservation),
+    catwayNumber: catwayNumber,
+  });
+};
+
+/** Crée une nouvelle réservation sur le catway spécifié
+ * @param {{catwayNumber: number, clientName: string, boatName: string, startDate: Date, endDate: Date}=} data
+ * @returns {Promise&lt;object>}
+ * @throws {Error} Si la réservation entre en conflits avec d'autres réservations ou champs manquants
+ */
+
+exports.createReservation = async (data) => {
+  const { catwayNumber, clientName, boatName, startDate, endDate } = data;
+
+  if (!catwayNumber || !clientName || !boatName || !startDate || !endDate) {
+    const error = new Error(
+      "Les champs catwayNumber, clientName, boatName, startDate et endDate sont requis."
+    );
+    error.statusCode = 400;
+    throw error;
+  }
+
+  /** Vérification même catway + période qui se chevauche */
+
+  const sameCatwayConflict = await Reservation.findOne({
+    catwayNumber,
+    $or: [
+      { startDate: { $lt: Date(endDate) }, endDate: { $gt: Date(startDate) } },
+    ],
+  });
+
+  if (sameCatwayConflict) {
+    const error = new Error(
+      "Une réservation a déjà été faite sur ce catway dans cette période."
+    );
+    error.statusCode = 400;
+    throw error;
+  }
+
+  /** Vérification même client + période qui se chevauche sur un autre catway ou le même catway */
+
+  const sameClientConflict = await Reservation.findOne({
+    clientName,
+    $or: [
+      { startDate: { $lt: Date(endDate) }, endDate: { $gt: Date(startDate) } },
+    ],
+  });
+
+  if (sameClientConflict) {
+    const error = new Error(
+      `Une réservation a déjà été faite à ce nom sur cette période sur le catway ${sameClientConflict.catwayNumber}.`
+    );
+    error.statusCode = 400;
+    throw error;
+  }
+
+  /** Vérification même bateau + période qui se chevauche sur un autre catway ou le même catway */
+
+  const sameBoatConflict = await Reservation.findOne({
+    boatName,
+    $or: [
+      { startDate: { $lt: Date(endDate) }, endDate: { $gt: Date(startDate) } },
+    ],
+  });
+
+  if (sameBoatConflict) {
+    const error = new Error(
+      `Ce bateau a déjà été réservé sur cette période sur le catway ${sameBoatConflict.catwayNumber}.`
+    );
+    error.statusCode = 400;
+    throw error;
+  }
+
+  const reservation = new Reservation(data);
+  return reservation.save();
+};
+
+/** Modifie les informations de la réservation spécifiée
+ * @param {number} catwayNumberParam
+ * @param {string} idReservation
+ * @param {{catwayNumber: number, clientName: string, boatName: string, startDate: Date, endDate: Date}=} data
+ * @returns {Promise&lt;object>}
+ * @throws {Error} Si la réservation est introuvable ou entre en conflit avec d'autres réservations
+ */
+
+exports.updateReservation = async (catwayNumberParam, idReservation, data) => {
+  if ("createdAt" in data) {
+    delete data.createdAt;
+  }
+
+  /** Vérification de l'existence de la réservation */
+
+  const existingReservation = await Reservation.findById(idReservation);
+  if (!existingReservation) {
+    const error = new Error("Réservation introuvable.");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  /** Vérification de la cohérence de la route avec la réservation actuelle */
+
+  if (existingReservation.catwayNumber !== Number(catwayNumberParam)) {
+    const error = new Error(
+      `Cette réservation n'appartient pas au catway ${catwayNumberParam} mais au catway ${existingReservation.catwayNumber}.`
+    );
+    error.statusCode = 403;
+    throw error;
+  }
+
+  /** Fusion des anciennes et nouvelles données */
+  const updatedData = { ...existingReservation.toObject(), ...data };
+  const { catwayNumber, clientName, boatName, startDate, endDate } =
+    updatedData;
+
+  /** Conversion des dates pour éviter les erreurs de comparaison */
+  const newStart = new Date(startDate);
+  const newEnd = new Date(endDate);
+
+  /** Vérifiction conflit de réservation du catway sur la même période */
+
+  const sameCatwayConflict = await Reservation.findOne({
+    _id: { $ne: idReservation },
+    catwayNumber,
+    startDate: { $lt: newEnd },
+    endDate: { $gt: newStart },
+  });
+
+  if (sameCatwayConflict) {
+    const error = new Error(
+      Number(catwayNumber) !== existingReservation.catwayNumber
+        ? `Impossible de déplacer la réservation vers le catway ${catwayNumber} car une réservation a déjà été faite sur cette période.`
+        : `Une réservation existe déjà sur le catway ${catwayNumber} sur cette période.`
+    );
+    error.statusCode = 400;
+    throw error;
+  }
+
+  /** Vérification conflit de réservation d'un même client sur la même période sur un autre catway. */
+
+  const sameClientConflict = await Reservation.findOne({
+    _id: { $ne: idReservation },
+    clientName,
+    startDate: { $lt: newEnd },
+    endDate: { $gt: newStart },
+  });
+
+  if (sameClientConflict) {
+    const error = new Error(
+      `Une réservation a déjà été faite à ce nom sur cette période sur le catway ${sameClientConflict.catwayNumber}.`
+    );
+    error.statusCode = 400;
+    throw error;
+  }
+
+  /** Vérification conflit de réservation d'un même bateau sur la même période sur un autre catway. */
+
+  const sameBoatConflict = await Reservation.findOne({
+    _id: { $ne: idReservation },
+    boatName,
+    startDate: { $lt: newEnd },
+    endDate: { $gt: newStart },
+  });
+
+  if (sameBoatConflict) {
+    const error = new Error(
+      `Le bateau '${boatName}' est déjà réservé sur cette période sur le catway ${sameBoatConflict.catwayNumber}.`
+    );
+    error.statusCode = 400;
+    throw error;
+  }
+
+  /** Mise à jour de la réservation avec les nouvelles données */
+
+  const updatedReservation = await Reservation.findOneAndUpdate(
+    { _id: new mongoose.Types.ObjectId(idReservation) },
+    { $set: updatedData },
+    { new: true, runValidators: true }
+  );
+
+  return updatedReservation;
+};
+
+/** Supprime la réservation spécifiée
+ * @param {number} catwayNumber
+ * @param {string} idReservation
+ * @returns {Promise&lt;object|null>}
+ */
+
+exports.deleteReservation = (catwayNumber, idReservation) => {
+  return Reservation.findOneAndDelete({
+    _id: new mongoose.Types.ObjectId(idReservation),
+    catwayNumber,
+  });
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a> on Sun Oct 26 2025 11:07:55 GMT+0100 (heure normale d’Europe centrale) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+<script src="scripts/collapse.js" defer></script>
+
+
+</body>
+</html>

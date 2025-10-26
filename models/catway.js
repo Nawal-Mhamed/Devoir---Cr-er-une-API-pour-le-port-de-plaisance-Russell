@@ -10,8 +10,11 @@ const catwaySchema = new mongoose.Schema(
       trim: true,
       min: [1, "Le numéro du catway doit être supérieur ou égal à 1."],
     },
+
     catwayType: { type: String, enum: ["long", "short"], required: true },
+
     catwayState: { type: String, required: true },
+
     createdAt: {
       type: Date,
       immutable: true,
@@ -21,4 +24,10 @@ const catwaySchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+/** Modèle représentant un catway
+ * @namespace Catway
+ * @property {number} catwayNumber - Numéro du catway
+ * @property {("long"|"short")} catwayType - Longueur du catway
+ * @property {string} catwayState - Description de l'état du catway
+ */
 module.exports = mongoose.model("Catway", catwaySchema);
