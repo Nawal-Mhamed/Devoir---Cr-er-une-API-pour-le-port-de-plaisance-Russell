@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>models/catway.js - Documentation</title>
+    <title>RoutesDashboard - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -37,52 +37,138 @@
 
 <div id="main">
     
-    <h1 class="page-title">models/catway.js</h1>
+    <h1 class="page-title">RoutesDashboard</h1>
     
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>const mongoose = require("mongoose");
+        
+            
+        
+    
+</header>
 
-const catwaySchema = new mongoose.Schema(
-  {
-    catwayNumber: {
-      type: Number,
-      required: true,
-      unique: true,
-      immutable: true,
-      trim: true,
-      min: [1, "Le numéro du catway doit être supérieur ou égal à 1."],
-    },
+<article>
+    
+        <div class="container-overview">
+        
+            
+                <div class="description usertext">Dashboard utilisateur</div>
+            
 
-    catwayType: { type: String, enum: ["long", "short"], required: true },
+            
+                
 
-    catwayState: { type: String, required: true },
 
-    createdAt: {
-      type: Date,
-      immutable: true,
-      default: () => Date.now(),
-    },
-  },
-  { timestamps: true }
-);
 
-/** Modèle représentant un catway
- * @namespace Catway
- * @property {number} catwayNumber - Numéro du catway
- * @property {("long"|"short")} catwayType - Longueur du catway
- * @property {string} catwayState - Description de l'état du catway
- */
-module.exports = mongoose.model("Catway", catwaySchema);
-</code></pre>
-        </article>
-    </section>
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li>Dashboard utilisateur</li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="routes_dashboard.js.html">routes/dashboard.js</a>, <a href="routes_dashboard.js.html#line10">line 10</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+        
+        </div>
+    
+
+    
+
+    
+
+    
+    
+    
+
+     
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 

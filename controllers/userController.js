@@ -31,10 +31,11 @@ exports.createUser = async (req, res) => {
  */
 exports.getAllUsers = async (req, res) => {
   try {
-    const users = await userService.getAllUsers();
-    res.status(200).json(users);
+    const users = await userService.getAllUsers().sort({ createdAt: 1 }).lean();
+    res.status(200).render("users", { users });
   } catch (err) {
-    res.status(500).json({ message: "Erreur serveur", error: err.message });
+    console.error(err);
+    res.status(500).send("Erreur serveur");
   }
 };
 
@@ -120,5 +121,5 @@ exports.loginUser = async (req, res) => {
  */
 exports.logoutUser = (req, res) => {
   res.clearCookie("token");
-  res.redirect("/login");
+  res.redirect("/?logout=success");
 };

@@ -85,7 +85,18 @@ function displaySection(section, event) {
   } else {
     const main = document.getElementById("content");
 
-    main.innerHTML = `<iframe src="/docs/index.html" style="width:100%; height:80vh; border:none;"></iframe>`;
+    main.innerHTML = `<iframe id="documentation" src="/docs/index.html" style="width:100%; height:80vh; border:none;"></iframe>`;
     setActiveLink("documentation");
   }
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  const alert = document.getElementById("logoutAlert");
+
+  if (!alert) return;
+
+  setTimeout(() => {
+    alert.classList.add("fade-out");
+    setTimeout(() => alert.remove(), 500);
+  }, 3000);
+});

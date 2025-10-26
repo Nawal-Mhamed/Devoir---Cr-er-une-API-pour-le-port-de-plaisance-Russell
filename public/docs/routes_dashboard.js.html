@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>models/catway.js - Documentation</title>
+    <title>routes/dashboard.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -37,7 +37,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">models/catway.js</h1>
+    <h1 class="page-title">routes/dashboard.js</h1>
     
 
     
@@ -47,39 +47,23 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const mongoose = require("mongoose");
+            <pre class="prettyprint source linenums"><code>const express = require("express");
+const router = express.Router();
+const authMiddleware = require("../middlewares/auth");
 
-const catwaySchema = new mongoose.Schema(
-  {
-    catwayNumber: {
-      type: Number,
-      required: true,
-      unique: true,
-      immutable: true,
-      trim: true,
-      min: [1, "Le numéro du catway doit être supérieur ou égal à 1."],
-    },
+/** GET home page. */
+router.get("/", function (req, res, next) {
+  res.render("index", { title: "Accueil" });
+});
 
-    catwayType: { type: String, enum: ["long", "short"], required: true },
-
-    catwayState: { type: String, required: true },
-
-    createdAt: {
-      type: Date,
-      immutable: true,
-      default: () => Date.now(),
-    },
-  },
-  { timestamps: true }
-);
-
-/** Modèle représentant un catway
- * @namespace Catway
- * @property {number} catwayNumber - Numéro du catway
- * @property {("long"|"short")} catwayType - Longueur du catway
- * @property {string} catwayState - Description de l'état du catway
+/** Dashboard utilisateur
+ * @module RoutesDashboard
  */
-module.exports = mongoose.model("Catway", catwaySchema);
+router.get("/dashboard", authMiddleware.verifyToken, (req, res) => {
+  res.render("dashboard", { title: "Tableau de bord", username: req.userId });
+});
+
+module.exports = router;
 </code></pre>
         </article>
     </section>

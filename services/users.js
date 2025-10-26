@@ -1,5 +1,6 @@
-const user = require("../models/user");
 const User = require("../models/user");
+const jwt = require("jsonwebtoken"); // ← ajoute cette ligne en haut
+const SECRET_KEY = process.env.SECRET_KEY || "GTGh6rdP54GT76";
 const bcrypt = require("bcrypt");
 
 /** Service pour gérer les utilisateurs
@@ -55,6 +56,10 @@ exports.updateUser = async (email, data) => {
     delete data.createdAt;
   }
 
+  if (data.password) {
+    data.password = await bcrypt.hash(data.password, 10);
+  }
+
   /** Vérifie si l'email n'a pas déjà été utilisé */
 
   if (data.email) {
@@ -76,10 +81,6 @@ exports.updateUser = async (email, data) => {
     { $set: data },
     { new: true, runValidators: true }
   );
-
-  if (data.password) {
-    data.password = bcrypt.hashSync(data.password, 10);
-  }
 
   if (!updatedUser) {
     const error = new Error("Utilisateur introuvable.");
@@ -106,10 +107,14 @@ exports.deleteUser = (email) => {
  * @returns {Promise<string>} token JWT
  */
 exports.loginUser = async ({ username, email, password }) => {
+  console.log("Données reçues :", { username, email, password });
+
   const existingUser = await User.findOne({ username, email });
+  console.log("Utilisateur trouvé :", existingUser);
 
   /** Vérifie si l'utilisateur existe */
   if (!existingUser) {
+    console.log("Aucun utilisateur ne correspond.");
     const error = new Error(
       "Utilisateur introuvable ou identifiants incorrects."
     );
@@ -118,9 +123,7 @@ exports.loginUser = async ({ username, email, password }) => {
   }
 
   /** Vérifie si le mot de passe est correct */
-  console.log("password formulaire :", password);
-  console.log("password stocké :", user.password);
-  const isValid = await bcrypt.compare(password, user.password);
+  const isValid = await bcrypt.compare(password, existingUser.password);
   if (!isValid) {
     const error = new Error("Mot de passe incorrect.");
     error.statusCode = 401;
@@ -128,6 +131,9 @@ exports.loginUser = async ({ username, email, password }) => {
   }
 
   /** Crée et renvoie le token JWT */
-  const token = jwt.sign({ id: user._id }, SECRET_KEY, { expiresIn: "1h" });
+  const token = jwt.sign({ id: existingUser._id }, SECRET_KEY, {
+    expiresIn: "1h",
+  });
+  console.log("Token généré :", token);
   return token;
 };

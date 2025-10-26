@@ -10,3 +10,13 @@ a {
 .card {
   width: 680px;
 }
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
+}
+
+img {
+  width: 150px;
+  height: 150px;
+}

@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>models/catway.js - Documentation</title>
+    <title>routes/auth.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -37,7 +37,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">models/catway.js</h1>
+    <h1 class="page-title">routes/auth.js</h1>
     
 
     
@@ -47,39 +47,32 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const mongoose = require("mongoose");
+            <pre class="prettyprint source linenums"><code>const express = require("express");
+const router = express.Router();
+const userController = require("../controllers/userController");
 
-const catwaySchema = new mongoose.Schema(
-  {
-    catwayNumber: {
-      type: Number,
-      required: true,
-      unique: true,
-      immutable: true,
-      trim: true,
-      min: [1, "Le numéro du catway doit être supérieur ou égal à 1."],
-    },
-
-    catwayType: { type: String, enum: ["long", "short"], required: true },
-
-    catwayState: { type: String, required: true },
-
-    createdAt: {
-      type: Date,
-      immutable: true,
-      default: () => Date.now(),
-    },
-  },
-  { timestamps: true }
-);
-
-/** Modèle représentant un catway
- * @namespace Catway
- * @property {number} catwayNumber - Numéro du catway
- * @property {("long"|"short")} catwayType - Longueur du catway
- * @property {string} catwayState - Description de l'état du catway
+/** Routes d'authentification
+ * @module RoutesAuthentification
  */
-module.exports = mongoose.model("Catway", catwaySchema);
+
+/** Connecte un utilisateur
+ * @name Login
+ * @route {POST} /login
+ * @param {string} username - Nom d'utilisateur
+ * @param {string} email - Email de l'utilisateur
+ * @param {string} password - Mot de passe de l'utilisateur
+ */
+router.post("/login", userController.loginUser);
+
+console.log("userController.loginUser", userController.loginUser);
+
+/** Déconnecte un utilisateur
+ * @name Logout
+ * @route {GET} /logout
+ */
+router.get("/logout", userController.logoutUser);
+
+module.exports = router;
 </code></pre>
         </article>
     </section>

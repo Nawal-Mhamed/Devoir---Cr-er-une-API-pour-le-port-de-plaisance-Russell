@@ -14,10 +14,10 @@ const reservationService = require("../services/reservations");
 exports.getAllReservations = async (req, res) => {
   try {
     const catwayNumber = Number(req.params.id);
-    const reservations = await reservationService.getAllReservations(
-      catwayNumber
-    );
-    res.status(200).json(reservations);
+    const reservations = await reservationService
+      .getAllReservations(catwayNumber)
+      .lean();
+    res.status(200).render("reservations", { catwayNumber, reservations });
   } catch (err) {
     res.status(500).json({ message: "Erreur serveur", error: err.message });
   }

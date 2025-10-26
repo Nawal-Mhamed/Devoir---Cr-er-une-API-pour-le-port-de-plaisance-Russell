@@ -5,6 +5,7 @@ const logger = require("morgan");
 const mongoose = require("mongoose");
 const { initClientConnection } = require("./db/mongo");
 
+const indexRouter = require("./routes/index");
 const authRoutes = require("./routes/auth");
 const dashboardRoutes = require("./routes/dashboard");
 const userRoutes = require("./routes/users");
@@ -16,10 +17,6 @@ const app = express();
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
-
-app.get("/", (req, res) => {
-  res.render("index", { title: "Accueil" });
-});
 
 /** Connexion à la base de données MongoDB */
 
@@ -39,6 +36,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+app.use("/", indexRouter);
 app.use("/", authRoutes);
 app.use("/", dashboardRoutes);
 app.use("/users", userRoutes);
@@ -56,5 +54,6 @@ app.use((err, req, res, next) => {
 app.use(express.static("public"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static("node_modules/bootstrap/dist"));
+app.use("/docs", express.static(path.join(__dirname, "docs")));
 
 module.exports = app;

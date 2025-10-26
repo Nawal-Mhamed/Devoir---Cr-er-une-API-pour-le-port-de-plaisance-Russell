@@ -13,10 +13,14 @@ const catwayService = require("../services/catways");
 
 exports.getAllCatways = async (req, res) => {
   try {
-    const catways = await catwayService.getAllCatways();
-    res.status(200).json(catways);
+    const catways = await catwayService
+      .getAllCatways()
+      .sort({ catwayNumber: 1 })
+      .lean();
+    res.render("catways", { catways });
   } catch (err) {
-    res.status(500).json({ message: "Erreur serveur", error: err.message });
+    console.error(err);
+    res.status(500).send("Erreur serveur");
   }
 };
 

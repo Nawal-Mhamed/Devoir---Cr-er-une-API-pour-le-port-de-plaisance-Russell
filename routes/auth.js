@@ -15,6 +15,8 @@ const userController = require("../controllers/userController");
  */
 router.post("/login", userController.loginUser);
 
+console.log("userController.loginUser", userController.loginUser);
+
 /** Déconnecte un utilisateur
  * @name Logout
  * @route {GET} /logout
