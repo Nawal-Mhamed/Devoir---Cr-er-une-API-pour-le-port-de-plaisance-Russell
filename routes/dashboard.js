@@ -8,6 +8,10 @@ const Reservation = require("../models/reservation");
 /** Dashboard utilisateur
  * @module RoutesDashboard
  */
+
+/** Affiche le tableau de bord si authentifié
+ * @route {GET} /dashboard
+ */
 router.get("/dashboard", authMiddleware.verifyToken, async (req, res) => {
   const user = await User.findById(req.userId).lean();
 

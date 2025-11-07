@@ -11,6 +11,8 @@
     <title>Port de Plaisance Russell - Catways</title>
   </head>
   <body>
+    <!-- Menu de navigation -->
+
     <header>
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark w-100">
         <div class="container-fluid px-5">
@@ -35,7 +37,7 @@
               </li>
               <li class="nav-item">
                 <a id="catways" class="nav-link" href="/catways"
-                  >Gestionnaire de catways</a
+                  >Catways</a
                 >
               </li>
               <li class="nav-item">
@@ -45,12 +47,12 @@
                   aria-current="page"
                   onclick="displayReservations('reservations', event)"
                   href="#"
-                  >Gestionnaire de réservations</a
+                  >Réservations</a
                 >
               </li>
               <li class="nav-item">
                 <a id="users" class="nav-link" href="/users"
-                  >Gestionnaire des utilisateurs</a
+                  >Utilisateurs</a
                 >
               </li>
               <li class="nav-item">
@@ -71,17 +73,71 @@
       </nav>
     </header>
 
+    <!-- Liste des réservations -->
+
     <main class="p-5">
       <div id="reservations-section">
         <h1 class="text-center p-3">Gestionnaire des réservations</h1>
 
+        <!-- Formulaire de recherche (GET) -->
+
+        <form
+          id="searchForm"
+          class="mb-4 align-items-center card mx-auto w-75 p-2"
+          method="get"
+          action=""
+        >
+        <fieldset class="row g-3 mb-4 align-items-center justify-content-center">
+          <legend class="text-center">Rechercher une réservation</legend>
+          <div class="col-md-4 me-5">
+            <label class="form-label"> Numéro du catway <span id="catwayNumberHelp" class="form-text">(obligatoire)</span></label>
+            <input
+              id="filterCatway"
+              name="catway"
+              class="form-control"
+              type="number"
+              placeholder="0"
+              min="0"
+              value="<%= filters.catwayNumber || 0 %>"
+              aria-describedby="catwayNumberHelp"
+              required
+            />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Client <span id ="clientNameHelp" class="form-text">(optionnel)</span></label>
+            <input id="filterClient" name="clientName" class="form-control" value="<%= filters.clientName %>" aria-describedby="clientNameHelp">
+          </div>
+          <div class="col-md-5 me-5">
+            <label class="form-label">Bateau <span id="boatNameHelp" class="form-text">(optionnel)</span></label>
+            <input id="filterBoat" name="boatName" class="form-control" value="<%= filters.boatName %>" aria-describedby="boatNameHelp">
+          </div>
+          <div class="col-md-5">
+            <label class="form-label">ID de la réservation <span id="idReservationHelp" class="form-text">(optionnel)</span></label>
+            <input id="filterIdReservation" name="idReservation" class="form-control" value="<%= filters.idReservation %>">
+          </div>
+          <div class="col-md-10 d-flex gap-2 justify-content-center p-2">
+            <button id="btnSearch" type="submit" class="btn btn-primary w-25">Rechercher</button>
+            <button id="btnShowAll" class="btn btn-outline-secondary w-25">Tout afficher</button>
+          </div>
+          </fieldset>
+        </form>
+
+
+        <!-- Tableau des réservations trouvées -->
+
         <section>
           <h2 id="reservations-title" class="text-center p-3">
-            Liste des réservations du catway <%= catwayNumber %>
+            Liste des réservations - <%= catwayNumber %>
           </h2>
+
+          <div class="mb-3 text-end">
+            <button id="btnAddReservation" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#reservationModal">Ajouter</button>
+          </div>
+
           <table class="table table-striped table-hover">
             <thead>
               <tr>
+                <th>Catway</th>
                 <th>Client</th>
                 <th>Bateau</th>
                 <th>Début</th>
@@ -90,15 +146,16 @@
               </tr>
             </thead>
 
-            <tbody>
-              <% if (reservations.length === 0) { %>
+            <tbody id="reservationsBody">
+              <% if (!reservations || reservations.length === 0) { %>
               <tr>
-                <td colspan="4" class="text-center text-muted">
+                <td colspan="6" class="text-center text-muted">
                   Aucune réservation
                 </td>
               </tr>
               <% } else { %> <% reservations.forEach(function(reservation) { %>
-              <tr>
+              <tr class="reservation-row" data-id="<%= reservation._id %>" data-catway="<%= reservation.catwayNumber %>">
+                <td><%= reservation.catwayNumber %></td>
                 <td><%= reservation.clientName %></td>
                 <td><%= reservation.boatName %></td>
                 <td>
@@ -117,12 +174,61 @@
         </section>
       </div>
 
+<!-- iframe de la documentation -->
+
       <div id="documentation-section" style="display: none">
         <iframe
           src="/docs/index.html"
           style="width: 100%; height: 80vh; border: none"
         ></iframe>
       </div>
+
+
+<!-- Modales -->
+      
+      <!-- Ajout / Modification -->
+       <div class="modal fade" id="reservationModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+          <form id="reservationForm" class="modal-content">
+            <div class="modal-header">
+              <h3 class="modal-title" id="reservationModalTitle">Ajouter une réservation</h3>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer">
+              </button>
+            </div>
+            
+            <div class="modal-body">
+              <div id="reservationError" class="alert alert-danger d-none"></div>
+              <input type="hidden" id="idReservationInput">
+              <div class="mb-3">
+                <label class="form-label">Numéro du catway</label>
+                <input id="formCatwayNumber" name="catwayNumber" class="form-control" type="number" min="1" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Client</label>
+                <input id="formClientName" name="clientName" class="form-control" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Bateau</label>
+                <input id="formBoatName" name="boatName" class="form-control" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Date de début</label>
+                <input type="date" id="formStartDate" name="startDate" class="form-control" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Date de fin</label>
+                <input type="date" id="formEndDate" name="endDate" class="form-control" required>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="btnDeleteReservation" class="btn btn-danger me-auto d-none">Supprimer</button>
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+          </div>
+          </form>
+        </div>
+       </div>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

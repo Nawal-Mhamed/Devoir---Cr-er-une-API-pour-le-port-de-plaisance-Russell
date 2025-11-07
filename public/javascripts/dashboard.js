@@ -29,33 +29,3 @@ function displayDashboard(section, event) {
     setActiveLink("documentation");
   }
 }
-
-// Afficher la bonne page de réservation
-
-const reservations = document.getElementById("reservations");
-
-function getReservations(event) {
-  event.preventDefault();
-
-  // Question 1 (obligatoire)
-  const catwayId = prompt(
-    "De quel catway souhaitez-vous voir les réservation ?"
-  );
-  if (!catwayId) {
-    alert("Vous devez préciser un catway !");
-    return;
-  }
-
-  // Question 2 (optionnelle)
-  const reservationId = prompt("Quel est l'identifiant de la réservation ?");
-
-  // Redirection
-
-  if (reservationId) {
-    window.location.href = `/catways/${catwayId}/reservations/${reservationId}`;
-  } else {
-    window.location.href = `/catways/${catwayId}/reservations`;
-  }
-}
-
-reservations.addEventListener("click", getReservations);

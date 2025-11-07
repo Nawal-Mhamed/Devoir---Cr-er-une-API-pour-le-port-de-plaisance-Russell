@@ -75,79 +75,52 @@
       </nav>
     </header>
 
-    <!-- Tableau des catways -->
-
     <main class="p-5">
       <div id="catways-section">
         <h1 class="text-center p-3">Gestionnaire des catways</h1>
 
         <section>
-          <h2 id="catways-title" class="text-center p-3">Liste des catways</h2>
 
           <div
-            class="mb-3 container d-flex flex-row justify-content-between w-75"
+            class="mb-3 container d-flex flex-row w-75"
           >
-            <div class="container d-flex flex-row">
-              <input
-                type="number"
-                id="catwaySearch"
-                name="catwaySearch"
-                placeholder="Rechercher un catway"
-                class="form-control w-50"
-              />
-              <button id="btnSearchCatway" class="btn btn-primary ms-2">
-                Rechercher
-              </button>
-            </div>
-            <button
-              id="btnAddCatway"
-              class="btn btn-success"
-              data-bs-toggle="modal"
-              data-bs-target="#catwayModal"
-            >
-              Ajouter
+            <input
+              type="number"
+              id="catwaySearch"
+              name="catwaySearch"
+              placeholder="Rechercher un catway"
+              class="form-control w-50"
+            />
+            <button id="btnSearchCatway" class="btn btn-primary ms-2">
+              Rechercher
             </button>
           </div>
 
-          <!-- Tableau de l'ensemble des catways -->
 
-          <table
-            class="table table-striped table-hover mx-auto w-75 align-middle table-bordered"
-          >
-            <thead>
-              <tr>
-                <th class="text-center">Numéro</th>
-                <th class="text-center">Longueur</th>
-                <th>État</th>
-              </tr>
-            </thead>
+          <!-- Section pour afficher le catway recherché -->
+          <h2 class="text-center p-3">Informations sur le catway</h2>
 
-            <tbody class="table-group-divider">
-              <% catways.forEach(function(catway) { %>
-              <tr>
-                <td class="text-center"><%= catway.catwayNumber %></td>
-                <td class="text-center"><%= catway.catwayType %></td>
-                <td><%= catway.catwayState %></td>
-                <td class="text-center">
-                  <button
-                    class="btn btn-sm btn-primary edit edit-catway"
-                    data-id="<%= catway.catwayNumber %>"
-                  >
-                    Modifier
-                  </button>
-                  <button
-                    class="btn btn-sm btn-danger delete delete-catway"
-                    data-id="<%= catway.catwayNumber %>"
-                  >
-                    Supprimer
-                  </button>
-                </td>
-              </tr>
-              <% }) %>
-            </tbody>
-          </table>
-        </section>
-      </div>
+          <div id="catwayDetails" class="w-75 mx-auto mt-4">
+            <% if (catway) { %>
+              <!-- Affichage de la card -->
+              <div class="card shadow-sm p-4 mt-3 mx-auto">
+                <h3 class="mb-3 text-center">Catway n°<%= catway.catwayNumber %></h3>
+                <p><strong>Longueur :</strong> <span class="catway-type"><%= catway.catwayType %></span></p>
+                <p><strong>État :</strong> <span class="catway-state"><%= catway.catwayState %></span></p>
+                <div class="d-flex justify-content-center gap-3 mt-3">
+                  <button class="btn btn-primary edit edit-catway" data-id="<%= catway.catwayNumber %>" data-type="<%= catway.catwayType %>" data-state="<%= catway.catwayState %>">Modifier</button>
+                  <button class="btn btn-danger delete delete-catway" data-id="<%= catway.catwayNumber %>">Supprimer</button>
+                  <button class="btn btn-secondary" id="backToList">Retour</button>
+                </div>
+              </div>
+          <% } else if (errorMessage) { %>
+            <!-- Affichage du message d'erreur -->
+            <p class="text-center h4 p-4"><strong><%= errorMessage %></strong></p>
+            <div class="d-flex justify-content-center gap-3 mt-3">
+              <button class="btn btn-secondary" id="backToList">Retour</button>
+            </div>
+          <% } %>
+        </div>
 
       <!-- iframe pour la documentation JSDoc -->
 
@@ -165,7 +138,7 @@
           <form id="catwayForm" class="modal-content">
             <div class="modal-header">
               <h3 class="modal-title" id="catwayModalTitle">
-                Ajouter un catway
+                Modifier un catway
               </h3>
               <button
                 type="button"

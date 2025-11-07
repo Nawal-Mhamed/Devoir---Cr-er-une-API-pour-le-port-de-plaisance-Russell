@@ -40,6 +40,16 @@ exports.createCatway = async (data) => {
     throw error;
   }
 
+  /** Vérifie si le numéro de catway entré n'est pas 0 */
+
+  if (data.catwayNumber === 0) {
+    const error = new Error("Le numéro de catway ne peut pas être 0.");
+    error.statusCode = 400;
+    throw error;
+  }
+
+  /** Enregistre le nouveau catway */
+
   const catway = new Catway(data);
   return catway.save();
 };

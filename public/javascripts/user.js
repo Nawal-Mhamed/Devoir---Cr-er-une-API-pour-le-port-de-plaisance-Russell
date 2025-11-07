@@ -30,32 +30,186 @@ function displayUsers(section, event) {
   }
 }
 
-// Afficher la bonne page de réservation
+// Modales
 
-const reservations = document.getElementById("reservations");
+document.addEventListener("DOMContentLoaded", () => {
+  // Eléments
 
-function getReservations(event) {
-  event.preventDefault();
-
-  // Question 1 (obligatoire)
-  const catwayId = prompt(
-    "De quel catway souhaitez-vous voir les réservation ?"
+  const userForm = document.getElementById("userForm");
+  const userModal = new bootstrap.Modal(document.getElementById("userModal"));
+  const confirmDeleteModal = new bootstrap.Modal(
+    document.getElementById("confirmDeleteModal")
   );
-  if (!catwayId) {
-    alert("Vous devez préciser un catway !");
-    return;
+  const userModalTitle = document.getElementById("userModalTitle");
+  const usernameInput = document.getElementById("username");
+  const passwordInput = document.querySelector(".password");
+  const passwordValue = passwordInput.querySelector("input");
+  const userEmailInput = document.getElementById("userEmail");
+  const emailInput = document.getElementById("email");
+  const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+
+  let deletingEmail = null;
+
+  // Helpers d'affichage
+
+  const errorBox = document.getElementById("userError");
+
+  function showError(message) {
+    errorBox.textContent = message;
+    errorBox.classList.remove("d-none");
   }
 
-  // Question 2 (optionnelle)
-  const reservationId = prompt("Quel est l'identifiant de la réservation ?");
-
-  // Redirection
-
-  if (reservationId) {
-    window.location.href = `/catways/${catwayId}/reservations/${reservationId}`;
-  } else {
-    window.location.href = `/catways/${catwayId}/reservations`;
+  function clearError() {
+    errorBox.textContent = "";
+    errorBox.classList.add("d-none");
   }
-}
 
-reservations.addEventListener("click", getReservations);
+  // Ouvrir la modale d'ajout
+
+  const btnAdd = document.getElementById("btnAddUser");
+  if (btnAdd) {
+    btnAdd.addEventListener("click", () => {
+      userModalTitle.textContent = "Ajouter un utilisateur";
+      usernameInput.value = "";
+      emailInput.value = "";
+      passwordValue.value = "";
+
+      passwordInput.removeAttribute("style");
+      userModal.show();
+    });
+  }
+
+  // Ouvrir la modale de modification ou de suppression
+
+  const usersSection = document.getElementById("users-section");
+  if (usersSection) {
+    usersSection.addEventListener("click", (event) => {
+      const editBtn = event.target.closest(".edit-user");
+      const deleteBtn = event.target.closest(".delete-user");
+
+      // Bouton "Modifier"
+      if (editBtn) {
+        clearError();
+        const user = editBtn.closest("tr") || editBtn.closest(".card");
+        const userEmail = editBtn.dataset.email;
+        if (!user || !userEmail) {
+          showError("Impossible de récupérer l'utilisateur.");
+          return;
+        }
+
+        const username = editBtn.dataset.username;
+        const email = editBtn.dataset.email;
+
+        userModalTitle.textContent = "Modifier un utilisateur";
+        usernameInput.value = username;
+        emailInput.value = email;
+        userEmailInput.value = email;
+
+        passwordInput.setAttribute("style", "display: none;");
+        passwordInput.disabled = true;
+
+        userModal.show();
+        return;
+      }
+
+      // Bouton Supprimer
+      if (deleteBtn) {
+        deletingEmail = deleteBtn.dataset.email;
+        confirmDeleteModal.show();
+        return;
+      }
+    });
+  }
+
+  confirmDeleteBtn.addEventListener("click", async () => {
+    if (!deletingEmail) return;
+    try {
+      const res = await fetch(`/users/${deletingEmail}`, { method: "DELETE" });
+      if (res.status === 204 || res.ok) {
+        confirmDeleteModal.hide();
+        location.reload();
+      } else {
+        const txt = await res.text();
+        showError("Erreur suppression : " + txt);
+      }
+    } catch (err) {
+      showError("Erreur réseau");
+    }
+  });
+
+  // Envoi de l'ajout / la modification
+
+  userForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    clearError();
+    const id = userEmailInput.value?.trim();
+    const data = {
+      username: usernameInput.value,
+      email: emailInput.value,
+      password: passwordInput.querySelector("input")?.value || undefined,
+    };
+
+    try {
+      let res;
+      if (!id) {
+        // Ajout
+        res = await fetch("/users", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+      } else {
+        // Modification
+        res = await fetch(`/users/${id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+      }
+
+      if (res.ok) {
+        userModal.hide();
+        location.reload();
+      } else {
+        const payload = await res.json().catch(() => null);
+        showError(payload?.message || "Erreur lors de l'enregistrement.");
+        return;
+      }
+
+      userModal.hide();
+      location.reload();
+    } catch (err) {
+      showError("Erreur réseau");
+    }
+  });
+
+  // Recherche d'un utilisateur par email
+
+  const searchInput = document.getElementById("userSearch");
+  const searchButton = document.getElementById("btnSearchUser");
+
+  // Fonction d'affichage d'un utilisateur en particulier
+
+  function displayUserDetails(email) {
+    window.location.href = `/users/${email}`;
+  }
+
+  searchButton.addEventListener("click", () => {
+    const email = searchInput.value;
+    if (!email) {
+      alert("Veuillez entrer une adresse email valide.");
+      return;
+    }
+
+    displayUserDetails(email);
+  });
+
+  // Gestion du bouton Retour
+
+  const backBtn = document.getElementById("backToList");
+  if (backBtn) {
+    backBtn.addEventListener("click", () => {
+      window.location.href = "/users";
+    });
+  }
+});

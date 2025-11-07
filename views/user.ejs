@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="/stylesheets/style.css" />
     <title>Port de Plaisance Russell - Catways</title>
   </head>
-
   <body>
     <!-- Menu de navigation -->
 
@@ -37,14 +36,7 @@
                 >
               </li>
               <li class="nav-item">
-                <a
-                  id="catways"
-                  class="nav-link active"
-                  aria-current="page"
-                  href="#"
-                  onclick="displayCatways('catways', event)"
-                  >Catways</a
-                >
+                <a id="catways" class="nav-link" href="/catways">Catways</a>
               </li>
               <li class="nav-item">
                 <a
@@ -55,14 +47,21 @@
                 >
               </li>
               <li class="nav-item">
-                <a id="users" class="nav-link" href="/users">Utilisateurs</a>
+                <a
+                  id="users"
+                  class="nav-link active"
+                  aria-current="page"
+                  onclick="displayUsers('users', event)"
+                  href="#"
+                  >Utilisateurs</a
+                >
               </li>
               <li class="nav-item">
                 <a
                   id="documentation"
                   class="nav-link"
                   href="#"
-                  onclick="displayCatways('documentation', event)"
+                  onclick="displayUsers('documentation', event)"
                   >Documentation</a
                 >
               </li>
@@ -75,79 +74,53 @@
       </nav>
     </header>
 
-    <!-- Tableau des catways -->
-
     <main class="p-5">
-      <div id="catways-section">
-        <h1 class="text-center p-3">Gestionnaire des catways</h1>
+      <div id="users-section">
+        <h1 class="text-center p-3">Gestionnaire des utilisateurs</h1>
 
         <section>
-          <h2 id="catways-title" class="text-center p-3">Liste des catways</h2>
-
           <div
-            class="mb-3 container d-flex flex-row justify-content-between w-75"
+            class="mb-3 container d-flex flex-row w-75"
           >
-            <div class="container d-flex flex-row">
-              <input
-                type="number"
-                id="catwaySearch"
-                name="catwaySearch"
-                placeholder="Rechercher un catway"
-                class="form-control w-50"
-              />
-              <button id="btnSearchCatway" class="btn btn-primary ms-2">
-                Rechercher
-              </button>
-            </div>
-            <button
-              id="btnAddCatway"
-              class="btn btn-success"
-              data-bs-toggle="modal"
-              data-bs-target="#catwayModal"
-            >
-              Ajouter
+            <input
+              type="email"
+              id="userSearch"
+              name="userSearch"
+              placeholder="Rechercher un utilisateur"
+              class="form-control w-50"
+            />
+            <button id="btnSearchUser" class="btn btn-primary ms-2">
+              Rechercher
             </button>
           </div>
 
-          <!-- Tableau de l'ensemble des catways -->
+    <!-- Section pour afficher l'utilisateur recherché -->
+          <h2 class="text-center p-3">Informations sur l'utilisateur</h2>
 
-          <table
-            class="table table-striped table-hover mx-auto w-75 align-middle table-bordered"
-          >
-            <thead>
-              <tr>
-                <th class="text-center">Numéro</th>
-                <th class="text-center">Longueur</th>
-                <th>État</th>
-              </tr>
-            </thead>
+          <div id="userDetails" class="w-75 mx-auto mt-4">
+            <% if (user) { %>
+              <!-- Affichage de la card -->
+              <div class="card shadow-sm p-4 mt-3 mx-auto">
+                <h3 class="mb-3 text-center"><%= user.username %></h3>
+                <p><strong>Email :</strong> <span class="user-email"><%= user.email %></span></p>
+                <p><strong>Membre depuis le :</strong> <%= new Date(user.createdAt).toLocaleDateString("fr-FR", {
+                  weekday: "long", year: "numeric", month: "long", day:
+                  "numeric" }) %></p>
+                <div class="d-flex justify-content-center gap-3 mt-3">
+                  <button class="btn btn-primary edit edit-user" data-username="<%= user.username %>" data-email="<%= user.email %>">Modifier</button>
+                  <button class="btn btn-danger delete delete-user" data-email="<%= user.email %>">Supprimer</button>
+                  <button class="btn btn-secondary" id="backToList">Retour</button>
+                </div>
+              </div>
+          <% } else if (errorMessage) { %>
+            <!-- Affichage du message d'erreur -->
+            <p class="text-center h4 p-4"><strong><%= errorMessage %></strong></p>
+            <div class="d-flex justify-content-center gap-3 mt-3">
+              <button class="btn btn-secondary" id="backToList">Retour</button>
+            </div>
+          <% } %>
+        </div>
 
-            <tbody class="table-group-divider">
-              <% catways.forEach(function(catway) { %>
-              <tr>
-                <td class="text-center"><%= catway.catwayNumber %></td>
-                <td class="text-center"><%= catway.catwayType %></td>
-                <td><%= catway.catwayState %></td>
-                <td class="text-center">
-                  <button
-                    class="btn btn-sm btn-primary edit edit-catway"
-                    data-id="<%= catway.catwayNumber %>"
-                  >
-                    Modifier
-                  </button>
-                  <button
-                    class="btn btn-sm btn-danger delete delete-catway"
-                    data-id="<%= catway.catwayNumber %>"
-                  >
-                    Supprimer
-                  </button>
-                </td>
-              </tr>
-              <% }) %>
-            </tbody>
-          </table>
-        </section>
-      </div>
 
       <!-- iframe pour la documentation JSDoc -->
 
@@ -160,12 +133,13 @@
 
       <!-- Modales -->
 
-      <div class="modal fade" id="catwayModal" tabindex="-1" aria-hidden="true">
+      <!-- Ajout / Modification -->
+      <div class="modal fade" id="userModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
-          <form id="catwayForm" class="modal-content">
+          <form id="userForm" class="modal-content">
             <div class="modal-header">
-              <h3 class="modal-title" id="catwayModalTitle">
-                Ajouter un catway
+              <h3 class="modal-title" id="userModalTitle">
+                Ajouter un utilisateur
               </h3>
               <button
                 type="button"
@@ -176,44 +150,40 @@
             </div>
 
             <div class="modal-body">
-              <input type="hidden" id="catwayId" name="id" />
+              <input type="hidden" id="userEmail" name="email" />
 
               <div class="mb-3">
-                <label for="catwayNumber" class="form-label">Numéro</label>
+                <label for="username" class="form-label"
+                  >Nom d'utilisateur</label
+                >
                 <input
-                  id="catwayNumber"
-                  name="catwayNumber"
-                  type="number"
+                  id="username"
+                  name="username"
+                  type="text"
                   class="form-control"
                   required
                 />
               </div>
 
               <div class="mb-3">
-                <label for="catwayType" class="form-label">Longueur</label>
-                <select
-                  id="catwayType"
-                  name="catwayType"
-                  class="form-control"
-                  required
+                <label for="email" class="form-label">Email</label>
+                <input type="email" id="email" name="email" class="form-control" required />
+              </div>
+
+              <div class="mb-3 password">
+                <label for="password" class="form-label"
+                  >Nouveau mot de passe</label
                 >
-                  <option value="long">long</option>
-                  <option value="short">short</option>
-                </select>
-              </div>
-
-              <div class="mb-3">
-                <label for="catwayState" class="form-label">État</label>
-                <textarea
-                  id="catwayState"
-                  name="catwayState"
-                  type="text"
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
                   class="form-control"
-                  required
-                ></textarea>
+                  style="display: none;"
+                />
               </div>
 
-              <div id="catwayError" class="alert alert-danger d-none"></div>
+              <div id="userError" class="alert alert-danger d-none"></div>
             </div>
 
             <div class="modal-footer">
@@ -224,7 +194,7 @@
               >
                 Annuler
               </button>
-              <button type="submit" id="catwaySubmit" class="btn btn-primary">
+              <button type="submit" id="userSubmit" class="btn btn-primary">
                 Enregistrer
               </button>
             </div>
@@ -232,7 +202,7 @@
         </div>
       </div>
 
-      <!-- Modale de confirmation suppression -->
+      <!-- Confirmation suppression -->
       <div
         class="modal fade"
         id="confirmDeleteModal"
@@ -242,7 +212,7 @@
         <div class="modal-dialog modal-sm">
           <div class="modal-content">
             <div class="modal-body text-center p-4">
-              <p>Voulez-vous supprimer ce catway ?</p>
+              <p>Voulez-vous supprimer ce user ?</p>
               <div class="d-flex justify-content-center gap-2">
                 <button
                   type="button"
@@ -266,6 +236,7 @@
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/javascripts/catway.js"></script>
+
+    <script src="/javascripts/user.js"></script>
   </body>
 </html>
