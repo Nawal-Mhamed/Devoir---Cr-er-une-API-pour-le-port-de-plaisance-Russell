@@ -10,6 +10,6 @@ exports.verifyToken = (req, res, next) => {
     req.userId = decoded.id;
     next();
   } catch (err) {
-    res.status(401).json({ message: "Token invalide" });
+    res.status(401).json("Token invalide");
   }
 };

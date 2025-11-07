@@ -40,8 +40,20 @@ exports.createUser = async (data) => {
     throw error;
   }
 
-  const user = new User(data);
-  return user.save();
+  try {
+    const user = new User(data);
+    return await user.save();
+  } catch (err) {
+    if (err.name === "ValidationError") {
+      const message = Object.values(err.errors)
+        .map((e) => e.message)
+        .join(" ");
+      const error = new Error(message);
+      error.statusCode = 400;
+      throw error;
+    }
+    throw err;
+  }
 };
 
 /** Modifie les informations de l'utilisateur spécifié
@@ -60,12 +72,20 @@ exports.updateUser = async (email, data) => {
     data.password = await bcrypt.hash(data.password, 10);
   }
 
+  /** Vérifie que l'utilisateur existe */
+
+  const user = await User.findOne({ email });
+  if (!user) {
+    const error = new Error("Utilisateur introuvable.");
+    error.statusCode = 404;
+    throw error;
+  }
+
   /** Vérifie si l'email n'a pas déjà été utilisé */
 
-  if (data.email) {
+  if (data.email && data.email !== user.email) {
     const existingUser = await User.findOne({
       email: data.email,
-      email: { $ne: email },
     });
     if (existingUser) {
       const error = new Error("Cet email est déjà utilisé.");

@@ -32,32 +32,192 @@ function displayCatways(section, event) {
   }
 }
 
-// Afficher la bonne page de réservation
+// Modales
 
-const reservations = document.getElementById("reservations");
+document.addEventListener("DOMContentLoaded", () => {
+  // Eléments
 
-function getReservations(event) {
-  event.preventDefault();
-
-  // Question 1 (obligatoire)
-  const catwayId = prompt(
-    "De quel catway souhaitez-vous voir les réservation ?"
+  const catwayForm = document.getElementById("catwayForm");
+  const catwayModal = new bootstrap.Modal(
+    document.getElementById("catwayModal")
   );
-  if (!catwayId) {
-    alert("Vous devez préciser un catway !");
-    return;
+  const confirmDeleteModal = new bootstrap.Modal(
+    document.getElementById("confirmDeleteModal")
+  );
+  const catwayModalTitle = document.getElementById("catwayModalTitle");
+  const catwayIdInput = document.getElementById("catwayId");
+  const catwayNumberInput = document.getElementById("catwayNumber");
+  const catwayTypeInput = document.getElementById("catwayType");
+  const catwayStateInput = document.getElementById("catwayState");
+  const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+
+  let deletingId = null;
+
+  // Helpers d'affichage
+
+  const errorBox = document.getElementById("catwayError");
+
+  function showError(message) {
+    errorBox.textContent = message;
+    errorBox.classList.remove("d-none");
   }
 
-  // Question 2 (optionnelle)
-  const reservationId = prompt("Quel est l'identifiant de la réservation ?");
-
-  // Redirection
-
-  if (reservationId) {
-    window.location.href = `/catways/${catwayId}/reservations/${reservationId}`;
-  } else {
-    window.location.href = `/catways/${catwayId}/reservations`;
+  function clearError() {
+    errorBox.textContent = "";
+    errorBox.classList.add("d-none");
   }
-}
 
-reservations.addEventListener("click", getReservations);
+  // Ouvrir la modale d'ajout
+
+  const btnAdd = document.getElementById("btnAddCatway");
+  if (btnAdd) {
+    btnAdd.addEventListener("click", () => {
+      catwayModalTitle.textContent = "Ajouter un catway";
+      catwayIdInput.value = "";
+      catwayNumberInput.value = "";
+      catwayTypeInput.value = "long";
+      catwayStateInput.value = "";
+
+      catwayNumberInput.disabled = false;
+      catwayTypeInput.disabled = false;
+
+      clearError();
+      catwayModal.show();
+    });
+  }
+
+  // Ouvrir la modale de modification ou de suppression
+
+  const catwaysSection = document.getElementById("catways-section");
+  if (catwaysSection) {
+    catwaysSection.addEventListener("click", (event) => {
+      const editBtn = event.target.closest(".edit-catway");
+      const deleteBtn = event.target.closest(".delete-catway");
+
+      // Bouton Modifier
+      if (editBtn) {
+        clearError();
+        const catway = editBtn.closest("tr") || editBtn.closest(".card");
+        const catwayNumber = editBtn.dataset.id;
+        if (!catway || !catwayNumber) {
+          showError("Impossible de récupérer le catway.");
+          return;
+        }
+
+        const catwayType =
+          catway.querySelector("td:nth-child(2)")?.textContent?.trim() ||
+          editBtn.dataset.type;
+        const catwayState =
+          catway.querySelector("td:nth-child(3)")?.textContent?.trim() ||
+          editBtn.dataset.state;
+
+        catwayModalTitle.textContent = "Modifier un catway";
+        catwayIdInput.value = catwayNumber;
+        catwayNumberInput.value = catwayNumber;
+        catwayTypeInput.value = catwayType;
+        catwayStateInput.value = catwayState;
+
+        catwayNumberInput.disabled = true;
+        catwayTypeInput.disabled = true;
+
+        catwayModal.show();
+        return;
+      }
+
+      // Bouton Supprimer
+      if (deleteBtn) {
+        deletingId = deleteBtn.dataset.id;
+        confirmDeleteModal.show();
+        return;
+      }
+    });
+  }
+
+  confirmDeleteBtn.addEventListener("click", async () => {
+    if (!deletingId) return;
+    try {
+      const res = await fetch(`/catways/${deletingId}`, { method: "DELETE" });
+      if (res.status === 204 || res.ok) {
+        confirmDeleteModal.hide();
+        location.reload();
+      } else {
+        const txt = await res.text();
+        showError("Erreur suppression : " + txt);
+      }
+    } catch (err) {
+      showError("Erreur réseau");
+    }
+  });
+
+  // Envoi de l'ajout / la modification
+
+  catwayForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    clearError();
+    const id = catwayIdInput.value?.trim();
+    const data = {
+      catwayNumber: Number(catwayNumberInput.value),
+      catwayType: catwayTypeInput.value,
+      catwayState: catwayStateInput.value,
+    };
+
+    try {
+      let res;
+      if (!id) {
+        // Ajout
+        res = await fetch("/catways", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+      } else {
+        // Modification
+        res = await fetch(`/catways/${id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+      }
+
+      if (res.ok) {
+        catwayModal.hide();
+        location.reload();
+      } else {
+        const payload = await res.json().catch(() => null);
+        showError(payload?.message || "Erreur lors de l'enregistrement.");
+      }
+    } catch (err) {
+      showError("Erreur réseau");
+    }
+  });
+
+  // Recherche d'un catway par numéro
+
+  const searchInput = document.getElementById("catwaySearch");
+  const searchButton = document.getElementById("btnSearchCatway");
+
+  // Fonction d'affichage d'un catway en particulier
+
+  function displayCatwayDetails(number) {
+    window.location.href = `/catways/${number}`;
+  }
+
+  searchButton.addEventListener("click", () => {
+    const number = Number(searchInput.value.trim());
+    if (!number || number <= 0) {
+      alert("Veuillez entrer un numéro de catway valide.");
+      return;
+    }
+
+    displayCatwayDetails(number);
+  });
+
+  // Gestion du bouton Retour
+
+  const backBtn = document.getElementById("backToList");
+  if (backBtn) {
+    backBtn.addEventListener("click", () => {
+      window.location.href = "/catways";
+    });
+  }
+});

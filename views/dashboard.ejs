@@ -11,6 +11,9 @@
     <title>Port de Plaisance Russell - Tableau de bord</title>
   </head>
   <body>
+
+    <!-- Menu de navigation -->
+
     <header>
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark w-100">
         <div class="container-fluid px-5">
@@ -40,20 +43,20 @@
               </li>
               <li class="nav-item">
                 <a id="catways" class="nav-link" href="/catways"
-                  >Gestionnaire de catways</a
+                  >Catways</a
                 >
               </li>
               <li class="nav-item">
                 <a
                   id="reservations"
                   class="nav-link"
-                  href="#"
-                  >Gestionnaire de réservations</a
+                  href="/catways/0/reservations"
+                  >Réservations</a
                 >
               </li>
               <li class="nav-item">
                 <a id="users" class="nav-link" href="/users"
-                  >Gestionnaire des utilisateurs</a
+                  >Utilisateurs</a
                 >
               </li>
               <li class="nav-item">
@@ -71,6 +74,8 @@
         </div>
       </nav>
     </header>
+
+    <!-- Contenu du tableau de bord -->
 
     <main id="content" class="p-5">
       <div id="dashboard-section">
@@ -94,7 +99,7 @@
         <p class="ms-auto text-end text-muted small"><%= today %></p>
       </section>
 
-      <!-- Tableau des réservations -->
+      <!-- Tableau des réservations en cours -->
 
       <section class="mb-3">
         <h3>Réservations en cours</h3>
@@ -132,6 +137,8 @@
         </table>
       </section>
       </div>
+
+      <!-- iframe pour la documentation JSDoc -->
 
       <div id="documentation-section" style="display: none;">
         <iframe

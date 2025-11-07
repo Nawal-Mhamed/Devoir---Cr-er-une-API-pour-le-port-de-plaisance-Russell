@@ -5,13 +5,57 @@ const mongoose = require("mongoose");
  * @module reservationsService
  */
 
-/** Affiche l'ensemble des réservations enregistrées sur le catway spécifié
- * @param {number} catwayNumber
+/** Affiche l'ensemble des réservations enregistrées
  * @returns {Promise<Array>}
  */
+exports.getAllReservations = () => {
+  return Reservation.find({});
+};
 
-exports.getAllReservations = (catwayNumber) => {
-  return Reservation.find({ catwayNumber: catwayNumber });
+/** Affiche l'ensemble des réservations enregistrées sur le catway spécifié
+ * @param {number} catwayNumber
+ * @param {string} idReservation
+ * @returns {Promise<Array>}
+ */
+exports.getReservationsByCatway = (catwayNumber) => {
+  return Reservation.find({ catwayNumber });
+};
+
+/** Recherche flexible 
+ * - si catwayNumber === 0 => on ignore le filtre catway (toutes les réservations)
+ * - sinon on filtre par catwayNumber
+ * - on peut aussi filtrer par clientName (partial, case-insensitive), boatName (partial) et _id exact (idReservation)
+ * @param {number} catwayNumber
+ * @param {string} clientName
+ * @param {string} boatName
+ * @param {string} idReservation
+ * @returns {Promise<Array>}
+
+*/
+exports.searchReservations = ({
+  catwayNumber,
+  clientName,
+  boatName,
+  idReservation,
+}) => {
+  const filter = {};
+
+  if (catwayNumber && Number(catwayNumber) !== 0) {
+    filter.catwayNumber = Number(catwayNumber);
+  }
+
+  if (idReservation) {
+    try {
+      filter._id = new mongoose.Types.ObjectId(idReservation);
+    } catch (e) {
+      return [];
+    }
+  }
+  if (clientName) filter.clientName = { $regex: new RegExp(clientName, "i") };
+  if (boatName) filter.boatName = { $regex: new RegExp(boatName, "i") };
+
+  console.log("Filtre envoyé à MongoDB : ", filter);
+  return Reservation.find(filter).sort({ startDate: 1 });
 };
 
 /** Affiche la réservation spécifiée
