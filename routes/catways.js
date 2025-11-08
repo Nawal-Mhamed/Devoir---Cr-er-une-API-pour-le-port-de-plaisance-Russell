@@ -25,16 +25,26 @@ router.get("/:id", authMiddleware.verifyToken, catwayController.getByNumber);
  * @name Create a catway
  * @route {POST} /catways
  */
-router.post("/", authMiddleware.verifyToken, catwayController.createCatway);
+router.post(
+  "/",
+  authMiddleware.verifyToken,
+  authMiddleware.isAdmin,
+  catwayController.createCatway
+);
 
 /** Met à jour un catway
  * @name Update a catway
  * @route {PUT} /catways/{id}
  * @routeparam {number} :id - Numéro du catway
  */
-router.put("/:id", authMiddleware.verifyToken, catwayController.updateCatway);
+router.put(
+  "/:id",
+  authMiddleware.verifyToken,
+  authMiddleware.isAdmin,
+  catwayController.updateCatway
+);
 
-/** Supprime une réservation
+/** Supprime un catway
  * @name Delete a catway
  * @route {DELETE} /catways/{id}
  * @routeparam {number} :id - Numéro du catway
@@ -42,6 +52,7 @@ router.put("/:id", authMiddleware.verifyToken, catwayController.updateCatway);
 router.delete(
   "/:id",
   authMiddleware.verifyToken,
+  authMiddleware.isAdmin,
   catwayController.deleteCatway
 );
 

@@ -151,9 +151,13 @@ exports.loginUser = async ({ username, email, password }) => {
   }
 
   /** Crée et renvoie le token JWT */
-  const token = jwt.sign({ id: existingUser._id }, SECRET_KEY, {
-    expiresIn: "1h",
-  });
+  const token = jwt.sign(
+    { id: existingUser._id, role: existingUser.role },
+    SECRET_KEY,
+    {
+      expiresIn: "1h",
+    }
+  );
   console.log("Token généré :", token);
   return token;
 };

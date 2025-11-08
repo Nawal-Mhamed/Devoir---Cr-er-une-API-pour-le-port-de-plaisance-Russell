@@ -24,20 +24,35 @@ router.get("/:email", authMiddleware.verifyToken, userController.getByEmail);
  * @name Create a user
  * @route {POST} /users
  */
-router.post("/", authMiddleware.verifyToken, userController.createUser);
+router.post(
+  "/",
+  authMiddleware.verifyToken,
+  authMiddleware.isAdmin,
+  userController.createUser
+);
 
 /** Met à jour un utilisateur
  * @name Update a user
  * @route {PUT} /users/{email}
  * @routeparam {string} :email - Email de l'utilisateur
  */
-router.put("/:email", authMiddleware.verifyToken, userController.updateUser);
+router.put(
+  "/:email",
+  authMiddleware.verifyToken,
+  authMiddleware.isAdmin,
+  userController.updateUser
+);
 
 /** Supprimer un utilisateur
  * @name Delete a user
  * @route DELETE /users/{email}
  * @routeparam {string} :email - Email de l'utilisateur
  */
-router.delete("/:email", authMiddleware.verifyToken, userController.deleteUser);
+router.delete(
+  "/:email",
+  authMiddleware.verifyToken,
+  authMiddleware.isAdmin,
+  userController.deleteUser
+);
 
 module.exports = router;
