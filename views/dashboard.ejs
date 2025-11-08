@@ -69,7 +69,9 @@
                 >
               </li>
             </ul>
-            <button id="deconnexion" class="btn btn-danger" type="submit">Se déconnecter</button>
+                      <a id="deconnexion" class="btn btn-danger" href="/logout"
+            >Se déconnecter</a
+          >
           </div>
         </div>
       </nav>
@@ -90,7 +92,8 @@
         <article class="card-body">
           <h2 class="card-title">Bonjour <%= user.username %> !</h3>
           <p class="card-text">Nom d'utilisateur : <%= user.username %></p>
-          <p class="card-text">Email: <%= user.email %></p>
+          <p class="card-text">Email : <%= user.email %></p>
+          <p class="card-text">Role : <%= user.role %> </p>
           <a id="deconnexion" class="btn btn-danger" href="/logout"
             >Se déconnecter</a
           >

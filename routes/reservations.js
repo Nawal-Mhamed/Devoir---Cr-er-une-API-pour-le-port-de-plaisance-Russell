@@ -56,6 +56,7 @@ router.post(
 router.put(
   "/:idReservation",
   authMiddleware.verifyToken,
+  authMiddleware.isAdmin,
   reservationController.updateReservation
 );
 
@@ -67,6 +68,7 @@ router.put(
 router.delete(
   "/:idReservation",
   authMiddleware.verifyToken,
+  authMiddleware.isAdmin,
   reservationController.deleteReservation
 );
 
