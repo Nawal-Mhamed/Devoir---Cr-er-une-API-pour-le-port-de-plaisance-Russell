@@ -220,4 +220,19 @@ document.addEventListener("DOMContentLoaded", () => {
       window.location.href = "/catways";
     });
   }
+
+  // Gestion du bouton "Voir"
+
+  const rows = document.querySelectorAll(".catway-row");
+
+  rows.forEach((row) => {
+    const viewBtn = row.querySelector(".show-catway");
+    if (!viewBtn) return;
+
+    const id = viewBtn.dataset.id;
+
+    viewBtn.addEventListener("click", (e) => {
+      displayCatwayDetails(id);
+    });
+  });
 });

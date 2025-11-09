@@ -1,5 +1,5 @@
 const express = require("express");
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 const reservationRouter = require("./reservations");
 const catwayController = require("../controllers/catwayController");
 const authMiddleware = require("../middlewares/auth");

@@ -116,7 +116,6 @@ exports.deleteUser = async (req, res) => {
  */
 exports.loginUser = async (req, res) => {
   try {
-    console.log(req.body);
     const token = await userService.loginUser(req.body);
 
     res.cookie("token", token, { httpOnly: true });

@@ -127,14 +127,10 @@ exports.deleteUser = (email) => {
  * @returns {Promise<string>} token JWT
  */
 exports.loginUser = async ({ username, email, password }) => {
-  console.log("Données reçues :", { username, email, password });
-
   const existingUser = await User.findOne({ username, email });
-  console.log("Utilisateur trouvé :", existingUser);
 
   /** Vérifie si l'utilisateur existe */
   if (!existingUser) {
-    console.log("Aucun utilisateur ne correspond.");
     const error = new Error(
       "Utilisateur introuvable ou identifiants incorrects."
     );
@@ -155,7 +151,7 @@ exports.loginUser = async ({ username, email, password }) => {
     { id: existingUser._id, role: existingUser.role },
     SECRET_KEY,
     {
-      expiresIn: "1h",
+      expiresIn: "2h",
     }
   );
   console.log("Token généré :", token);

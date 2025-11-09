@@ -212,4 +212,19 @@ document.addEventListener("DOMContentLoaded", () => {
       window.location.href = "/users";
     });
   }
+
+  // Gestion du bouton "Voir"
+
+  const rows = document.querySelectorAll(".user-row");
+
+  rows.forEach((row) => {
+    const viewBtn = row.querySelector(".show-user");
+    if (!viewBtn) return;
+
+    const email = viewBtn.dataset.email;
+
+    viewBtn.addEventListener("click", (e) => {
+      displayUserDetails(email);
+    });
+  });
 });

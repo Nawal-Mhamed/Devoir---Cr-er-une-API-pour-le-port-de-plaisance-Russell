@@ -123,7 +123,7 @@
 
             <tbody class="table-group-divider">
               <% users.forEach(function(user) { %>
-              <tr>
+              <tr class="user-row">
                 <td><%= user.username %></td>
                 <td><%= user.email %></td>
                 <td>
@@ -133,17 +133,10 @@
                 </td>
                 <td class="text-center">
                   <button
-                    class="btn btn-sm btn-primary edit edit-user"
-                    data-email="<%= user.email %>"
-                    data-username="<%= user.username %>"
-                  >
-                    Modifier
-                  </button>
-                  <button
-                    class="btn btn-sm btn-danger delete delete-user"
+                    class="btn btn-sm btn-secondary show show-user"
                     data-email="<%= user.email %>"
                   >
-                    Supprimer
+                    Voir
                   </button>
                 </td>
               </tr>
