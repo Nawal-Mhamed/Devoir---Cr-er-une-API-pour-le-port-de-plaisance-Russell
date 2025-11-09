@@ -196,23 +196,26 @@ document.addEventListener("DOMContentLoaded", () => {
   // Recherche d'un catway par numéro
 
   const searchInput = document.getElementById("catwaySearch");
-  const searchButton = document.getElementById("btnSearchCatway");
+
+  searchInput.addEventListener("input", () => {
+    const query = searchInput.value.trim();
+    const rows = document.querySelectorAll(".catway-row");
+
+    rows.forEach((row) => {
+      const number = row.querySelector(".catway-number")?.textContent || "";
+      if (number.includes(query)) {
+        row.style.display = "";
+      } else {
+        row.style.display = "none";
+      }
+    });
+  });
 
   // Fonction d'affichage d'un catway en particulier
 
   function displayCatwayDetails(number) {
     window.location.href = `/catways/${number}`;
   }
-
-  searchButton.addEventListener("click", () => {
-    const number = Number(searchInput.value.trim());
-    if (!number || number <= 0) {
-      alert("Veuillez entrer un numéro de catway valide.");
-      return;
-    }
-
-    displayCatwayDetails(number);
-  });
 
   // Gestion du bouton Retour
 

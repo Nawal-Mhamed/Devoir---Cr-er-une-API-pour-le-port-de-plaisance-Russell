@@ -93,12 +93,9 @@
                 type="email"
                 id="userSearch"
                 name="userSearch"
-                placeholder="Rechercher un utilisateur"
+                placeholder="Entrez l'email de l'utilisateur"
                 class="form-control w-50"
               />
-              <button id="btnSearchUser" class="btn btn-primary ms-2">
-                Rechercher
-              </button>
             </div>
             <button
               id="btnAddUser"
@@ -126,7 +123,7 @@
               <% users.forEach(function(user) { %>
               <tr class="user-row">
                 <td><%= user.username %></td>
-                <td><%= user.email %></td>
+                <td class="user-email"><%= user.email %></td>
                 <td>
                   <%= new Date(user.createdAt).toLocaleDateString("fr-FR", {
                   weekday: "long", year: "numeric", month: "long", day:

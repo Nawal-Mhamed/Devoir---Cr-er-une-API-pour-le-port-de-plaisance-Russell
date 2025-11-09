@@ -81,44 +81,53 @@
 
         <!-- Formulaire de recherche (GET) -->
 
+        <form id="catwayForm" class="mb-4 mx-auto w-75 p-2"
+          method="get"
+          action="">
+          <div class="d-flex flex-row w-75">
+        
+            <input
+              id="filterCatway"
+              name="catway"
+              class="form-control w-75 me-5"
+              type="number"
+              placeholder="Veuillez entrer le numéro du catway"
+              min="0"
+              value="<%= filters.catwayNumber %>"
+              aria-describedby="catwayNumberHelp"
+              required
+            />
+            <button id="btnSearchReservation" class="btn btn-primary">
+              Rechercher
+            </button>
+          </div>
+        </form>
+
+
         <form
           id="searchForm"
           class="mb-4 align-items-center card mx-auto w-75 p-2"
           method="get"
           action=""
         >
-        <fieldset class="row g-3 mb-4 align-items-center justify-content-center">
-          <legend class="text-center">Rechercher une réservation</legend>
-          <div class="col-md-4 me-5">
-            <label class="form-label"> Numéro du catway <span id="catwayNumberHelp" class="form-text">(obligatoire)</span></label>
-            <input
-              id="filterCatway"
-              name="catway"
-              class="form-control"
-              type="number"
-              placeholder="0"
-              min="0"
-              value="<%= filters.catwayNumber || 0 %>"
-              aria-describedby="catwayNumberHelp"
-              required
-            />
-          </div>
-          <div class="col-md-6">
+        <fieldset class="row g-3 mb-4 px-4 align-items-center justify-content-center">
+          <legend class="text-center pt-3">Rechercher une réservation - Filtres</legend>
+          
+          <div class="col-md-3">
             <label class="form-label">Client <span id ="clientNameHelp" class="form-text">(optionnel)</span></label>
             <input id="filterClient" name="clientName" class="form-control" value="<%= filters.clientName %>" aria-describedby="clientNameHelp">
           </div>
-          <div class="col-md-5 me-5">
+          <div class="col-md-3">
             <label class="form-label">Bateau <span id="boatNameHelp" class="form-text">(optionnel)</span></label>
             <input id="filterBoat" name="boatName" class="form-control" value="<%= filters.boatName %>" aria-describedby="boatNameHelp">
           </div>
-          <div class="col-md-5">
+          <div class="col">
             <label class="form-label">ID de la réservation <span id="idReservationHelp" class="form-text">(optionnel)</span></label>
             <input id="filterIdReservation" name="idReservation" class="form-control" value="<%= filters.idReservation %>">
           </div>
-          <div class="col-md-10 d-flex gap-2 justify-content-center p-2">
-            <button id="btnSearchReservation" type="submit" class="btn btn-primary w-25">Rechercher</button>
-            <button id="btnShowAll" class="btn btn-outline-secondary w-25">Tout afficher</button>
-          </div>
+        <div class="text-center">
+
+        </div>
           </fieldset>
         </form>
 
@@ -131,6 +140,7 @@
           </h2>
 
           <div class="mb-3 text-end">
+                        <button id="btnShowAll" class="btn btn-outline-secondary me-3">Tout afficher</button>
             <button id="btnAddReservation" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#reservationModal">Ajouter</button>
           </div>
 
@@ -155,9 +165,9 @@
               </tr>
               <% } else { %> <% reservations.forEach(function(reservation) { %>
               <tr class="reservation-row">
-                <td><%= reservation.catwayNumber %></td>
-                <td><%= reservation.clientName %></td>
-                <td><%= reservation.boatName %></td>
+                <td class="catway-number"><%= reservation.catwayNumber %></td>
+                <td class="client-name"><%= reservation.clientName %></td>
+                <td class="boat-name"><%= reservation.boatName %></td>
                 <td>
                   <%= new
                   Date(reservation.startDate).toLocaleDateString("fr-FR") %>
@@ -166,7 +176,7 @@
                   <%= new Date(reservation.endDate).toLocaleDateString("fr-FR")
                   %>
                 </td>
-                <td><%= reservation._id %></td>
+                <td class="reservation-id"><%= reservation._id %></td>
                 <td class="text-center">
                 <button
                     class="btn btn-sm btn-secondary show show-reservation"
