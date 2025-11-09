@@ -46,6 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const passwordValue = passwordInput.querySelector("input");
   const userEmailInput = document.getElementById("userEmail");
   const emailInput = document.getElementById("email");
+  const roleInput = document.getElementById("role");
   const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
 
   let deletingEmail = null;
@@ -99,11 +100,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const username = editBtn.dataset.username;
         const email = editBtn.dataset.email;
+        const userRole = editBtn.dataset.role;
 
         userModalTitle.textContent = "Modifier un utilisateur";
         usernameInput.value = username;
         emailInput.value = email;
-        userEmailInput.value = email;
+        roleInput.value = userRole || "utilisateur";
 
         passwordInput.setAttribute("style", "display: none;");
         passwordInput.disabled = true;
@@ -149,6 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
       username: usernameInput.value,
       email: emailInput.value,
       password: passwordInput.querySelector("input")?.value || undefined,
+      role: roleInput.value,
     };
 
     try {
