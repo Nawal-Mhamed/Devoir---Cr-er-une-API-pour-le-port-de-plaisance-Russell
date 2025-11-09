@@ -92,12 +92,9 @@
                 type="number"
                 id="catwaySearch"
                 name="catwaySearch"
-                placeholder="Rechercher un catway"
+                placeholder="Entrez le numéro du catway"
                 class="form-control w-50"
               />
-              <button id="btnSearchCatway" class="btn btn-primary ms-2">
-                Rechercher
-              </button>
             </div>
             <button
               id="btnAddCatway"
@@ -125,7 +122,9 @@
             <tbody class="table-group-divider">
               <% catways.forEach(function(catway) { %>
               <tr class="catway-row">
-                <td class="text-center"><%= catway.catwayNumber %></td>
+                <td class="text-center catway-number">
+                  <%= catway.catwayNumber %>
+                </td>
                 <td class="text-center"><%= catway.catwayType %></td>
                 <td><%= catway.catwayState %></td>
                 <td class="text-center">

@@ -35,6 +35,7 @@ function displayReservations(section, event) {
 document.addEventListener("DOMContentLoaded", () => {
   // Eléments
 
+  const catwayForm = document.getElementById("catwayForm");
   const searchForm = document.getElementById("searchForm");
   const reservationModal = new bootstrap.Modal(
     document.getElementById("reservationModal")
@@ -66,24 +67,51 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Formulaire de recherche : vérification de la valeur de catway entrée
 
-  searchForm?.addEventListener("submit", (e) => {
+  catwayForm?.addEventListener("submit", (e) => {
     e.preventDefault();
-
-    const catwayValue = document.getElementById("filterCatway").value;
-    const idReservation = document
-      .getElementById("filterIdReservation")
-      .value.trim();
-
-    if (!catwayValue) {
-      e.preventDefault();
-      alert("Le numéro de catway est requis.");
-    }
-
-    if (idReservation) {
-      window.location.href = `/catways/${catwayValue}/reservations/${idReservation}`;
-    } else {
+    const catwayValue = document.getElementById("filterCatway").value.trim();
+    if (catwayValue) {
       window.location.href = `/catways/${catwayValue}/reservations`;
     }
+  });
+
+  searchForm?.addEventListener("input", () => {
+    const idReservation = document
+      .getElementById("filterIdReservation")
+      .value.trim()
+      .toLowerCase();
+    const clientValue = document
+      .getElementById("filterClient")
+      .value.trim()
+      .toLowerCase();
+    const boatValue = document
+      .getElementById("filterBoat")
+      .value.trim()
+      .toLowerCase();
+
+    const rows = document.querySelectorAll(".reservation-row");
+
+    rows.forEach((row) => {
+      const idCell = row
+        .querySelector(".reservation-id")
+        ?.textContent.trim()
+        .toLowerCase();
+      const clientCell = row
+        .querySelector(".client-name")
+        ?.textContent.trim()
+        .toLowerCase();
+      const boatCell = row
+        .querySelector(".boat-name")
+        ?.textContent.trim()
+        .toLowerCase();
+
+      const matchesId = !idReservation || idCell.includes(idReservation);
+      const matchesClient = !clientValue || clientCell.includes(clientValue);
+      const matchesBoat = !boatValue || boatCell.includes(boatValue);
+
+      row.style.display =
+        matchesId && matchesClient && matchesBoat ? "" : "none";
+    });
   });
 
   // Redirection vers l'affichage de toutes les réservations

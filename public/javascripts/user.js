@@ -191,23 +191,26 @@ document.addEventListener("DOMContentLoaded", () => {
   // Recherche d'un utilisateur par email
 
   const searchInput = document.getElementById("userSearch");
-  const searchButton = document.getElementById("btnSearchUser");
+
+  searchInput.addEventListener("input", () => {
+    const query = searchInput.value.trim();
+    const rows = document.querySelectorAll(".user-row");
+
+    rows.forEach((row) => {
+      const email = row.querySelector(".user-email")?.textContent || "";
+      if (email.includes(query)) {
+        row.style.display = "";
+      } else {
+        row.style.display = "none";
+      }
+    });
+  });
 
   // Fonction d'affichage d'un utilisateur en particulier
 
   function displayUserDetails(email) {
     window.location.href = `/users/${email}`;
   }
-
-  searchButton.addEventListener("click", () => {
-    const email = searchInput.value;
-    if (!email) {
-      alert("Veuillez entrer une adresse email valide.");
-      return;
-    }
-
-    displayUserDetails(email);
-  });
 
   // Gestion du bouton Retour
 
