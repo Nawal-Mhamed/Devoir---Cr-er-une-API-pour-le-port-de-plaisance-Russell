@@ -18,7 +18,11 @@ exports.getAllCatways = async (req, res) => {
       .getAllCatways()
       .sort({ catwayNumber: 1 })
       .lean();
-    res.status(200).render("catways", { catways, selectedCatwayId: null });
+    res.status(200).render("catways", {
+      catways,
+      selectedCatwayId: null,
+      role: req.userRole,
+    });
   } catch (err) {
     console.error(err);
     res.status(500).send("Erreur serveur");
@@ -43,15 +47,19 @@ exports.getByNumber = async (req, res) => {
       return res.status(404).render("catway", {
         catway: null,
         errorMessage: `Le catway est introuvable ou n'existe pas.`,
+        role: req.userRole,
       });
     }
 
-    res.status(200).render("catway", { catway: selectedCatway });
+    res
+      .status(200)
+      .render("catway", { catway: selectedCatway, role: req.userRole });
   } catch (err) {
     console.error(err);
     res.status(500).render("catway", {
       catway: null,
       errorMessage: "Erreur serveur",
+      role: req.userRole,
     });
   }
 };

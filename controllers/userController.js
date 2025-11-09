@@ -32,7 +32,7 @@ exports.createUser = async (req, res) => {
 exports.getAllUsers = async (req, res) => {
   try {
     const users = await userService.getAllUsers().sort({ createdAt: 1 }).lean();
-    res.status(200).render("users", { users });
+    res.status(200).render("users", { users, role: req.userRole });
   } catch (err) {
     console.error(err);
     res.status(500).send("Erreur serveur");
@@ -55,7 +55,7 @@ exports.getByEmail = async (req, res) => {
       });
     }
 
-    res.status(200).render("user", { user: user });
+    res.status(200).render("user", { user: user, role: req.userRole });
   } catch (err) {
     console.error(err);
     res

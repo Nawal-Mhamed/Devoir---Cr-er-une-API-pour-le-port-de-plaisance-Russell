@@ -33,6 +33,7 @@ exports.getAllReservations = async (req, res) => {
         boatName: "",
         idReservation: "",
       },
+      role: req.userRole,
     });
   } catch (err) {
     res.status(500).json({ message: "Erreur serveur", error: err.message });
@@ -65,7 +66,9 @@ exports.getBySearch = async (req, res) => {
         });
       }
 
-      return res.status(200).render("reservation", { reservation });
+      return res
+        .status(200)
+        .render("reservation", { reservation, role: req.userRole });
     }
 
     // Si seul le catway est spécifié
@@ -90,6 +93,7 @@ exports.getBySearch = async (req, res) => {
         boatName: boatName || "",
         idReservation: "",
       },
+      role: req.userRole,
     });
   } catch (err) {
     res.status(500).send("Erreur serveur");
@@ -117,13 +121,12 @@ exports.getById = async (req, res) => {
         reservation: null,
         errorMessage: `Réservation introuvable sur le catway ${catwayNumber}.`,
       });
-    res
-      .status(200)
-      .render("reservation", {
-        reservation: reservation.toObject(),
-        catwayNumber,
-        filters: {},
-      });
+    res.status(200).render("reservation", {
+      reservation: reservation.toObject(),
+      catwayNumber,
+      filters: {},
+      role: req.userRole,
+    });
   } catch (err) {
     console.error(err);
     res.status(500).render("reservation", {
