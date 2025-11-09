@@ -124,7 +124,9 @@ document.addEventListener("DOMContentLoaded", () => {
   confirmDeleteBtn.addEventListener("click", async () => {
     if (!deletingEmail) return;
     try {
-      const res = await fetch(`/users/${deletingEmail}`, { method: "DELETE" });
+      const res = await fetchWithAuth(`/users/${deletingEmail}`, {
+        method: "DELETE",
+      });
       if (res.status === 204 || res.ok) {
         confirmDeleteModal.hide();
         location.reload();
@@ -153,14 +155,14 @@ document.addEventListener("DOMContentLoaded", () => {
       let res;
       if (!id) {
         // Ajout
-        res = await fetch("/users", {
+        res = await fetchWithAuth("/users", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data),
         });
       } else {
         // Modification
-        res = await fetch(`/users/${id}`, {
+        res = await fetchWithAuth(`/users/${id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data),

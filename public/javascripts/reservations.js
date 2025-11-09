@@ -168,9 +168,12 @@ document.addEventListener("DOMContentLoaded", () => {
     confirmDeleteBtn.addEventListener("click", async () => {
       if (!deletingId) return;
       try {
-        const res = await fetch(`/catways/${catwayNum}/reservations/${id}`, {
-          method: "DELETE",
-        });
+        const res = await fetchWithAuth(
+          `/catways/${catwayNum}/reservations/${id}`,
+          {
+            method: "DELETE",
+          }
+        );
         if (res.status === 204 || res.ok) {
           confirmDeleteModal.hide();
           location.reload();
@@ -219,7 +222,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const method = id ? "PUT" : "POST";
 
     try {
-      const res = await fetch(url, {
+      const res = await fetchWithAuth(url, {
         method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),

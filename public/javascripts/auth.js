@@ -35,3 +35,32 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 });
+
+// Interception des réponses fetch
+
+async function fetchWithAuth(url, options = {}) {
+  const res = await fetch(url, {
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...(options.headers || {}),
+    },
+  });
+
+  if (res.status === 401) {
+    alert("Session expirée. Veuillez vous reconnecter.");
+    window.location.href = "/";
+    return;
+  }
+
+  return res;
+}
+
+// // Vérification du token au chargement de la page
+
+// document.addEventListener("DOMContentLoaded", () => {
+//   const token = getCookie("token");
+//   if (!token) {
+//     window.location.href = "/";
+//   }
+// });

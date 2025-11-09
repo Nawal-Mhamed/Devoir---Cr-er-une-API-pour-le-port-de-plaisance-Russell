@@ -10,7 +10,7 @@ exports.verifyToken = async (req, res, next) => {
     req.userRole = decoded.role;
     next();
   } catch (err) {
-    res.status(401).json("Token invalide");
+    res.status(401).json({ message: "Token invalide" });
   }
 };
 
