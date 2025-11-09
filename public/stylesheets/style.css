@@ -24,3 +24,16 @@ img {
 td {
   vertical-align: center;
 }
+
+.show-catway,
+.show-user,
+.show-reservation {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.user-row:hover .show,
+.catway-row:hover .show,
+.reservation-row:hover .show {
+  opacity: 1;
+}

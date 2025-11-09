@@ -64,11 +64,15 @@ exports.searchReservations = ({
  * @returns {Promise<object|null>}
  */
 
-exports.getById = (catwayNumber, idReservation) => {
-  return Reservation.findOne({
-    _id: new mongoose.Types.ObjectId(idReservation),
-    catwayNumber: catwayNumber,
-  });
+exports.getById = async (catwayNumber, idReservation) => {
+  try {
+    return await Reservation.findOne({
+      _id: new mongoose.Types.ObjectId(idReservation),
+      catwayNumber: catwayNumber,
+    });
+  } catch (err) {
+    return null;
+  }
 };
 
 /** Crée une nouvelle réservation sur le catway spécifié

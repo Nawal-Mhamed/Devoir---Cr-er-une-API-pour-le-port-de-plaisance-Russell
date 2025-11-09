@@ -123,64 +123,41 @@
         </form>
 
 
-        <!-- Tableau des réservations trouvées -->
+          <!-- Section pour afficher la réservation recherchée -->
+          <h2 class="text-center p-3">Informations sur la réservation</h2>
 
-        <section>
-          <h2 id="reservations-title" class="text-center p-3">
-            Liste des réservations - <%= catwayNumber %>
-          </h2>
-
-          <div class="mb-3 text-end">
-            <button id="btnAddReservation" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#reservationModal">Ajouter</button>
-          </div>
-
-          <table class="table table-striped table-hover">
-            <thead>
-              <tr>
-                <th>Catway</th>
-                <th>Client</th>
-                <th>Bateau</th>
-                <th>Début</th>
-                <th>Fin</th>
-                <th>Identifiant</th>
-              </tr>
-            </thead>
-
-            <tbody id="reservationsBody">
-              <% if (!reservations || reservations.length === 0) { %>
-              <tr>
-                <td colspan="6" class="text-center text-muted">
-                  Aucune réservation
-                </td>
-              </tr>
-              <% } else { %> <% reservations.forEach(function(reservation) { %>
-              <tr class="reservation-row">
-                <td><%= reservation.catwayNumber %></td>
-                <td><%= reservation.clientName %></td>
-                <td><%= reservation.boatName %></td>
-                <td>
-                  <%= new
-                  Date(reservation.startDate).toLocaleDateString("fr-FR") %>
-                </td>
-                <td>
-                  <%= new Date(reservation.endDate).toLocaleDateString("fr-FR")
-                  %>
-                </td>
-                <td><%= reservation._id %></td>
-                <td class="text-center">
-                <button
-                    class="btn btn-sm btn-secondary show show-reservation"
-                    data-catway="<%= reservation.catwayNumber %>" data-id="<%= reservation._id %>" 
-                  >
-                    Voir
-                  </button>
-                </td>
-              </tr>
-              <% }) %> <% } %>
-            </tbody>
-          </table>
-        </section>
-      </div>
+          <div id="reservationDetails" class="w-75 mx-auto mt-4">
+            <% if (reservation) { %>
+              <!-- Affichage de la card -->
+              <div class="card shadow-sm p-4 mt-3 mx-auto">
+                <h3 class="mb-3 text-center">Réservation n°<%= reservation._id %></h3>
+                <p><strong>Numéro du catway :</strong> <span class="reservation-catway"><%= reservation.catwayNumber %></span></p>
+                <p><strong>Client :</strong> <span class="reservation-client"><%= reservation.clientName %></span></p>
+                <p><strong>Bateau :</strong> <span class="reservation-boat"><%= reservation.boatName %></span></p>
+                <p><strong>Date de début :</strong> <span class="reservation-startDate"><%= new
+                  Date(reservation.startDate).toLocaleDateString("fr-FR") %></span></p>
+                <p><strong>Date de fin :</strong> <span class="reservation-endDate"><%= new Date(reservation.endDate).toLocaleDateString("fr-FR")
+                  %></span></p>
+                <div class="d-flex justify-content-center gap-3 mt-3">
+                  <button class="btn btn-primary edit edit-reservation" 
+                  data-id="<%= reservation._id %>" 
+                  data-catway="<%= reservation.catwayNumber %>"
+                  data-client="<%= reservation.clientName %>" 
+                  data-boat="<%= reservation.boatName %>" 
+                  data-startDate="<%= reservation.startDate %>" 
+                  data-endDate="<%= reservation.endDate %>">Modifier</button>
+                  <button class="btn btn-danger delete delete-reservation" data-id="<%= reservation._id %>">Supprimer</button>
+                  <button class="btn btn-secondary" id="backToList" data-catway="<%= reservation ? reservation.catwayNumber : 0 %>">Retour</button>
+                </div>
+              </div>
+          <% } else if (errorMessage) { %>
+            <!-- Affichage du message d'erreur -->
+            <p class="text-center h4 p-4"><strong><%= errorMessage %></strong></p>
+            <div class="d-flex justify-content-center gap-3 mt-3">
+              <button class="btn btn-secondary" id="backToList" data-catway="<%= reservation ? reservation.catwayNumber : 0 %>">Retour</button>
+            </div>
+          <% } %>
+        </div>
 
 <!-- iframe de la documentation -->
 

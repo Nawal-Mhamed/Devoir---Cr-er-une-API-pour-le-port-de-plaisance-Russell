@@ -51,11 +51,21 @@ exports.getBySearch = async (req, res) => {
 
     const { idReservation, clientName, boatName } = req.query;
 
-    // Si l'identifiant est connu, on redirige vers getById
+    // Si l'identifiant est connu, afficher directement la réservation
     if (idReservation) {
-      return res.redirect(
-        `/catways/${catwayNumber}/reservations/${idReservation}`
+      const reservation = await reservationService.getById(
+        catwayNumber,
+        idReservation
       );
+
+      if (!reservation) {
+        return res.status(404).render("reservation", {
+          reservation: null,
+          errorMessage: `Réservation introuvable sur le catway ${catwayNumber}.`,
+        });
+      }
+
+      return res.status(200).render("reservation", { reservation });
     }
 
     // Si seul le catway est spécifié
@@ -82,7 +92,7 @@ exports.getBySearch = async (req, res) => {
       },
     });
   } catch (err) {
-    res.status(500).json({ message: "Erreur serveur", error: err.message });
+    res.status(500).send("Erreur serveur");
   }
 };
 
@@ -103,12 +113,23 @@ exports.getById = async (req, res) => {
     );
 
     if (!reservation)
-      return res.status(404).json({
-        message: "Réservation introuvable sur le catway ${catwayNumber}.",
+      return res.status(404).render("reservation", {
+        reservation: null,
+        errorMessage: `Réservation introuvable sur le catway ${catwayNumber}.`,
       });
-    res.status(200).json(reservation);
+    res
+      .status(200)
+      .render("reservation", {
+        reservation: reservation.toObject(),
+        catwayNumber,
+        filters: {},
+      });
   } catch (err) {
-    res.status(500).json({ message: "Erreur serveur", error: err.message });
+    console.error(err);
+    res.status(500).render("reservation", {
+      reservation: null,
+      errorMessage: "Erreur serveur",
+    });
   }
 };
 

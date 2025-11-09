@@ -124,22 +124,16 @@
 
             <tbody class="table-group-divider">
               <% catways.forEach(function(catway) { %>
-              <tr>
+              <tr class="catway-row">
                 <td class="text-center"><%= catway.catwayNumber %></td>
                 <td class="text-center"><%= catway.catwayType %></td>
                 <td><%= catway.catwayState %></td>
                 <td class="text-center">
                   <button
-                    class="btn btn-sm btn-primary edit edit-catway"
+                    class="btn btn-sm btn-secondary show show-catway"
                     data-id="<%= catway.catwayNumber %>"
                   >
-                    Modifier
-                  </button>
-                  <button
-                    class="btn btn-sm btn-danger delete delete-catway"
-                    data-id="<%= catway.catwayNumber %>"
-                  >
-                    Supprimer
+                    Voir
                   </button>
                 </td>
               </tr>
