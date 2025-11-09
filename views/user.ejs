@@ -106,8 +106,9 @@
                 <p><strong>Membre depuis le :</strong> <%= new Date(user.createdAt).toLocaleDateString("fr-FR", {
                   weekday: "long", year: "numeric", month: "long", day:
                   "numeric" }) %></p>
+                  <p><strong>Rôle :</strong> <span class="user-role"><%= user.role %></span></p>
                 <div class="d-flex justify-content-center gap-3 mt-3">
-                  <button class="btn btn-primary edit edit-user" data-username="<%= user.username %>" data-email="<%= user.email %>">Modifier</button>
+                  <button class="btn btn-primary edit edit-user" data-username="<%= user.username %>" data-email="<%= user.email %>" data-role="<% user.role %>">Modifier</button>
                   <button class="btn btn-danger delete delete-user" data-email="<%= user.email %>">Supprimer</button>
                   <button class="btn btn-secondary" id="backToList">Retour</button>
                 </div>

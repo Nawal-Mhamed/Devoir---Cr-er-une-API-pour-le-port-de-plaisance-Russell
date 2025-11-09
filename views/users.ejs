@@ -118,6 +118,7 @@
                 <th>Nom</th>
                 <th>Email</th>
                 <th>Membre depuis le</th>
+                <th>Rôle</th>
               </tr>
             </thead>
 
@@ -131,6 +132,7 @@
                   weekday: "long", year: "numeric", month: "long", day:
                   "numeric" }) %>
                 </td>
+                <td><%= user.role %></td>
                 <td class="text-center">
                   <button
                     class="btn btn-sm btn-secondary show show-user"
@@ -210,6 +212,16 @@
                   type="password"
                   class="form-control"
                 />
+              </div>
+
+              <div class="mb-3">
+                <label for="role" class="form-label">Rôle</label>
+                <select id="role" name="role" class="form-select" required>
+                  <option value="utilisateur" selected>Utilisateur</option>
+                  <option value="administrateur" selected>
+                    Administrateur
+                  </option>
+                </select>
               </div>
 
               <div id="userError" class="alert alert-danger d-none"></div>
