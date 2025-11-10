@@ -40,8 +40,6 @@ export function setActiveLink(activeId) {
  * @returns {boolean} - true if the section was found and displayed.
  */
 export function displaySection(section) {
-  console.log("[displaySection] Appelée avec :", section);
-
   const allSections = ["dashboard", "catways", "reservations", "users"];
   const targetId = `${section}-section`;
   const docId = "documentation-section";
@@ -84,23 +82,17 @@ export function displaySection(section) {
  */
 export function handleNavClick(event) {
   const a = event.currentTarget || event.target.closest("a");
-  console.log("[handleNavClick] Clic détecté sur :", a?.id || "(aucun)");
+
   if (!a) return;
 
   const section = a.dataset.section;
-  console.log("[handleNavClick] Section = ", section);
 
   if (section === "documentation") {
-    console.log(
-      "[handleNavClick] Documentation détectée, preventDefault() exécuté"
-    );
     event.preventDefault();
     const success = displaySection("documentation");
-    console.log("[handleNavClick] displaySection exécutée, succès :", success);
+
     return false;
   }
-
-  console.log("[handleNavClick] Section classique, pas de preventDefault()");
 }
 
 //  -----------------------------------------------------

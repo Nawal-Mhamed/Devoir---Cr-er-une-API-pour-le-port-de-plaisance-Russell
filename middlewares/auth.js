@@ -14,6 +14,8 @@ exports.verifyToken = async (req, res, next) => {
     const decoded = jwt.verify(token, SECRET_KEY);
     req.userId = decoded.id;
     req.userRole = decoded.role;
+    req.userEmail = decoded.email;
+    console.log("decoded token:", decoded);
     next();
   } catch (err) {
     res.clearCookie("token");

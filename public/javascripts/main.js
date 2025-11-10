@@ -18,7 +18,7 @@ import { handleNavClick } from "./common.js";
 
 /** Initializes global page features for all pages */
 
-// Retrieve user role from body data attribute
+// Retrieve user role and user email from body data attribute
 const role = document.body.dataset.role;
 
 // Hide admin-only buttons if the user is not an administrator

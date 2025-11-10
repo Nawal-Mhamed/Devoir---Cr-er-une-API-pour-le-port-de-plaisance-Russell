@@ -56,13 +56,18 @@ exports.getByEmail = async (req, res) => {
       });
     }
 
-    res.status(200).render("user", { user: user, role: req.userRole });
+    const isOwnProfile = req.userEmail === user.email;
+
+    res
+      .status(200)
+      .render("user", { user: user, role: req.userRole, isOwnProfile });
   } catch (err) {
     console.error(err);
     res.status(500).render("user", {
       user: "null",
       errorMessage: "Erreur serveur",
       role: req.userRole,
+      isOwnProfile: false,
     });
   }
 };
@@ -102,6 +107,12 @@ exports.updateUser = async (req, res) => {
  */
 exports.deleteUser = async (req, res) => {
   try {
+    if (req.user.email === req.params.email) {
+      return res
+        .status(403)
+        .json({ message: "Vous ne pouvez pas supprimer votre propre compte." });
+    }
+
     const deletedUser = await userService.deleteUser(req.params.email);
     if (!deletedUser)
       return res.status(404).json({ message: "Utilisateur introuvable." });
