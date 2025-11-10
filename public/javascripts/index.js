@@ -1,3 +1,19 @@
+// =========================================================================
+// MAIN NAVIGATION AND CONTENT SWITCHING
+// =========================================================================
+//
+// Handles dynamic content rendering and active link management for the
+// home, login and documentation sections.
+// =========================================================================
+
+// -----------------------------------------------------
+// Active link management in navbar
+// -----------------------------------------------------
+
+/**
+ * Updates the active link in the navbar.
+ * @param {string} activeId  - ID of the link to activate.
+ */
 function setActiveLink(activeId) {
   const links = ["home", "connexion", "documentation"];
   links.forEach((id) => {
@@ -12,11 +28,21 @@ function setActiveLink(activeId) {
   });
 }
 
+// -----------------------------------------------------
+// Conditional section display management
+// -----------------------------------------------------
+
+/**
+ * Dynamically switches the main content section.
+ * @param {string} section  - Target section: "home", "login" or "documentation".
+ * @param {Event} event - Click event to prevent default navigation.
+ */
 function displaySection(section, event) {
   event.preventDefault();
 
   const main = document.getElementById("content");
 
+  // Home section
   if (section === "accueil") {
     main.innerHTML = `      <div
         class="card w-75 mx-auto my-5 shadow p-3 mb-5 bg-body-tertiary rounded"
@@ -43,6 +69,8 @@ function displaySection(section, event) {
         </div>
       </div>`;
     setActiveLink("home");
+
+    // Login section
   } else if (section === "connexion") {
     main.innerHTML = `
     <section class="card my-5 p-5 mx-auto mw-100">
@@ -82,6 +110,8 @@ function displaySection(section, event) {
       </section>`;
 
     setActiveLink("connexion");
+
+    // Documentation section
   } else {
     const main = document.getElementById("content");
 
@@ -89,6 +119,10 @@ function displaySection(section, event) {
     setActiveLink("documentation");
   }
 }
+
+// -----------------------------------------------------
+// Logout alert fade-out
+// -----------------------------------------------------
 
 document.addEventListener("DOMContentLoaded", () => {
   const alert = document.getElementById("logoutAlert");

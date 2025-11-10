@@ -1,72 +1,76 @@
-function setActiveLink(activeId) {
-  const links = ["reservations", "documentation"];
-  links.forEach((id) => {
-    const link = document.getElementById(id);
-    if (id === activeId) {
-      link.classList.add("active");
-      link.setAttribute("aria-current", "page");
-    } else {
-      link.classList.remove("active");
-      link.removeAttribute("aria-current");
-    }
-  });
-}
+// ======================================================
+// RESERVATION PAGES MANAGEMENT
+// ======================================================
+//
+// Provides functionalities for managing reservations:
+// - Initialize add/edit modals
+// - "Back" and "View" buttons management
+// - Multi-criteria filters (ID / Client / Boat)
+// - "Show All" button to reset filters
+// - Add / edit reservations via modal
+// ======================================================
 
-function displayReservations(section, event) {
-  event.preventDefault();
+import { initModal } from "./modals.js";
+import { initBackButton, initViewButtons } from "./buttons.js";
+import { initMultiFilter, fetchWithAuth } from "./common.js";
 
-  const reservations = document.getElementById("reservations-section");
-  const documentation = document.getElementById("documentation-section");
-
-  if (section === "reservations") {
-    documentation.setAttribute("style", "display: none;");
-    reservations.removeAttribute("style");
-    setActiveLink("reservations");
-  } else {
-    reservations.setAttribute("style", "display: none;");
-
-    documentation.removeAttribute("style");
-    setActiveLink("documentation");
-  }
-}
-
-// Modales
+// ======================================================
+// MAIN INITIALIZATION
+// ======================================================
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Eléments
+  // ------------------------------------------------------
+  // DOM element selection
+  // ------------------------------------------------------
+
+  const {
+    modal: reservationModal,
+    formElem: reservationForm,
+    showError,
+    clearError,
+  } = initModal("reservationModal", "reservationFormModal", "reservationError");
 
   const catwayForm = document.getElementById("catwayForm");
-  const searchForm = document.getElementById("searchForm");
-  const reservationModal = new bootstrap.Modal(
-    document.getElementById("reservationModal")
-  );
-  const reservationForm = document.getElementById("reservationForm");
   const reservationModalTitle = document.getElementById(
     "reservationModalTitle"
   );
-  const reservationError = document.getElementById("reservationError");
+  const reservationsSection = document.getElementById("reservations-section");
+
   const idReservationInput = document.getElementById("idReservationInput");
   const catwayInput = document.getElementById("formCatwayNumber");
   const clientInput = document.getElementById("formClientName");
   const boatInput = document.getElementById("formBoatName");
   const startInput = document.getElementById("formStartDate");
   const endInput = document.getElementById("formEndDate");
-  const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
 
-  // Gestion de l'affichage des erreurs
+  const btnAdd = document.getElementById("btnAddReservation");
+  const btnShowAll = document.getElementById("btnShowAll");
 
-  function showError(msg) {
-    reservationError.textContent = msg;
-    reservationError.classList.remove("d-none");
-  }
+  // ------------------------------------------------------
+  // "Back" and "View" buttons management
+  // ------------------------------------------------------
 
-  function clearError() {
-    reservationError.textContent = "";
-    reservationError.classList.add("d-none");
-  }
+  /**
+   * "Back" button redirects to the reservation list of the current catway.
+   * Defaults to /catways/0/reservations if no catway is specified.
+   */
+  initBackButton(
+    "backToList",
+    `/catways/${
+      document.getElementById("backToList")?.dataset.catway || 0
+    }/reservations`
+  );
 
-  // Formulaire de recherche : vérification de la valeur de catway entrée
+  /** "View" buttons redirect to a reservation's detail page.*/
+  initViewButtons(".reservation-row", ".show-reservation", (data) => {
+    window.location.href = `/catways/${data.catway}/reservations/${data.id}`;
+  });
 
+  // ------------------------------------------------------
+  // Catway filter form management
+  // ------------------------------------------------------
+
+  /** Filters reservations by catway number via form submission */
   catwayForm?.addEventListener("submit", (e) => {
     e.preventDefault();
     const catwayValue = document.getElementById("filterCatway").value.trim();
@@ -75,58 +79,42 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  searchForm?.addEventListener("input", () => {
-    const idReservation = document
-      .getElementById("filterIdReservation")
-      .value.trim()
-      .toLowerCase();
-    const clientValue = document
-      .getElementById("filterClient")
-      .value.trim()
-      .toLowerCase();
-    const boatValue = document
-      .getElementById("filterBoat")
-      .value.trim()
-      .toLowerCase();
+  // ------------------------------------------------------
+  // Multi-field filters (ID / Client / Boat) management
+  // ------------------------------------------------------
 
-    const rows = document.querySelectorAll(".reservation-row");
+  const filterId = document.getElementById("filterIdReservation");
+  const filterClient = document.getElementById("filterClient");
+  const filterBoat = document.getElementById("filterBoat");
 
-    rows.forEach((row) => {
-      const idCell = row
-        .querySelector(".reservation-id")
-        ?.textContent.trim()
-        .toLowerCase();
-      const clientCell = row
-        .querySelector(".client-name")
-        ?.textContent.trim()
-        .toLowerCase();
-      const boatCell = row
-        .querySelector(".boat-name")
-        ?.textContent.trim()
-        .toLowerCase();
-
-      const matchesId = !idReservation || idCell.includes(idReservation);
-      const matchesClient = !clientValue || clientCell.includes(clientValue);
-      const matchesBoat = !boatValue || boatCell.includes(boatValue);
-
-      row.style.display =
-        matchesId && matchesClient && matchesBoat ? "" : "none";
+  /**
+   * Initializes dynamic multi-criteria filtering:
+   * - Reservation ID
+   * - Client name
+   * - Boat name
+   */
+  if (filterId || filterClient || filterBoat)
+    initMultiFilter(".reservation-row", {
+      "reservation-id": document.getElementById("filterIdReservation"),
+      "client-name": document.getElementById("filterClient"),
+      "boat-name": document.getElementById("filterBoat"),
     });
-  });
 
-  // Redirection vers l'affichage de toutes les réservations
+  // ------------------------------------------------------
+  // "Show All" button
+  // ------------------------------------------------------
 
-  const btnShowAll = document.getElementById("btnShowAll");
+  /** Redirects to the full list of reservations (all catways). */
   btnShowAll?.addEventListener("click", (e) => {
-    e.preventDefault();
     window.location.href = "/catways/0/reservations";
   });
 
-  // Ajout
+  // ------------------------------------------------------
+  // Add reservation modal management
+  // ------------------------------------------------------
 
-  const btnAdd = document.getElementById("btnAddReservation");
+  /** Opens the modal to create a new reservation */
   btnAdd?.addEventListener("click", () => {
-    clearError();
     reservationModalTitle.textContent = "Ajouter une réservation";
     idReservationInput.value = "";
     catwayInput.value = "";
@@ -134,90 +122,43 @@ document.addEventListener("DOMContentLoaded", () => {
     boatInput.value = "";
     startInput.value = "";
     endInput.value = "";
+
+    clearError();
+
     btnDelete.classList.add("d-none");
     reservationModal.show();
   });
 
-  // Ouvrir la modale de modification ou de suppression
+  // ------------------------------------------------------
+  // Edit reservation modal management
+  // ------------------------------------------------------
 
-  const reservationsSection = document.getElementById("reservations-section");
+  /** Opens the modal with existing reservation data for editing. */
   if (reservationsSection) {
     reservationsSection.addEventListener("click", (event) => {
       const editBtn = event.target.closest(".edit-reservation");
-      const deleteBtn = event.target.closest(".delete-reservation");
+      if (!editBtn) return;
 
-      // Bouton Modifier
-      if (editBtn) {
-        clearError();
-        const reservation = editBtn.closest("tr") || editBtn.closest(".card");
-        const idReservation = editBtn.dataset.id;
-        if (!reservation || !idReservation) {
-          showError("Impossible de récupérer la réservation.");
-          return;
-        }
+      reservationModalTitle.textContent = "Modifier la réservation";
+      catwayInput.value = editBtn.dataset.catway;
+      clientInput.value = editBtn.dataset.client;
+      boatInput.value = editBtn.dataset.boat;
+      startInput.value = editBtn.dataset.startdate;
+      endInput.value = editBtn.dataset.enddate;
 
-        const reservationCatway =
-          reservation.querySelector("td:nth-child(1)")?.textContent?.trim() ||
-          editBtn.dataset.catway;
-        const reservationClient =
-          reservation.querySelector("td:nth-child(2)")?.textContent?.trim ||
-          editBtn.dataset.client;
-        const reservationBoat =
-          reservation.querySelector("td:nth-child(3)")?.textContent?.trim() ||
-          editBtn.dataset.boat;
-        const reservationStart =
-          reservation.querySelector("td:nth-child(4)")?.textContent?.trim() ||
-          editBtn.dataset.startDate;
-        const reservationEnd =
-          reservation.querySelector("td:nth-child(5)")?.textContent?.trim() ||
-          editBtn.dataset.endDate;
-
-        reservationModalTitle.textContent = "Modifier la réservation";
-        catwayInput.value = reservationCatway;
-        clientInput.value = reservationClient;
-        boatInput.value = reservationBoat;
-        startInput.value = reservationStart;
-        endInput.value = reservationEnd;
-
-        reservationModal.show();
-        return;
-      }
-
-      // Bouton Supprimer
-
-      if (deleteBtn) {
-        deletingId = deleteBtn.dataset.id;
-        confirmDeleteModal.show();
-        return;
-      }
+      clearError();
+      reservationModal.show();
     });
   }
-  if (confirmDeleteBtn) {
-    confirmDeleteBtn.addEventListener("click", async () => {
-      if (!deletingId) return;
-      try {
-        const res = await fetchWithAuth(
-          `/catways/${catwayNum}/reservations/${id}`,
-          {
-            method: "DELETE",
-          }
-        );
-        if (res.status === 204 || res.ok) {
-          confirmDeleteModal.hide();
-          location.reload();
-        } else {
-          const txt = await res.text();
-          showError("Erreur suppression : " + txt);
-        }
-      } catch (err) {
-        showError("Erreur réseau");
-      }
-    });
-  } else {
-    return;
-  }
 
-  // Envoi du formulaire d'ajout / de modification
+  // ------------------------------------------------------
+  // Submit reservation form
+  // ------------------------------------------------------
+
+  /**
+   * Submit reservation data to create or update a reservation.
+   * @param {SubmitEvent} e - Form submission event.
+   */
   reservationForm?.addEventListener("submit", async (e) => {
     e.preventDefault();
     clearError();
@@ -230,6 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
       endDate: endInput.value,
     };
 
+    // Validate required fields
     if (
       !data.catwayNumber ||
       !data.clientName ||
@@ -241,8 +183,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Changement d'URL lors de l'envoi du formulaire
-
+    // Determine API endpoint and method
     const baseCatway = data.catwayNumber;
     const url = id
       ? `/catways/${baseCatway}/reservations/${id}`
@@ -269,48 +210,5 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (err) {
       showError("Erreur réseau");
     }
-  });
-
-  // Gestion du bouton Retour
-
-  const backBtn = document.getElementById("backToList");
-  if (backBtn) {
-    backBtn.addEventListener("click", () => {
-      const catwayNumber = document.getElementById("backToList").dataset.catway;
-      window.location.href = `/catways/${catwayNumber}/reservations`;
-    });
-  }
-
-  // Fonction d'affichage d'une réservation en particulier
-
-  function displayReservationDetails(number, id) {
-    window.location.href = `/catways/${number}/reservations/${id}`;
-  }
-
-  // Gestion du bouton "Voir"
-
-  const rows = document.querySelectorAll(".reservation-row");
-
-  rows.forEach((row) => {
-    const viewBtn = row.querySelector(".show-reservation");
-    if (!viewBtn) return;
-
-    const number = viewBtn.dataset.catway;
-    const id = viewBtn.dataset.id;
-
-    if (!number || !id) {
-      console.warn("Aucune donnée pour ce bouton :", viewBtn);
-      return;
-    } else {
-      console.log(number);
-      console.log(id);
-    }
-
-    viewBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      console.log(`Redirection vers /catways/${number}/reservations/${id}`);
-      displayReservationDetails(number, id);
-    });
   });
 });

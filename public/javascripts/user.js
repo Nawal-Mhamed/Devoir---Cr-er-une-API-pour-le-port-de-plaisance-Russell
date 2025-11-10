@@ -1,152 +1,144 @@
-function setActiveLink(activeId) {
-  const links = ["users", "documentation"];
-  links.forEach((id) => {
-    const link = document.getElementById(id);
-    if (id === activeId) {
-      link.classList.add("active");
-      link.setAttribute("aria-current", "page");
-    } else {
-      link.classList.remove("active");
-      link.removeAttribute("aria-current");
-    }
-  });
-}
+// ======================================================
+// USER PAGES MANAGEMENT
+// ======================================================
+//
+// Provides functionalities for managing users:
+// - Initialize add/edit modals
+// - "Back" and "View" buttons management
+// - Filter users by email
+// - Add, edit and update user accounts
+// - Automatic redirection if email is changed
+// ======================================================
 
-function displayUsers(section, event) {
-  event.preventDefault();
+import { initModal } from "./modals.js";
+import { initBackButton, initViewButtons } from "./buttons.js";
+import { initTableFilter, fetchWithAuth } from "./common.js";
 
-  const users = document.getElementById("users-section");
-  const documentation = document.getElementById("documentation-section");
-
-  if (section === "users") {
-    documentation.setAttribute("style", "display: none;");
-    users.removeAttribute("style");
-    setActiveLink("users");
-  } else {
-    users.setAttribute("style", "display: none;");
-
-    documentation.removeAttribute("style");
-    setActiveLink("documentation");
-  }
-}
-
-// Modales
+// ======================================================
+// MAIN INITIALIZATION
+// ======================================================
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Eléments
+  // ------------------------------------------------------
+  // DOM element selection
+  // ------------------------------------------------------
 
-  const userForm = document.getElementById("userForm");
-  const userModal = new bootstrap.Modal(document.getElementById("userModal"));
-  const confirmDeleteModal = new bootstrap.Modal(
-    document.getElementById("confirmDeleteModal")
-  );
+  const {
+    modal: userModal,
+    formElem: userForm,
+    showError,
+    clearError,
+  } = initModal("userModal", "userFormModal", "userError");
+
   const userModalTitle = document.getElementById("userModalTitle");
+  const usersSection = document.getElementById("users-section");
+
   const usernameInput = document.getElementById("username");
   const passwordInput = document.querySelector(".password");
   const passwordValue = passwordInput.querySelector("input");
-  const userEmailInput = document.getElementById("userEmail");
+  const userEmailInput = document.getElementById("userEmailInput");
   const emailInput = document.getElementById("email");
   const roleInput = document.getElementById("role");
-  const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
-
-  let deletingEmail = null;
-
-  // Helpers d'affichage
-
-  const errorBox = document.getElementById("userError");
-
-  function showError(message) {
-    errorBox.textContent = message;
-    errorBox.classList.remove("d-none");
-  }
-
-  function clearError() {
-    errorBox.textContent = "";
-    errorBox.classList.add("d-none");
-  }
-
-  // Ouvrir la modale d'ajout
 
   const btnAdd = document.getElementById("btnAddUser");
-  if (btnAdd) {
-    btnAdd.addEventListener("click", () => {
-      userModalTitle.textContent = "Ajouter un utilisateur";
-      usernameInput.value = "";
-      emailInput.value = "";
-      passwordValue.value = "";
 
-      passwordInput.removeAttribute("style");
+  // ------------------------------------------------------
+  // "Back" and "View" buttons management
+  // ------------------------------------------------------
+
+  /**
+   * "Back" button redirects to the full users list.
+   */
+  initBackButton("backToList", `/users`);
+
+  /** "View" buttons redirect to the details page of the selected user */
+  initViewButtons(".user-row", ".show-user", (data) => {
+    window.location.href = `/users/${data.email}`;
+  });
+
+  // ======================================================
+  // Email filter
+  // ======================================================
+
+  /** Initializes dynamic filtering of users by email. */
+  initTableFilter("userSearch", ".user-row", {
+    email: (row) => row.querySelector(".user-email")?.textContent || "",
+  });
+
+  // ======================================================
+  // Add user modal management
+  // ======================================================
+
+  /**
+   *  Opens the modal to add a new user.
+   */
+  btnAdd?.addEventListener("click", () => {
+    userModalTitle.textContent = "Ajouter un utilisateur";
+    usernameInput.value = "";
+    emailInput.value = "";
+    passwordValue.value = "";
+    roleInput.value = "utilisateur";
+
+    clearError();
+
+    // Show the password field when adding new users
+    passwordInput.removeAttribute("style");
+
+    userModal.show();
+  });
+
+  // ======================================================
+  // Edit user modal management
+  // ======================================================
+
+  /**
+   * Opens the modal with existing user data for editing.
+   */
+  if (usersSection) {
+    usersSection.addEventListener("click", (event) => {
+      const editBtn = event.target.closest(".edit-user");
+      if (!editBtn) return;
+
+      const user = editBtn.closest(".card");
+      const userEmail = editBtn.dataset.email;
+      if (!user || !userEmail) {
+        showError("Impossible de récupérer l'utilisateur.");
+        return;
+      }
+
+      userModalTitle.textContent = "Modifier un utilisateur";
+
+      usernameInput.value = editBtn.dataset.username;
+      userEmailInput.value = editBtn.dataset.email;
+      emailInput.value = editBtn.dataset.email;
+      roleInput.value = editBtn.dataset.role;
+
+      // Hide password field when editing
+      passwordInput.setAttribute("style", "display: none;");
+
+      // Lock password field and role field to avoid mistakes.
+      passwordInput.disabled = true;
+      roleInput.disabled = true;
+
+      clearError();
       userModal.show();
     });
   }
 
-  // Ouvrir la modale de modification ou de suppression
+  // ======================================================
+  // Submit add/edit user form
+  // ======================================================
 
-  const usersSection = document.getElementById("users-section");
-  if (usersSection) {
-    usersSection.addEventListener("click", (event) => {
-      const editBtn = event.target.closest(".edit-user");
-      const deleteBtn = event.target.closest(".delete-user");
-
-      // Bouton "Modifier"
-      if (editBtn) {
-        clearError();
-        const user = editBtn.closest("tr") || editBtn.closest(".card");
-        const userEmail = editBtn.dataset.email;
-        if (!user || !userEmail) {
-          showError("Impossible de récupérer l'utilisateur.");
-          return;
-        }
-
-        const username = editBtn.dataset.username;
-        const email = editBtn.dataset.email;
-        const userRole = editBtn.dataset.role;
-
-        userModalTitle.textContent = "Modifier un utilisateur";
-        usernameInput.value = username;
-        emailInput.value = email;
-        roleInput.value = userRole || "utilisateur";
-
-        passwordInput.setAttribute("style", "display: none;");
-        passwordInput.disabled = true;
-
-        userModal.show();
-        return;
-      }
-
-      // Bouton Supprimer
-      if (deleteBtn) {
-        deletingEmail = deleteBtn.dataset.email;
-        confirmDeleteModal.show();
-        return;
-      }
-    });
-  }
-
-  confirmDeleteBtn.addEventListener("click", async () => {
-    if (!deletingEmail) return;
-    try {
-      const res = await fetchWithAuth(`/users/${deletingEmail}`, {
-        method: "DELETE",
-      });
-      if (res.status === 204 || res.ok) {
-        confirmDeleteModal.hide();
-        location.reload();
-      } else {
-        const txt = await res.text();
-        showError("Erreur suppression : " + txt);
-      }
-    } catch (err) {
-      showError("Erreur réseau");
-    }
-  });
-
-  // Envoi de l'ajout / la modification
-
-  userForm.addEventListener("submit", async (event) => {
+  /**
+   * Submit the form data to create or update a user.
+   * Automatically redirects if the email address has changed.
+   * @param {SubmitEvent} event - Evénement de soumission du formulaire.
+   */
+  userForm?.addEventListener("submit", async (event) => {
     event.preventDefault();
     clearError();
-    const id = userEmailInput.value?.trim();
+
+    const originalEmail = userEmailInput.value?.trim();
     const data = {
       username: usernameInput.value,
       email: emailInput.value,
@@ -154,85 +146,33 @@ document.addEventListener("DOMContentLoaded", () => {
       role: roleInput.value,
     };
 
-    try {
-      let res;
-      if (!id) {
-        // Ajout
-        res = await fetchWithAuth("/users", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data),
-        });
-      } else {
-        // Modification
-        res = await fetchWithAuth(`/users/${id}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data),
-        });
-      }
+    // Determine URL and HTTP method
+    const url = originalEmail ? `/users/${originalEmail}` : `/users`;
+    const method = originalEmail ? "PUT" : "POST";
 
-      if (res.ok) {
-        userModal.hide();
-        location.reload();
-      } else {
+    try {
+      const res = await fetchWithAuth(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) {
         const payload = await res.json().catch(() => null);
         showError(payload?.message || "Erreur lors de l'enregistrement.");
         return;
       }
 
       userModal.hide();
-      location.reload();
+
+      // Redirect to the new user if email has changed
+      if (originalEmail && originalEmail !== data.email) {
+        window.location.href = `/users/${data.email}`;
+      } else {
+        location.reload();
+      }
     } catch (err) {
       showError("Erreur réseau");
     }
-  });
-
-  // Recherche d'un utilisateur par email
-
-  const searchInput = document.getElementById("userSearch");
-
-  searchInput.addEventListener("input", () => {
-    const query = searchInput.value.trim();
-    const rows = document.querySelectorAll(".user-row");
-
-    rows.forEach((row) => {
-      const email = row.querySelector(".user-email")?.textContent || "";
-      if (email.includes(query)) {
-        row.style.display = "";
-      } else {
-        row.style.display = "none";
-      }
-    });
-  });
-
-  // Fonction d'affichage d'un utilisateur en particulier
-
-  function displayUserDetails(email) {
-    window.location.href = `/users/${email}`;
-  }
-
-  // Gestion du bouton Retour
-
-  const backBtn = document.getElementById("backToList");
-  if (backBtn) {
-    backBtn.addEventListener("click", () => {
-      window.location.href = "/users";
-    });
-  }
-
-  // Gestion du bouton "Voir"
-
-  const rows = document.querySelectorAll(".user-row");
-
-  rows.forEach((row) => {
-    const viewBtn = row.querySelector(".show-user");
-    if (!viewBtn) return;
-
-    const email = viewBtn.dataset.email;
-
-    viewBtn.addEventListener("click", (e) => {
-      displayUserDetails(email);
-    });
   });
 });

@@ -3,24 +3,24 @@ const router = express.Router();
 const userController = require("../controllers/userController");
 const authMiddleware = require("../middlewares/auth");
 
-/** Routes des utilisateurs
+/** User routes
  * @module RoutesUsers
  */
 
-/** Récupère tous les utilisateurs
+/** Get all users
  * @name Get all users
  * @route {GET} /users
  */
 router.get("/", authMiddleware.verifyToken, userController.getAllUsers);
 
-/** Récupère un utilisateur
+/** Get a user by email
  * @name Get a user by email
  * @route {GET} /users/{email}
  * @routeparam {string} :email - Email de l'utilisateur
  */
 router.get("/:email", authMiddleware.verifyToken, userController.getByEmail);
 
-/** Crée un utilisateur
+/** Create a user
  * @name Create a user
  * @route {POST} /users
  */
@@ -31,7 +31,7 @@ router.post(
   userController.createUser
 );
 
-/** Met à jour un utilisateur
+/** Update a user
  * @name Update a user
  * @route {PUT} /users/{email}
  * @routeparam {string} :email - Email de l'utilisateur
@@ -43,7 +43,7 @@ router.put(
   userController.updateUser
 );
 
-/** Supprimer un utilisateur
+/** Delete a user
  * @name Delete a user
  * @route DELETE /users/{email}
  * @routeparam {string} :email - Email de l'utilisateur

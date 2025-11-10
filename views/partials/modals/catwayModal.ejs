@@ -1,0 +1,71 @@
+<div class="modal fade" id="catwayModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <form id="catwayFormModal" class="modal-content">
+      <!-- Header -->
+      <div class="modal-header">
+        <h3 class="modal-title" id="catwayModalTitle">Ajouter un catway</h3>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Fermer"
+        ></button>
+      </div>
+
+      <!-- Body -->
+      <div class="modal-body">
+        <input type="hidden" id="catwayId" name="id" />
+
+        <!-- Number input -->
+        <div class="mb-3">
+          <label for="catwayNumber" class="form-label">Numéro</label>
+          <input
+            id="catwayNumber"
+            name="catwayNumber"
+            type="number"
+            class="form-control"
+            required
+          />
+        </div>
+
+        <!-- Type input -->
+        <div class="mb-3">
+          <label for="catwayType" class="form-label">Longueur</label>
+          <select
+            id="catwayType"
+            name="catwayType"
+            class="form-control"
+            required
+          >
+            <option value="long">long</option>
+            <option value="short">short</option>
+          </select>
+        </div>
+
+        <!-- State input -->
+        <div class="mb-3">
+          <label for="catwayState" class="form-label">État</label>
+          <textarea
+            id="catwayState"
+            name="catwayState"
+            type="text"
+            class="form-control"
+            required
+          ></textarea>
+        </div>
+
+        <div id="catwayError" class="alert alert-danger d-none"></div>
+      </div>
+
+      <!-- Footer with "Cancel" / "Save" buttons -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Annuler
+        </button>
+        <button type="submit" id="catwaySubmit" class="btn btn-primary">
+          Enregistrer
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

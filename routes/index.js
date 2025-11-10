@@ -1,10 +1,13 @@
 const express = require("express");
 const router = express.Router();
 
-/** GET home page. */
-router.get("/", function (req, res, next) {
-  const showLogout = req.query.logout === "success";
-  res.render("index", { title: "Accueil", showLogout });
+/** Home page.
+ * @route {GET} /
+ */
+router.get("/", function (req, res) {
+  const logoutStatus = req.query.logout;
+
+  res.render("index", { title: "Accueil", logoutStatus });
 });
 
 module.exports = router;

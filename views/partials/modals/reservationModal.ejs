@@ -1,0 +1,94 @@
+<div class="modal fade" id="reservationModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <form id="reservationFormModal" class="modal-content">
+      <!-- Header -->
+      <div class="modal-header">
+        <h3 class="modal-title" id="reservationModalTitle">
+          Ajouter une réservation
+        </h3>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Fermer"
+        ></button>
+      </div>
+
+      <!-- Body -->
+      <div class="modal-body">
+        <input type="hidden" id="idReservationInput" name="idReservation" />
+
+        <!-- Catway number input -->
+        <div class="mb-3">
+          <label class="form-label">Numéro du catway</label>
+          <input
+            id="formCatwayNumber"
+            name="catwayNumber"
+            class="form-control"
+            type="number"
+            min="1"
+            required
+          />
+        </div>
+
+        <!-- Client name input -->
+        <div class="mb-3">
+          <label class="form-label">Client</label>
+          <input
+            id="formClientName"
+            name="clientName"
+            class="form-control"
+            required
+          />
+        </div>
+
+        <!-- Boat name input -->
+        <div class="mb-3">
+          <label class="form-label">Bateau</label>
+          <input
+            id="formBoatName"
+            name="boatName"
+            class="form-control"
+            required
+          />
+        </div>
+
+        <!-- Start date input -->
+        <div class="mb-3">
+          <label class="form-label">Date de début</label>
+          <input
+            type="date"
+            id="formStartDate"
+            name="startDate"
+            class="form-control"
+            required
+          />
+        </div>
+
+        <!-- End date input -->
+        <div class="mb-3">
+          <label class="form-label">Date de fin</label>
+          <input
+            type="date"
+            id="formEndDate"
+            name="endDate"
+            class="form-control"
+            required
+          />
+        </div>
+
+        <div id="reservationError" class="alert alert-danger d-none"></div>
+      </div>
+
+      <!-- Footer with "Cancel" / "Save" buttons -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Annuler
+        </button>
+        <button type="submit" id="reservationSubmit" class="btn btn-primary">
+          Enregistrer
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

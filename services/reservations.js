@@ -1,35 +1,30 @@
 const Reservation = require("../models/reservation");
 const mongoose = require("mongoose");
 
-/** Service pour gérer les réservations
+/** Service for managing reservations.
  * @module reservationsService
  */
 
-/** Affiche l'ensemble des réservations enregistrées
- * @returns {Promise<Array>}
+/** Get all reservations
+ * @returns {Promise<Array>} List of all reservations
  */
 exports.getAllReservations = () => {
   return Reservation.find({});
 };
 
-/** Affiche l'ensemble des réservations enregistrées sur le catway spécifié
- * @param {number} catwayNumber
- * @param {string} idReservation
- * @returns {Promise<Array>}
+/** Get all reservations for a specific catway.
+ * @param {number} catwayNumber - Catway Number
+ * @returns {Promise<Array>} List of reservations for the specified catway
  */
 exports.getReservationsByCatway = (catwayNumber) => {
   return Reservation.find({ catwayNumber });
 };
 
-/** Recherche flexible 
- * - si catwayNumber === 0 => on ignore le filtre catway (toutes les réservations)
- * - sinon on filtre par catwayNumber
- * - on peut aussi filtrer par clientName (partial, case-insensitive), boatName (partial) et _id exact (idReservation)
- * @param {number} catwayNumber
- * @param {string} clientName
- * @param {string} boatName
- * @param {string} idReservation
- * @returns {Promise<Array>}
+/** Search reservations with flexible filters
+ * - If catwayNumber === 0, catway filter is  ignored (all catways)
+ * - Can filter by clientName (partial, case-insensitive), boatName (partial) and exact _id (idReservation)
+ * @param {{catwayNumber: number, clientName?: string, boatName?: string, idReservation?: string}} filters
+ * @returns {Promise<Array>} List of reservations matching filters
 
 */
 exports.searchReservations = ({
@@ -54,14 +49,13 @@ exports.searchReservations = ({
   if (clientName) filter.clientName = { $regex: new RegExp(clientName, "i") };
   if (boatName) filter.boatName = { $regex: new RegExp(boatName, "i") };
 
-  console.log("Filtre envoyé à MongoDB : ", filter);
   return Reservation.find(filter).sort({ startDate: 1 });
 };
 
-/** Affiche la réservation spécifiée
+/** Get a reservation by catway number and reservation ID.
  * @param {number} catwayNumber
  * @param {string} idReservation
- * @returns {Promise<object|null>}
+ * @returns {Promise<object|null>} The reservation or null if not found
  */
 
 exports.getById = async (catwayNumber, idReservation) => {
@@ -75,10 +69,10 @@ exports.getById = async (catwayNumber, idReservation) => {
   }
 };
 
-/** Crée une nouvelle réservation sur le catway spécifié
+/** Create a new reservation on a specified catway
  * @param {{catwayNumber: number, clientName: string, boatName: string, startDate: Date, endDate: Date}=} data
- * @returns {Promise<object>}
- * @throws {Error} Si la réservation entre en conflits avec d'autres réservations ou champs manquants
+ * @returns {Promise<object>} Created reservation
+ * @throws {Error} If reservation conflicts with existing reservations or required fields are missing
  */
 
 exports.createReservation = async (data) => {
@@ -92,13 +86,30 @@ exports.createReservation = async (data) => {
     throw error;
   }
 
-  /** Vérification même catway + période qui se chevauche */
+  // Checking dates
+
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+
+  if (isNaN(start) || isNaN(end)) {
+    const error = new Error("Les dates fournies ne sont pas valides.");
+    error.statusCode = 400;
+    throw error;
+  }
+
+  if (start >= end) {
+    const error = new Error(
+      "La date de fin doit être postérieure à la date de début."
+    );
+    error.statusCode = 400;
+    throw error;
+  }
+
+  // Check for overlapping reservations on the same catway
 
   const sameCatwayConflict = await Reservation.findOne({
     catwayNumber,
-    $or: [
-      { startDate: { $lt: Date(endDate) }, endDate: { $gt: Date(startDate) } },
-    ],
+    $or: [{ startDate: { $lt: end }, endDate: { $gt: start } }],
   });
 
   if (sameCatwayConflict) {
@@ -109,7 +120,7 @@ exports.createReservation = async (data) => {
     throw error;
   }
 
-  /** Vérification même client + période qui se chevauche sur un autre catway ou le même catway */
+  // Check for overlapping reservations for the same client
 
   const sameClientConflict = await Reservation.findOne({
     clientName,
@@ -126,7 +137,7 @@ exports.createReservation = async (data) => {
     throw error;
   }
 
-  /** Vérification même bateau + période qui se chevauche sur un autre catway ou le même catway */
+  // Check for overlapping reservations for the same boat
 
   const sameBoatConflict = await Reservation.findOne({
     boatName,
@@ -147,20 +158,19 @@ exports.createReservation = async (data) => {
   return reservation.save();
 };
 
-/** Modifie les informations de la réservation spécifiée
+/** Update a reservation by catway number and reservation ID
  * @param {number} catwayNumberParam
  * @param {string} idReservation
  * @param {{catwayNumber: number, clientName: string, boatName: string, startDate: Date, endDate: Date}=} data
- * @returns {Promise<object>}
- * @throws {Error} Si la réservation est introuvable ou entre en conflit avec d'autres réservations
+ * @returns {Promise<object>} Updated reservation
+ * @throws {Error} If reservation not found or conflicts with existing reservations
  */
-
 exports.updateReservation = async (catwayNumberParam, idReservation, data) => {
   if ("createdAt" in data) {
     delete data.createdAt;
   }
 
-  /** Vérification de l'existence de la réservation */
+  // Check if reservation exists
 
   const existingReservation = await Reservation.findById(idReservation);
   if (!existingReservation) {
@@ -169,7 +179,7 @@ exports.updateReservation = async (catwayNumberParam, idReservation, data) => {
     throw error;
   }
 
-  /** Vérification de la cohérence de la route avec la réservation actuelle */
+  // Check if the route corresponds to the actual reservation
 
   if (existingReservation.catwayNumber !== Number(catwayNumberParam)) {
     const error = new Error(
@@ -179,16 +189,30 @@ exports.updateReservation = async (catwayNumberParam, idReservation, data) => {
     throw error;
   }
 
-  /** Fusion des anciennes et nouvelles données */
+  // Fusion of new and old data
   const updatedData = { ...existingReservation.toObject(), ...data };
   const { catwayNumber, clientName, boatName, startDate, endDate } =
     updatedData;
 
-  /** Conversion des dates pour éviter les erreurs de comparaison */
+  // Date conversion to avoid comparison errors
   const newStart = new Date(startDate);
   const newEnd = new Date(endDate);
 
-  /** Vérifiction conflit de réservation du catway sur la même période */
+  if (isNaN(newStart) || isNaN(newEnd)) {
+    const error = new Error("Les dates fournies ne sont pas valides.");
+    error.statusCode = 400;
+    throw error;
+  }
+
+  if (newStart >= newEnd) {
+    const error = new Error(
+      "La date de fin doit être postérieure à la date de début."
+    );
+    error.statusCode = 400;
+    throw error;
+  }
+
+  // Check for overlapping reservations on the same catway
 
   const sameCatwayConflict = await Reservation.findOne({
     _id: { $ne: idReservation },
@@ -207,7 +231,7 @@ exports.updateReservation = async (catwayNumberParam, idReservation, data) => {
     throw error;
   }
 
-  /** Vérification conflit de réservation d'un même client sur la même période sur un autre catway. */
+  // Check for overlapping reservations for the same client */
 
   const sameClientConflict = await Reservation.findOne({
     _id: { $ne: idReservation },
@@ -224,7 +248,7 @@ exports.updateReservation = async (catwayNumberParam, idReservation, data) => {
     throw error;
   }
 
-  /** Vérification conflit de réservation d'un même bateau sur la même période sur un autre catway. */
+  // Check for overlapping reservations for the same boat
 
   const sameBoatConflict = await Reservation.findOne({
     _id: { $ne: idReservation },
@@ -241,7 +265,7 @@ exports.updateReservation = async (catwayNumberParam, idReservation, data) => {
     throw error;
   }
 
-  /** Mise à jour de la réservation avec les nouvelles données */
+  // Updating the reservation with new data
 
   const updatedReservation = await Reservation.findOneAndUpdate(
     { _id: new mongoose.Types.ObjectId(idReservation) },
@@ -252,10 +276,10 @@ exports.updateReservation = async (catwayNumberParam, idReservation, data) => {
   return updatedReservation;
 };
 
-/** Supprime la réservation spécifiée
+/** Delete a reservation by catway number and reservation ID
  * @param {number} catwayNumber
  * @param {string} idReservation
- * @returns {Promise<object|null>}
+ * @returns {Promise<object|null>} Delete reservation or null if not found
  */
 
 exports.deleteReservation = (catwayNumber, idReservation) => {

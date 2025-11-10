@@ -1,3 +1,7 @@
+/* ************************** */
+/* RESET STYLES */
+/* ************************** */
+
 body {
   padding: 0;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -7,13 +11,12 @@ a {
   color: #00b7ff;
 }
 
+/* ************************** */
+/* CARDS AND IMAGES */
+/* ************************** */
+
 .card {
   width: 680px;
-}
-
-.fade-out {
-  opacity: 0;
-  transition: opacity 0.5s ease-out;
 }
 
 img {
@@ -21,10 +24,22 @@ img {
   height: 150px;
 }
 
+/* Tables */
+
 td {
   vertical-align: center;
 }
 
+/* ************************** */
+/* TRANSITIONS AND ANIMATIONS */
+/* ************************** */
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
+}
+
+/* Gradual display of "View" buttons in table rows */
 .show-catway,
 .show-user,
 .show-reservation {
@@ -32,6 +47,7 @@ td {
   transition: opacity 0.2s ease;
 }
 
+/* Show button on row hover */
 .user-row:hover .show,
 .catway-row:hover .show,
 .reservation-row:hover .show {

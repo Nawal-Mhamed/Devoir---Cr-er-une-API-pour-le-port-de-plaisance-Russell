@@ -1,0 +1,83 @@
+<!-- Common navbar -->
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark w-100">
+  <div class="container-fluid px-5">
+    <a class="navbar-brand" href="#">Menu</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <!-- Links -->
+
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <!-- Dashboard -->
+        <li class="nav-item">
+          <a
+            id="dashboard"
+            class="nav-link <%= activePage === 'dashboard' ? 'active' : '' %>"
+            href="/dashboard"
+            data-section="dashboard"
+            >Tableau de bord</a
+          >
+        </li>
+
+        <!-- Catways -->
+        <li class="nav-item">
+          <a
+            id="catways"
+            class="nav-link <%= activePage === 'catways' ? 'active' : '' %>"
+            href="/catways"
+            data-section="catways"
+            >Catways</a
+          >
+        </li>
+
+        <!-- Reservations -->
+        <li class="nav-item">
+          <a
+            id="reservations"
+            class="nav-link <%= activePage === 'reservations' ? 'active' : '' %>"
+            href="/catways/0/reservations"
+            data-section="reservations"
+            >Réservations</a
+          >
+        </li>
+
+        <!-- Users -->
+        <li class="nav-item">
+          <a
+            id="users"
+            class="nav-link <%= activePage === 'users' ? 'active' : '' %>"
+            href="/users"
+            data-section="users"
+            >Utilisateurs</a
+          >
+        </li>
+
+        <!-- Documentation -->
+        <li class="nav-item">
+          <a
+            id="documentation"
+            class="nav-link <%= activePage === 'documentation' ? 'active' : '' %>"
+            href="#"
+            data-section="documentation"
+            >Documentation</a
+          >
+        </li>
+      </ul>
+
+      <!-- Logout button -->
+      <a id="deconnexion" class="btn btn-danger" href="/logout"
+        >Se déconnecter</a
+      >
+    </div>
+  </div>
+</nav>

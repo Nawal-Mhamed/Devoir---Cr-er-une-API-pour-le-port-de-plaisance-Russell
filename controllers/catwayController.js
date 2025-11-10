@@ -1,15 +1,15 @@
 const catwayService = require("../services/catways");
 
-/** Controller pour gérer les catways
+/** Controller for managing catways.
  * @module catwayController
  */
 
-/** Afficher l'ensemble des catways
+/** Get all catways
  * @route {GET} /catways
- * @param {object} req - Ojet requête Express
- * @param {object} res - Objet réponse Express
+ * @param {object} req - Express request object
+ * @param {object} res - Express request object
  * @returns {Promise<void>}
- * @throws {Error} Si erreur serveur
+ * @throws {Error} If server error occurs
  */
 
 exports.getAllCatways = async (req, res) => {
@@ -29,13 +29,13 @@ exports.getAllCatways = async (req, res) => {
   }
 };
 
-/** Obtenir les informations sur un catway en particulier avec le numéro du catway
+/** Get a specific catway by its number.
  * @route {GET} /catways/{id}
- * @routeparam {number} :id - Numéro du catway
- * @param {object} req - Objet requête Express
- * @param {object} res - Objet réponse Express
+ * @routeparam {number} :id - Catway number
+ * @param {object} req - Express request object
+ * @param {object} res - Express reponse object
  * @returns {Promise<void>}
- * @throws {Error} Si le catway n'existe pas ou erreur serveur
+ * @throws {Error} If the catway doesn't exist
  */
 
 exports.getByNumber = async (req, res) => {
@@ -64,12 +64,12 @@ exports.getByNumber = async (req, res) => {
   }
 };
 
-/**  Créer un nouveau Catway
+/**  Create a new catway
  * @route {POST} /catways
- * @param {object} req - Objet requête Express, req.body contient les données du catway
- * @param {object} res - Objet réponse Express
+ * @param {object} req - Express request object, req.body contains catway data
+ * @param {object} res - Express reponse object
  * @returns {Promise<void>}
- * @throws {Error} Si le catway existe déjà ou erreur serveur
+ * @throws {Error} If catway already exists or server error occurs
  */
 
 exports.createCatway = async (req, res) => {
@@ -85,13 +85,13 @@ exports.createCatway = async (req, res) => {
   }
 };
 
-/** Modifier les informations d'un catway existant
+/** Update an existing catway
  * @route {PUT} /catways/{id}
- * @routeparam {number} :id - Numéro du catway
- * @param {object} req - Objet requête Express, req.params.id = numéro du catway, req.body = données à modifier
- * @param {object} res - Objet réponse Express
+ * @routeparam {number} :id - Catway number
+ * @param {object} req - Express request object, req.params.id = catway number / req.body = updated data
+ * @param {object} res - Express response object
  * @returns {Promise<void>}
- * @throws {Error} Si le catway n'existe pas ou erreur serveur
+ * @throws {Error} If catway doesn't exist or server error occurs
  */
 
 exports.updateCatway = async (req, res) => {
@@ -109,13 +109,13 @@ exports.updateCatway = async (req, res) => {
   }
 };
 
-/** Supprimer un catway
+/** Delete a catway
  * @route {DELETE} /catways/{id}
- * @routeparam {number} :id - Numéro du catway
- * @param {object} req - Objet requête Express, req.params.id = numéro du catway à supprimer
- * @param {object} res - Objet réponse Express
+ * @routeparam {number} :id - Catway number
+ * @param {object} req - Express request object, req.params.id = catway number
+ * @param {object} res - Express response object
  * @returns {Promise<void>}
- * @throws {Error} Si le catway n'existe pas ou erreur serveur
+ * @throws {Error} If catway doesn't exist or server error occurs
  */
 
 exports.deleteCatway = async (req, res) => {
