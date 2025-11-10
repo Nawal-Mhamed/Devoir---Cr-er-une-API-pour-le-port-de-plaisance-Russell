@@ -4,35 +4,35 @@ const bcrypt = require("bcrypt");
 
 const SECRET_KEY = process.env.SECRET_KEY || "GTGh6rdP54GT76";
 
-/** Service pour gérer les utilisateurs
+/** Service for managing users
  * @module usersService
  */
 
-/** Affiche tous les utilisateurs enregistrés
- * @returns {Promise<Array>}
+/** Get all users
+ * @returns {Promise<Array>} List of users
  */
 
 exports.getAllUsers = () => {
   return User.find();
 };
 
-/** Affiche l'utilisateur spécifié
+/** Get a user by email
  * @param {string} email
- * @returns {Promise<object|null>}
+ * @returns {Promise<object|null>} User object or null if not found
  */
 
 exports.getByEmail = (email) => {
   return User.findOne({ email });
 };
 
-/** Crée un nouvel utilisateur
+/** Create a new user
  * @param {{username: string, email: string, password: string}} data
- * @returns {Promise<object>}
- * @throws {Error} Si email déjà utilisé
+ * @returns {Promise<object>} Created user
+ * @throws {Error} If email is already used
  */
 
 exports.createUser = async (data) => {
-  /** Vérifie si un utilisateur avec le même email existe déjà */
+  // Check if a user with the same email already exists
 
   const existingUser = await User.findOne({ email: data.email });
   if (existingUser) {
@@ -57,11 +57,11 @@ exports.createUser = async (data) => {
   }
 };
 
-/** Modifie les informations de l'utilisateur spécifié
- * @param {string} email
+/** Update user information
+ * @param {string} email - Email of the user to update
  * @param {{username: string, email: string, password: string}=} data
- * @returns {Promise<object>}
- * @throws {Error} Si utilisateur introuvable ou email déjà utilisé
+ * @returns {Promise<object>} Updated user
+ * @throws {Error} If user not found or email already used
  */
 
 exports.updateUser = async (email, data) => {
@@ -73,7 +73,7 @@ exports.updateUser = async (email, data) => {
     data.password = await bcrypt.hash(data.password, 10);
   }
 
-  /** Vérifie que l'utilisateur existe */
+  // Check if the user exists
 
   const user = await User.findOne({ email });
   if (!user) {
@@ -82,7 +82,7 @@ exports.updateUser = async (email, data) => {
     throw error;
   }
 
-  /** Vérifie si l'email n'a pas déjà été utilisé */
+  // Check if the email isn't already used
 
   if (data.email && data.email !== user.email) {
     const existingUser = await User.findOne({
@@ -95,7 +95,7 @@ exports.updateUser = async (email, data) => {
     }
   }
 
-  /** Met à jour les informations */
+  // Update data
 
   const updatedUser = await User.findOneAndUpdate(
     { email },
@@ -111,26 +111,24 @@ exports.updateUser = async (email, data) => {
   return updatedUser;
 };
 
-/** Supprime l'utilisateur spécifié
+/** Delete a user by email
  * @param {string} email
- * @returns {Promise<object|null>}
+ * @returns {Promise<object|null>} Deleted user or null if not found
  */
 
 exports.deleteUser = (email) => {
   return User.findOneAndDelete({ email });
 };
 
-/** Vérifie les identifiants et renvoie un token si valides
- * @param {object} data - Contient username, email et password
- * @param {string} data.username - Nom de l'utilisateur
- * @param {string} data.email - Email de l'utilisateur
- * @param {string} data.password - Mot de passe de l'utilisateur
- * @returns {Promise<string>} token JWT
+/** Verify credentials and return a JWT token if valid
+ * @param {{username: string, email: string, password: string}} data
+ * @returns {Promise<string>} JWT token
+ * @throws {Error} If credentials are invalid
  */
 exports.loginUser = async ({ username, email, password }) => {
   const existingUser = await User.findOne({ username, email });
 
-  /** Vérifie si l'utilisateur existe */
+  // Check if user exists
   if (!existingUser) {
     const error = new Error(
       "Utilisateur introuvable ou identifiants incorrects."
@@ -139,7 +137,7 @@ exports.loginUser = async ({ username, email, password }) => {
     throw error;
   }
 
-  /** Vérifie si le mot de passe est correct */
+  // Check if password is valid
   const isValid = await bcrypt.compare(password, existingUser.password);
   if (!isValid) {
     const error = new Error("Mot de passe incorrect.");
@@ -147,9 +145,13 @@ exports.loginUser = async ({ username, email, password }) => {
     throw error;
   }
 
-  /** Crée et renvoie le token JWT */
+  // Create and send back the JWT token
   const token = jwt.sign(
-    { id: existingUser._id, role: existingUser.role },
+    {
+      id: existingUser._id,
+      role: existingUser.role,
+      email: existingUser.email,
+    },
     SECRET_KEY,
     {
       expiresIn: "2h",

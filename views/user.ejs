@@ -11,7 +11,7 @@
     <title>Port de Plaisance Russell - Utilisateurs</title>
   </head>
 
-  <body data-role="<%= role %>">
+  <body data-role="<%= role %>" data-email="<%= user ? user.email : '' %>">
     <!-- Navbar -->
     <header><%- include('partials/navbar', { activePage: 'users'}) %></header>
 
@@ -48,6 +48,7 @@
               >
                 Modifier
               </button>
+              <% if (role === 'administrateur' && !isOwnProfile) { %>
               <button
                 class="btn btn-danger delete delete-user"
                 data-email="<%= user.email %>"
@@ -55,6 +56,7 @@
               >
                 Supprimer
               </button>
+              <% } %>
               <button class="btn btn-secondary" id="backToList">Retour</button>
             </div>
           </div>
