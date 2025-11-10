@@ -12,104 +12,43 @@
   </head>
 
   <body data-role="<%= role %>">
-    <!-- Menu de navigation -->
+    <!-- Navbar -->
+    <header><%- include('partials/navbar', { activePage: 'catways'}) %></header>
 
-    <header>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark w-100">
-        <div class="container-fluid px-5">
-          <a class="navbar-brand" href="#">Menu</a>
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a id="dashboard" class="nav-link" href="/dashboard"
-                  >Tableau de bord</a
-                >
-              </li>
-              <li class="nav-item">
-                <a
-                  id="catways"
-                  class="nav-link active"
-                  aria-current="page"
-                  href="#"
-                  onclick="displayCatways('catways', event)"
-                  >Catways</a
-                >
-              </li>
-              <li class="nav-item">
-                <a
-                  id="reservations"
-                  class="nav-link"
-                  href="/catways/0/reservations"
-                  >Réservations</a
-                >
-              </li>
-              <li class="nav-item">
-                <a id="users" class="nav-link" href="/users">Utilisateurs</a>
-              </li>
-              <li class="nav-item">
-                <a
-                  id="documentation"
-                  class="nav-link"
-                  href="#"
-                  onclick="displayCatways('documentation', event)"
-                  >Documentation</a
-                >
-              </li>
-            </ul>
-            <a id="deconnexion" class="btn btn-danger" href="/logout"
-              >Se déconnecter</a
-            >
-          </div>
-        </div>
-      </nav>
-    </header>
-
-    <!-- Tableau des catways -->
-
+    <!-- Main content -->
     <main class="p-5">
-      <div id="catways-section">
-        <h1 class="text-center p-3">Gestionnaire des catways</h1>
+      <h1 class="text-center p-3">Gestionnaire des catways</h1>
 
-        <section>
-          <h2 id="catways-title" class="text-center p-3">Liste des catways</h2>
+      <section id="catways-section">
+        <h2 id="catways-title" class="text-center p-3">Liste des catways</h2>
 
-          <div
-            class="mb-3 container d-flex flex-row justify-content-between w-75"
-          >
-            <div class="container d-flex flex-row">
-              <input
-                type="number"
-                id="catwaySearch"
-                name="catwaySearch"
-                placeholder="Entrez le numéro du catway"
-                class="form-control w-50"
-              />
-            </div>
-            <button
-              id="btnAddCatway"
-              class="btn btn-success"
-              data-bs-toggle="modal"
-              data-bs-target="#catwayModal"
-            >
-              Ajouter
-            </button>
+        <!-- Search input + "Add" button -->
+        <div
+          class="mb-3 container d-flex flex-row justify-content-between w-75"
+        >
+          <div class="container d-flex flex-row">
+            <input
+              type="number"
+              id="catwaySearch"
+              name="catwaySearch"
+              placeholder="Entrez le numéro du catway"
+              class="form-control w-50"
+            />
           </div>
+          <button
+            id="btnAddCatway"
+            class="btn btn-success"
+            data-bs-toggle="modal"
+            data-bs-target="#catwayModal"
+          >
+            Ajouter
+          </button>
+        </div>
 
-          <!-- Tableau de l'ensemble des catways -->
-
+        <!-- Catways table -->
+        <article class="table-container w-75 mx-auto">
           <table
-            class="table table-striped table-hover mx-auto w-75 align-middle table-bordered"
+            class="table table-striped table-hover align-middle table-bordered"
           >
             <thead>
               <tr>
@@ -139,127 +78,19 @@
               <% }) %>
             </tbody>
           </table>
-        </section>
-      </div>
+        </article>
+      </section>
 
-      <!-- iframe pour la documentation JSDoc -->
+      <!-- Documentation -->
 
-      <div id="documentation-section" style="display: none">
-        <iframe
-          src="/docs/index.html"
-          style="width: 100%; height: 80vh; border: none"
-        ></iframe>
-      </div>
+      <%- include('partials/documentation') %>
 
-      <!-- Modales -->
-
-      <div class="modal fade" id="catwayModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-          <form id="catwayForm" class="modal-content">
-            <div class="modal-header">
-              <h3 class="modal-title" id="catwayModalTitle">
-                Ajouter un catway
-              </h3>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Fermer"
-              ></button>
-            </div>
-
-            <div class="modal-body">
-              <input type="hidden" id="catwayId" name="id" />
-
-              <div class="mb-3">
-                <label for="catwayNumber" class="form-label">Numéro</label>
-                <input
-                  id="catwayNumber"
-                  name="catwayNumber"
-                  type="number"
-                  class="form-control"
-                  required
-                />
-              </div>
-
-              <div class="mb-3">
-                <label for="catwayType" class="form-label">Longueur</label>
-                <select
-                  id="catwayType"
-                  name="catwayType"
-                  class="form-control"
-                  required
-                >
-                  <option value="long">long</option>
-                  <option value="short">short</option>
-                </select>
-              </div>
-
-              <div class="mb-3">
-                <label for="catwayState" class="form-label">État</label>
-                <textarea
-                  id="catwayState"
-                  name="catwayState"
-                  type="text"
-                  class="form-control"
-                  required
-                ></textarea>
-              </div>
-
-              <div id="catwayError" class="alert alert-danger d-none"></div>
-            </div>
-
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Annuler
-              </button>
-              <button type="submit" id="catwaySubmit" class="btn btn-primary">
-                Enregistrer
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-
-      <!-- Modale de confirmation suppression -->
-      <div
-        class="modal fade"
-        id="confirmDeleteModal"
-        tabindex="-1"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog modal-sm">
-          <div class="modal-content">
-            <div class="modal-body text-center p-4">
-              <p>Voulez-vous supprimer ce catway ?</p>
-              <div class="d-flex justify-content-center gap-2">
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Annuler
-                </button>
-                <button
-                  id="confirmDeleteBtn"
-                  type="button"
-                  class="btn btn-danger"
-                >
-                  Supprimer
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <!-- Modals -->
+      <%- include('partials/modals/catwayModal') %>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/javascripts/catway.js"></script>
-    <script src="/javascripts/auth.js"></script>
+    <script type="module" src="/javascripts/main.js"></script>
+    <script type="module" src="/javascripts/catway.js"></script>
   </body>
 </html>

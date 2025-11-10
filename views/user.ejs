@@ -8,235 +8,78 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/stylesheets/style.css" />
-    <title>Port de Plaisance Russell - Catways</title>
+    <title>Port de Plaisance Russell - Utilisateurs</title>
   </head>
+
   <body data-role="<%= role %>">
-    <!-- Menu de navigation -->
+    <!-- Navbar -->
+    <header><%- include('partials/navbar', { activePage: 'users'}) %></header>
 
-    <header>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark w-100">
-        <div class="container-fluid px-5">
-          <a class="navbar-brand" href="#">Menu</a>
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a id="dashboard" class="nav-link" href="/dashboard"
-                  >Tableau de bord</a
-                >
-              </li>
-              <li class="nav-item">
-                <a id="catways" class="nav-link" href="/catways">Catways</a>
-              </li>
-              <li class="nav-item">
-                <a
-                  id="reservations"
-                  class="nav-link"
-                  href="/catways/0/reservations"
-                  >Réservations</a
-                >
-              </li>
-              <li class="nav-item">
-                <a
-                  id="users"
-                  class="nav-link active"
-                  aria-current="page"
-                  onclick="displayUsers('users', event)"
-                  href="#"
-                  >Utilisateurs</a
-                >
-              </li>
-              <li class="nav-item">
-                <a
-                  id="documentation"
-                  class="nav-link"
-                  href="#"
-                  onclick="displayUsers('documentation', event)"
-                  >Documentation</a
-                >
-              </li>
-            </ul>
-          <a id="deconnexion" class="btn btn-danger" href="/logout"
-            >Se déconnecter</a
-          >
-          </div>
-        </div>
-      </nav>
-    </header>
-
+    <!-- User data -->
     <main class="p-5">
-      <div id="users-section">
-        <h1 class="text-center p-3">Gestionnaire des utilisateurs</h1>
+      <section id="users-section">
+        <h1 class="text-center p-3">Informations sur l'utilisateur</h1>
 
-        <section>
-          <div
-            class="mb-3 container d-flex flex-row w-75"
-          >
-            <input
-              type="email"
-              id="userSearch"
-              name="userSearch"
-              placeholder="Rechercher un utilisateur"
-              class="form-control w-50"
-            />
-          </div>
+        <article id="userDetails" class="w-75 mx-auto mt-4">
+          <% if (user) { %>
 
-    <!-- Section pour afficher l'utilisateur recherché -->
-          <h2 class="text-center p-3">Informations sur l'utilisateur</h2>
-
-          <div id="userDetails" class="w-75 mx-auto mt-4">
-            <% if (user) { %>
-              <!-- Affichage de la card -->
-              <div class="card shadow-sm p-4 mt-3 mx-auto">
-                <h3 class="mb-3 text-center"><%= user.username %></h3>
-                <p><strong>Email :</strong> <span class="user-email"><%= user.email %></span></p>
-                <p><strong>Membre depuis le :</strong> <%= new Date(user.createdAt).toLocaleDateString("fr-FR", {
-                  weekday: "long", year: "numeric", month: "long", day:
-                  "numeric" }) %></p>
-                  <p><strong>Rôle :</strong> <span class="user-role"><%= user.role %></span></p>
-                <div class="d-flex justify-content-center gap-3 mt-3">
-                  <button class="btn btn-primary edit edit-user" data-username="<%= user.username %>" data-email="<%= user.email %>" data-role="<% user.role %>">Modifier</button>
-                  <button class="btn btn-danger delete delete-user" data-email="<%= user.email %>">Supprimer</button>
-                  <button class="btn btn-secondary" id="backToList">Retour</button>
-                </div>
-              </div>
-          <% } else if (errorMessage) { %>
-            <!-- Affichage du message d'erreur -->
-            <p class="text-center h4 p-4"><strong><%= errorMessage %></strong></p>
+          <!-- Display card -->
+          <div class="card shadow-sm p-4 mt-3 mx-auto">
+            <h2 class="mb-3 text-center"><%= user.username %></h2>
+            <p>
+              <strong>Email :</strong>
+              <span class="user-email"><%= user.email %></span>
+            </p>
+            <p>
+              <strong>Membre depuis le :</strong> <%= new
+              Date(user.createdAt).toLocaleDateString("fr-FR", { weekday:
+              "long", year: "numeric", month: "long", day: "numeric" }) %>
+            </p>
+            <p>
+              <strong>Rôle :</strong>
+              <span class="user-role"><%= user.role %></span>
+            </p>
             <div class="d-flex justify-content-center gap-3 mt-3">
+              <button
+                class="btn btn-primary edit edit-user"
+                data-username="<%= user.username %>"
+                data-email="<%= user.email %>"
+                data-role="<%= user.role %>"
+              >
+                Modifier
+              </button>
+              <button
+                class="btn btn-danger delete delete-user"
+                data-email="<%= user.email %>"
+                data-entity-type="user"
+              >
+                Supprimer
+              </button>
               <button class="btn btn-secondary" id="backToList">Retour</button>
             </div>
-          <% } %>
-        </div>
-
-
-      <!-- iframe pour la documentation JSDoc -->
-
-      <div id="documentation-section" style="display: none">
-        <iframe
-          src="/docs/index.html"
-          style="width: 100%; height: 80vh; border: none"
-        ></iframe>
-      </div>
-
-      <!-- Modales -->
-
-      <!-- Ajout / Modification -->
-      <div class="modal fade" id="userModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-          <form id="userForm" class="modal-content">
-            <div class="modal-header">
-              <h3 class="modal-title" id="userModalTitle">
-                Ajouter un utilisateur
-              </h3>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Fermer"
-              ></button>
-            </div>
-
-            <div class="modal-body">
-              <input type="hidden" id="userEmail" name="email" />
-
-              <div class="mb-3">
-                <label for="username" class="form-label"
-                  >Nom d'utilisateur</label
-                >
-                <input
-                  id="username"
-                  name="username"
-                  type="text"
-                  class="form-control"
-                  required
-                />
-              </div>
-
-              <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" id="email" name="email" class="form-control" required />
-              </div>
-
-              <div class="mb-3 password">
-                <label for="password" class="form-label"
-                  >Nouveau mot de passe</label
-                >
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  class="form-control"
-                  style="display: none;"
-                />
-              </div>
-
-              <div id="userError" class="alert alert-danger d-none"></div>
-            </div>
-
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Annuler
-              </button>
-              <button type="submit" id="userSubmit" class="btn btn-primary">
-                Enregistrer
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-
-      <!-- Confirmation suppression -->
-      <div
-        class="modal fade"
-        id="confirmDeleteModal"
-        tabindex="-1"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog modal-sm">
-          <div class="modal-content">
-            <div class="modal-body text-center p-4">
-              <p>Voulez-vous supprimer ce user ?</p>
-              <div class="d-flex justify-content-center gap-2">
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Annuler
-                </button>
-                <button
-                  id="confirmDeleteBtn"
-                  type="button"
-                  class="btn btn-danger"
-                >
-                  Supprimer
-                </button>
-              </div>
-            </div>
           </div>
-        </div>
-      </div>
+
+          <% } else if (errorMessage) { %>
+
+          <!-- Display error message -->
+          <p class="text-center h4 p-4"><strong><%= errorMessage %></strong></p>
+          <div class="d-flex justify-content-center gap-3 mt-3">
+            <button class="btn btn-secondary" id="backToList">Retour</button>
+          </div>
+          <% } %>
+        </article>
+      </section>
+
+      <!-- Documentation -->
+      <%- include('partials/documentation') %>
+
+      <!-- Modals -->
+      <%- include('partials/modals/userModal') %> <%-
+      include('partials/modals/confirmDelete') %>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script src="/javascripts/user.js"></script>
-    <script src="/javascripts/auth.js"></script>
-
+    <script type="module" src="/javascripts/main.js"></script>
+    <script type="module" src="/javascripts/user.js"></script>
   </body>
 </html>

@@ -1,14 +1,14 @@
 const userService = require("../services/users");
 
-/** Controller pour gérer les utilisateurs
+/** Controller for managing users
  * @module userController
  */
 
-/** Créer un nouvel utilisateur
- * @param {object} req - Objet requête Express, req.body = données de l'utilisateur
- * @param {object} res - Objet réponse Express
+/** Create a new user
+ * @param {object} req - Express request object, req.body contains user data
+ * @param {object} res - Express response object
  * @returns {Promise<void>}
- * @throws {Error} Si l'utilisateur créé a le même email qu'un utilisateur déjà enregistré ou erreur serveur
+ * @throws {Error} If email is already used or server error occurs
  */
 exports.createUser = async (req, res) => {
   try {
@@ -23,11 +23,11 @@ exports.createUser = async (req, res) => {
   }
 };
 
-/** Afficher l'ensemble des utilisateurs
- * @param {object} req - Objet requête Express
- * @param {object} res - Objet réponse Express
+/** Get all users
+ * @param {object} req - Express request object
+ * @param {object} res - Express response object
  * @returns {Promise<void>}
- * @throws {Error} Si erreur serveur
+ * @throws {Error} If server error occurs
  */
 exports.getAllUsers = async (req, res) => {
   try {
@@ -39,11 +39,11 @@ exports.getAllUsers = async (req, res) => {
   }
 };
 
-/** Obtenir des informations sur un utilisateur grâce à son email
- * @param {object} req - Objet requête Express, req.params.email = email de l'utilisateur recherché
- * @param {object} res - Objet réponse Express
+/** Get a user by email
+ * @param {object} req - Express request object, req.params.email = target user's email
+ * @param {object} res - Express response object
  * @returns {Promise<void>}
- * @throws {Error} Si l'utilisateur n'existe pas ou erreur serveur
+ * @throws {Error} If user does not exist or server error occurs
  */
 exports.getByEmail = async (req, res) => {
   try {
@@ -51,24 +51,27 @@ exports.getByEmail = async (req, res) => {
     if (!user) {
       return res.status(404).render("user", {
         user: null,
-        errorMessage: `L'utilisateur est introuvable.`,
+        errorMessage: `L'utilisateur est introuvable ou n'existe pas.`,
+        role: req.userRole,
       });
     }
 
     res.status(200).render("user", { user: user, role: req.userRole });
   } catch (err) {
     console.error(err);
-    res
-      .status(500)
-      .render("user", { user: "null", errorMessage: "Erreur serveur" });
+    res.status(500).render("user", {
+      user: "null",
+      errorMessage: "Erreur serveur",
+      role: req.userRole,
+    });
   }
 };
 
-/** Modifier les informations d'un utilisateur
- * @param {object} req - Objet requête Express, req.params.email = email de l'utilisateur, req.body = données à modifier
- * @param {object} res - Objet réponse Express
+/** Update a user's information.
+ * @param {object} req - Express request object, req.params.email = user's email / req.body = updated data
+ * @param {object} res - Express response object
  * @returns {Promise<void>}
- * @throws {Error} Si l'utilisateur n'existe pas ou si l'email est déjà utilisé ou erreur serveur
+ * @throws {Error} If user does not exist, email is already user or server error occurs
  */
 exports.updateUser = async (req, res) => {
   try {
@@ -91,11 +94,11 @@ exports.updateUser = async (req, res) => {
   }
 };
 
-/** Supprimer un utilisateur
- * @param {object} req - Objet requête Express, req.params.email = email de l'utilisateur à supprimer
- * @param {object} res - Objet réponse Express
+/** Delete a user
+ * @param {object} req - Express request object, req.params.email = email of user to delete
+ * @param {object} res - Express response object
  * @returns {Promise<void>}
- * @throws {Error} Si l'utilisateur n'existe pas ou erreur serveur
+ * @throws {Error} If user doesn't exist or server error occurs
  */
 exports.deleteUser = async (req, res) => {
   try {
@@ -108,11 +111,11 @@ exports.deleteUser = async (req, res) => {
   }
 };
 
-/** Se connecter en tant qu'utilisateur
- * @param {object} req - Objet requête Express
- * @param {string} req.body - Données entrées par l'utilisateur pour se connecter
- * @param {object} res - Objet réponse Express
- * @throws {Error} Si les données entrées sont incorrectes ou erreur serveur
+/** Login a user
+ * @param {object} req - Express request object, req.body contains login credentials
+ * @param {object} res - Express response object
+ * @returns {Promise<void>}
+ * @throws {Error} If credentials are invalid or server error occurs
  */
 exports.loginUser = async (req, res) => {
   try {
@@ -126,9 +129,9 @@ exports.loginUser = async (req, res) => {
   }
 };
 
-/** Se déconnecter du tableau de bord
- * @param {object} req - Objet requête Express
- * @param {object} res - Objet réponse Express
+/** Logout a user
+ * @param {object} req - Express request object
+ * @param {object} res - Express response object
  */
 exports.logoutUser = (req, res) => {
   res.clearCookie("token");

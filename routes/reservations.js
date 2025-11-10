@@ -3,11 +3,11 @@ const router = express.Router({ mergeParams: true });
 const reservationController = require("../controllers/reservationController");
 const authMiddleware = require("../middlewares/auth");
 
-/** Routes des réservations
+/** Reservation routes
  * @module RoutesReservations
  */
 
-/** Récupère toutes les réservations
+/** Get all reservations
  * @name Get all reservations
  * @route {GET} /reservations
  */
@@ -17,7 +17,7 @@ router.get(
   reservationController.getAllReservations
 );
 
-/** Récupère les réservations correspondant aux critères de recherche
+/** Get reservations by search criteria
  * @name Get a reservation by searching
  * @route {GET} /reservations/search
  */
@@ -27,7 +27,7 @@ router.get(
   reservationController.getBySearch
 );
 
-/** Récupère une réservation grâce à son identifiant
+/** Get a reservation by ID
  * @name Get a reservation by ID
  * @route {GET} /reservations/{idReservation}
  * @routeparam {string} :idReservation - ID de la réservation
@@ -38,7 +38,7 @@ router.get(
   reservationController.getById
 );
 
-/** Crée une réservation
+/** Create a reservation
  * @name Create a reservation
  * @route {POST} /reservations
  */
@@ -48,7 +48,7 @@ router.post(
   reservationController.createReservation
 );
 
-/** Met à jour une réservation
+/** Update a reservation
  * @name Update a reservation
  * @route {PUT} /reservations/{idReservation}
  * @routeparam {string} :idReservation - ID de la réservation
@@ -60,7 +60,7 @@ router.put(
   reservationController.updateReservation
 );
 
-/** Supprime une réservation
+/** Delete a reservation
  * @name Delete a reservation
  * @route {DELETE} /reservations/{idReservation}
  * @routeparam {string} :idReservation - ID de la réservation

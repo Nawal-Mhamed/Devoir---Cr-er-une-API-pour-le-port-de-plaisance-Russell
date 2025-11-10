@@ -1,0 +1,29 @@
+<div
+  class="modal fade"
+  id="confirmDeleteModal"
+  tabindex="-1"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-body text-center p-4">
+        <!-- Message -->
+        <p id="confirmDeleteMessage">Voulez-vous supprimer cet élément ?</p>
+        <div class="d-flex justify-content-center gap-2">
+          <!-- "Cancel" / "Delete" buttons -->
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Annuler
+          </button>
+
+          <button id="confirmDeleteBtn" type="button" class="btn btn-danger">
+            Supprimer
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

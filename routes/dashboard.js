@@ -5,11 +5,11 @@ const authMiddleware = require("../middlewares/auth");
 const User = require("../models/user");
 const Reservation = require("../models/reservation");
 
-/** Dashboard utilisateur
+/** User dashboard routes
  * @module RoutesDashboard
  */
 
-/** Affiche le tableau de bord si authentifié
+/** Render dashboard if authenticated
  * @route {GET} /dashboard
  */
 router.get("/dashboard", authMiddleware.verifyToken, async (req, res) => {

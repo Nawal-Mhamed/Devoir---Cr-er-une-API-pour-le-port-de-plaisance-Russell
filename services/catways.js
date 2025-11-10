@@ -1,30 +1,30 @@
 const Catway = require("../models/catway");
 
-/** Service pour gérer les catways
+/** Service for managing catways
  * @module catwayService
  */
 
-/** Affiche l'ensemble des catways enregistrés
- * @returns {Promise<Array>}
+/** Get all catways
+ * @returns {Promise<Array>} List of all catways
  */
 
 exports.getAllCatways = () => {
   return Catway.find();
 };
 
-/** Affiche le catway demandé grâce au numéro de catway spécifié
- * @param {number} catwayNumber
- * @returns {Promise<object|null>}
+/** Get a catway by its number
+ * @param {number} catwayNumber - Number of the catway
+ * @returns {Promise<object|null>} The catway or null if not found
  */
 
 exports.getByNumber = (catwayNumber) => {
   return Catway.findOne({ catwayNumber: catwayNumber });
 };
 
-/** Crée un nouveau catway
+/** Create a new catway
  * @param {{catwayNumber: number, catwayType: string, catwayState: string}} data
- * @returns {Promise<object>}
- * @throws {Error} Si le catway existe déjà
+ * @returns {Promise<object>} The created catway
+ * @throws {Error} If the catway already exists or if the number is invalid
  */
 
 exports.createCatway = async (data) => {
@@ -32,7 +32,7 @@ exports.createCatway = async (data) => {
     catwayNumber: data.catwayNumber,
   });
 
-  /** Vérifie si le numéro de catway est unique avant de le créer */
+  // Ensure the catway number is unique
 
   if (existingCatway) {
     const error = new Error("Ce catway existe déjà.");
@@ -40,7 +40,7 @@ exports.createCatway = async (data) => {
     throw error;
   }
 
-  /** Vérifie si le numéro de catway entré n'est pas 0 */
+  // Ensure the catway number is not 0
 
   if (data.catwayNumber === 0) {
     const error = new Error("Le numéro de catway ne peut pas être 0.");
@@ -48,19 +48,20 @@ exports.createCatway = async (data) => {
     throw error;
   }
 
-  /** Enregistre le nouveau catway */
+  // Save the new catway
 
   const catway = new Catway(data);
   return catway.save();
 };
 
-/** Modifie les informations du catway spécifié
- * @param {number} catwayNumber
- * @param {{catwayNumber: number, catwayType: string, catwayState: string}=} data
- * @returns {Promise<object|null>}
+/** Update an existing catway.
+ * @param {number} catwayNumber - Number of the catway to update
+ * @param {{catwayNumber: number, catwayType: string, catwayState: string}=} data - Data to update
+ * @returns {Promise<object|null>} Updated catway or null if not found
  */
 
 exports.updateCatway = async (catwayNumber, data) => {
+  // Prevent modification of the creation timestamp
   if ("createdAt" in data) {
     delete data.createdAt;
   }
@@ -72,9 +73,9 @@ exports.updateCatway = async (catwayNumber, data) => {
   );
 };
 
-/** Supprime le catway spécifié
- * @param {number} catwayNumber
- * @returns {Promise<object|null>}
+/** Delete a catway by its number
+ * @param {number} catwayNumber - Number of the catway to delete
+ * @returns {Promise<object|null>} Delete catway or null if not found
  */
 
 exports.deleteCatway = (catwayNumber) => {

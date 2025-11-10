@@ -1,7 +1,8 @@
 const User = require("../models/user");
-const jwt = require("jsonwebtoken"); // ← ajoute cette ligne en haut
-const SECRET_KEY = process.env.SECRET_KEY || "GTGh6rdP54GT76";
+const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+
+const SECRET_KEY = process.env.SECRET_KEY || "GTGh6rdP54GT76";
 
 /** Service pour gérer les utilisateurs
  * @module usersService

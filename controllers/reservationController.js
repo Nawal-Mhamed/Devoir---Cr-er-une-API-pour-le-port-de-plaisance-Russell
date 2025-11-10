@@ -1,15 +1,15 @@
 const reservation = require("../models/reservation");
 const reservationService = require("../services/reservations");
 
-/** Controller pour gérer les réservations
+/** Controller for managing reservations.
  * @module reservationController
  */
 
-/** Afficher l'ensemble des réservations
- * @param {object} req - Objet requête Express, req.params.id = numéro du catway où l'on souhaite voir l'ensemble des réservations
- * @param {object} res - Objet réponse Express
+/** Get all reservations.
+ * @param {object} req - Express request object, req.params.id =  catway number to filter by (0 = all catways)
+ * @param {object} res - Express response object
  * @returns {Promise<void>}
- * @throws {Error} Si erreur serveur
+ * @throws {Error} If server error occurs
  */
 
 exports.getAllReservations = async (req, res) => {
@@ -40,11 +40,11 @@ exports.getAllReservations = async (req, res) => {
   }
 };
 
-/** Obtenir des informations sur des réservations contenant les paramètres de recherche spécifiés
- * @param {object} req - Objet requête Express
- * @param {object} res - Objet réponse Express
+/** Get reservations based on search parameters
+ * @param {object} req - Express request object, req.query may contain idReservation, clientName or boatName
+ * @param {object} res - Express response object
  * @returns {Promise<Array>}
- * @throws {Error} Si erreur serveur
+ * @throws {Error} If server error occurs
  */
 exports.getBySearch = async (req, res) => {
   try {
@@ -52,7 +52,7 @@ exports.getBySearch = async (req, res) => {
 
     const { idReservation, clientName, boatName } = req.query;
 
-    // Si l'identifiant est connu, afficher directement la réservation
+    // If reservation ID is provided, return that reservation directly
     if (idReservation) {
       const reservation = await reservationService.getById(
         catwayNumber,
@@ -71,12 +71,12 @@ exports.getBySearch = async (req, res) => {
         .render("reservation", { reservation, role: req.userRole });
     }
 
-    // Si seul le catway est spécifié
+    // If onyl catway is specified with no other search parameters
     if (!clientName && !boatName && !idReservation) {
       return res.redirect(`/catways/${catwayNumber}/reservations`);
     }
 
-    // Recherche multi-critères
+    // Multi-criteria search
     const reservations = await reservationService.searchReservations({
       catwayNumber,
       clientName,
@@ -100,11 +100,11 @@ exports.getBySearch = async (req, res) => {
   }
 };
 
-/** Obtenir des informations sur une réservation spécifique avec son identifiant
- * @param {object} req - Objet requête Express, req.params.id = numéro du catway où se trouve la réservation, req.params.idReservation = ID de la réservation
- * @param {object} res - Objet réponse Express
+/** Get a specific reservation by its ID.
+ * @param {object} req - Express request object, req.params.id = catway number / req.params.idReservation = reservation ID
+ * @param {object} res - Express response object
  * @returns {Promise<void>}
- * @throws {Error} Si la réservation n'existe pas ou erreur serveur
+ * @throws {Error} If reservation doesn't exist or server error occurs
  */
 exports.getById = async (req, res) => {
   try {
@@ -119,7 +119,9 @@ exports.getById = async (req, res) => {
     if (!reservation)
       return res.status(404).render("reservation", {
         reservation: null,
-        errorMessage: `Réservation introuvable sur le catway ${catwayNumber}.`,
+        catwayNumber,
+        errorMessage: `La réservation est introuvable sur le catway ${catwayNumber} ou n'existe pas.`,
+        role: req.userRole,
       });
     res.status(200).render("reservation", {
       reservation: reservation.toObject(),
@@ -131,16 +133,18 @@ exports.getById = async (req, res) => {
     console.error(err);
     res.status(500).render("reservation", {
       reservation: null,
+      catwayNumber,
       errorMessage: "Erreur serveur",
+      role: req.userRole,
     });
   }
 };
 
-/** Créer une réservation
- * @param {object} req - Objet requête Express, req.params.id = numéro du catway où la réservation doit être créée, req.body = données de la réservation
- * @param {object} res - Objet réponse Express
+/** Create a new reservation.
+ * @param {object} req - Express request object, req.params.id = catway number / req.body = reservation data
+ * @param {object} res - Express response object
  * @returns {Promise<void>}
- * @throws {Error} Si la réservation entre en conflit avec d'autres réservations ou erreur serveur.
+ * @throws {Error} If reservation conflicts with existing ones or server error occurs
  */
 
 exports.createReservation = async (req, res) => {
@@ -160,11 +164,11 @@ exports.createReservation = async (req, res) => {
   }
 };
 
-/** Modifier une réservation existante
- * @param {object} req - Objet requête Express, req.params.id = numéro du catway où se trouve la réservation, req.params.idReservation =  ID de la réservation, req.body = données à modifier
- * @param {object} res - Objet réponse Express
+/** Update an existing reservation
+ * @param {object} req - Express request object, req.params.id = catway number / req.params.idReservation =  reservation ID / req.body = updated data
+ * @param {object} res - Express response object
  * @returns {Promise<void>}
- * @throws {Error} Si la réservation n'existe pas ou entre en conflit avec d'autres réservations ou erreur serveur.
+ * @throws {Error} If reservation doesn't exist, conflicts or server error occurs
  */
 
 exports.updateReservation = async (req, res) => {
@@ -195,11 +199,11 @@ exports.updateReservation = async (req, res) => {
   }
 };
 
-/** Supprimer une réservation
- * @param {object} req - Objet requête Express, req.params.id = numéro du catway où se trouve la réservation, req.params.idReservation = ID de la réservation
- * @param {object} res - Objet réponse Express
+/** Delete a reservation
+ * @param {object} req - Express request object, req.params.id = catway number, req.params.idReservation = reservation ID
+ * @param {object} res - Express response object
  * @returns {Promise<void>}
- * @throws {Error} Si la réservation est introuvable ou erreur serveur
+ * @throws {Error} If reservation not found or server error occurs
  */
 
 exports.deleteReservation = async (req, res) => {

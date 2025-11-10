@@ -4,24 +4,24 @@ const reservationRouter = require("./reservations");
 const catwayController = require("../controllers/catwayController");
 const authMiddleware = require("../middlewares/auth");
 
-/** Routes des catways
+/** Catway routes
  * @module RoutesCatways
  */
 
-/** Récupère tous les catways
+/** Get all catways
  * @name Get all catways
  * @route {GET} /catways
  */
 router.get("/", authMiddleware.verifyToken, catwayController.getAllCatways);
 
-/** Récupère un catway
+/** Get a catway by number
  * @name Get a catway by number
  * @route {GET} /catways/{id}
  * @routeparam {number} :id - Numéro du catway
  */
 router.get("/:id", authMiddleware.verifyToken, catwayController.getByNumber);
 
-/** Crée un catway
+/** Create a catway
  * @name Create a catway
  * @route {POST} /catways
  */
@@ -32,7 +32,7 @@ router.post(
   catwayController.createCatway
 );
 
-/** Met à jour un catway
+/** Update a catway
  * @name Update a catway
  * @route {PUT} /catways/{id}
  * @routeparam {number} :id - Numéro du catway
@@ -44,7 +44,7 @@ router.put(
   catwayController.updateCatway
 );
 
-/** Supprime un catway
+/** Delete a catway
  * @name Delete a catway
  * @route {DELETE} /catways/{id}
  * @routeparam {number} :id - Numéro du catway
@@ -56,7 +56,7 @@ router.delete(
   catwayController.deleteCatway
 );
 
-/** Ajout de la sous-route des réservations */
+/** Sub-route for reservations under a catway */
 router.use("/:id/reservations", reservationRouter);
 
 module.exports = router;
