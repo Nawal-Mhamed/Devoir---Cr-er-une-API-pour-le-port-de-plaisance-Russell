@@ -72,4 +72,9 @@ router.delete(
   reservationController.deleteReservation
 );
 
+router.use("/:id/reservations", (req, res, next) => {
+  console.log("Reservations subroute hite", req.method, req.originalUrl);
+  next();
+});
+
 module.exports = router;

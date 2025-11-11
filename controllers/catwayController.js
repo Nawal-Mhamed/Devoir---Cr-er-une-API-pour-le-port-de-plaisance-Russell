@@ -120,7 +120,6 @@ exports.updateCatway = async (req, res) => {
 
 exports.deleteCatway = async (req, res) => {
   const catwayNumber = req.params.id;
-  console.log("Catway reçu :", catwayNumber);
   try {
     const deletedCatway = await catwayService.deleteCatway(catwayNumber);
     if (!deletedCatway)

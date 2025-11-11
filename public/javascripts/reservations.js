@@ -93,12 +93,13 @@ document.addEventListener("DOMContentLoaded", () => {
    * - Client name
    * - Boat name
    */
-  if (filterId || filterClient || filterBoat)
+  if (filterId || filterClient || filterBoat) {
     initMultiFilter(".reservation-row", {
       "reservation-id": document.getElementById("filterIdReservation"),
       "client-name": document.getElementById("filterClient"),
       "boat-name": document.getElementById("filterBoat"),
     });
+  }
 
   // ------------------------------------------------------
   // "Show All" button
@@ -184,9 +185,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Determine API endpoint and method
+
+    const pathParts = window.location.pathname.split("/");
+    const originalCatway = Number(pathParts[2]);
     const baseCatway = data.catwayNumber;
-    const url = id
-      ? `/catways/${baseCatway}/reservations/${id}`
+
+    const isUpdate = Boolean(id);
+    const url = isUpdate
+      ? `/catways/${originalCatway}/reservations/${id}`
       : `/catways/${baseCatway}/reservations`;
     const method = id ? "PUT" : "POST";
 
@@ -206,7 +212,13 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
       reservationModal.hide();
-      location.reload();
+
+      // Redirect to the correct catway if catway number has changed
+      if (isUpdate && baseCatway !== originalCatway) {
+        window.location.href = `/catways/${data.catwayNumber}/reservations`;
+      } else {
+        location.reload();
+      }
     } catch (err) {
       showError("Erreur réseau");
     }

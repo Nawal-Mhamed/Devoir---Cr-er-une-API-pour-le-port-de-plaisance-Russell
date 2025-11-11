@@ -15,7 +15,6 @@ exports.verifyToken = async (req, res, next) => {
     req.userId = decoded.id;
     req.userRole = decoded.role;
     req.userEmail = decoded.email;
-    console.log("decoded token:", decoded);
     next();
   } catch (err) {
     res.clearCookie("token");

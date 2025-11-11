@@ -157,6 +157,10 @@ document.addEventListener("DOMContentLoaded", () => {
         body: JSON.stringify(data),
       });
 
+      console.log("🔹 Données envoyées :", data);
+      console.log("🔹 URL appelée :", url);
+      console.log("🔹 Méthode utilisée :", method);
+
       if (!res.ok) {
         const payload = await res.json().catch(() => null);
         showError(payload?.message || "Erreur lors de l'enregistrement.");

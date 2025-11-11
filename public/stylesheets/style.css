@@ -24,7 +24,9 @@ img {
   height: 150px;
 }
 
-/* Tables */
+/* ************************** */
+/* TABLES */
+/* ************************** */
 
 td {
   vertical-align: center;
@@ -52,4 +54,23 @@ td {
 .catway-row:hover .show,
 .reservation-row:hover .show {
   opacity: 1;
+}
+
+/* ************************** */
+/* SPECIAL CLASSES */
+/* ************************** */
+
+.catway-number,
+.catway-type {
+  text-align: center;
+}
+
+.footer-img img:first-child {
+  width: 20%;
+  height: 20%;
+}
+
+.footer-img img:last-child {
+  width: 5%;
+  height: 5%;
 }

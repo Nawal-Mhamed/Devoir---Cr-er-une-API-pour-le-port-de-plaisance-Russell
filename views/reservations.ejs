@@ -8,37 +8,39 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link rel="stylesheet" href="/stylesheets/responsive.css" />
     <title>Port de Plaisance Russell - Réservations</title>
   </head>
   <body data-role="<%= role %>">
     <!-- Navbar -->
     <header>
-      <%- include('partials/navbar', { activePage: 'reservations'}) %>
+      <%- include('partials/navbar', { activePage: 'reservations' }) %>
     </header>
 
     <!-- Main content -->
-
-    <main class="p-5">
-      <section id="reservations-section">
+    <main class="p-2 p-md-5 container-fluid">
+      <section id="reservations-section" class="w-100 row mx-auto">
         <h1 class="text-center p-3">Gestionnaire des réservations</h1>
 
         <!-- Search forms -->
-
-        <section id="reservation-filters" class="card mx-auto w-75 py-2">
-          <h2 class="text-center">Rechercher une réservation</h2>
+        <section
+          id="reservation-filters"
+          class="card mx-auto py-2 col-12 col-md-9"
+        >
+          <h2 class="text-center mt-2 mb-4">Rechercher une réservation</h2>
 
           <!-- Catway form -->
           <form
             id="catwayForm"
-            class="mb-4 mx-auto w-75 p-2"
+            class="row g-3 justify-content-center mb-3"
             method="get"
             action=""
           >
-            <div class="d-flex flex-row justify-content-around mx-auto">
+            <div class="col-9 col-md-6">
               <input
                 id="filterCatway"
                 name="catway"
-                class="form-control w-50"
+                class="form-control"
                 type="number"
                 placeholder="Entrez le numéro du catway"
                 min="0"
@@ -46,6 +48,8 @@
                 aria-describedby="catwayNumberHelp"
                 required
               />
+            </div>
+            <div class="col-auto">
               <button id="btnSearchReservation" class="btn btn-primary">
                 Rechercher
               </button>
@@ -53,24 +57,15 @@
           </form>
 
           <!-- Multi-filters form -->
-          <form
-            id="searchForm"
-            class="mb-4 align-items-center card mx-auto p-2"
-            method="get"
-            action=""
-          >
-            <fieldset
-              class="row g-3 mb-4 px-4 align-items-center justify-content-center"
-            >
+          <form id="searchForm" class="mb-4 px-3" method="get" action="">
+            <fieldset class="row g-3 justify-content-around align-items-center">
               <legend class="text-center pt-3">Filtres</legend>
 
-              <div class="col-md-3">
-                <label class="form-label"
-                  >Client
-                  <span id="clientNameHelp" class="form-text"
-                    >(optionnel)</span
-                  ></label
-                >
+              <div class="col-12 col-md-3">
+                <label class="form-label">
+                  Client
+                  <span id="clientNameHelp" class="form-text">(optionnel)</span>
+                </label>
                 <input
                   id="filterClient"
                   name="clientName"
@@ -79,13 +74,12 @@
                   aria-describedby="clientNameHelp"
                 />
               </div>
-              <div class="col-md-3">
-                <label class="form-label"
-                  >Bateau
-                  <span id="boatNameHelp" class="form-text"
-                    >(optionnel)</span
-                  ></label
-                >
+
+              <div class="col-12 col-md-3">
+                <label class="form-label">
+                  Bateau
+                  <span id="boatNameHelp" class="form-text">(optionnel)</span>
+                </label>
                 <input
                   id="filterBoat"
                   name="boatName"
@@ -94,13 +88,14 @@
                   aria-describedby="boatNameHelp"
                 />
               </div>
-              <div class="col">
-                <label class="form-label"
-                  >ID de la réservation
+
+              <div class="col-12 col-md-auto">
+                <label class="form-label">
+                  ID de la réservation
                   <span id="idReservationHelp" class="form-text"
                     >(optionnel)</span
-                  ></label
-                >
+                  >
+                </label>
                 <input
                   id="filterIdReservation"
                   name="idReservation"
@@ -108,20 +103,22 @@
                   value="<%= filters.idReservation %>"
                 />
               </div>
+
               <div class="text-center"></div>
             </fieldset>
           </form>
         </section>
 
         <!-- Found reservations section -->
-
-        <section id="reservations-list">
+        <section id="reservations-list" class="container-fluid p-0">
           <h2 id="reservations-title" class="text-center p-3">
             Liste des réservations - <%= catwayNumber %>
           </h2>
 
           <!-- "Show All" and "Add" buttons -->
-          <div class="mb-3 text-end">
+          <div
+            class="mb-3 container d-flex flex-row justify-content-center justify-content-md-end gap-3 col-md-9"
+          >
             <button id="btnShowAll" class="btn btn-outline-secondary me-3">
               Tout afficher
             </button>
@@ -136,8 +133,10 @@
           </div>
 
           <!-- Found reservations table -->
-          <article class="table-container">
-            <table class="table table-striped table-hover">
+          <article class="table-container col-12 col-md-9 mx-md-auto">
+            <table
+              class="table table-striped responsive-table table-hover align-middle table-bordered"
+            >
               <thead>
                 <tr>
                   <th>Catway</th>
@@ -148,8 +147,7 @@
                   <th>Identifiant</th>
                 </tr>
               </thead>
-
-              <tbody id="reservationsBody">
+              <tbody id="reservationsBody" class="table-group-divider">
                 <% if (!reservations || reservations.length === 0) { %>
                 <tr>
                   <td colspan="6" class="text-center text-muted">
@@ -159,18 +157,26 @@
                 <% } else { %> <% reservations.forEach(function(reservation) {
                 %>
                 <tr class="reservation-row">
-                  <td class="catway-number"><%= reservation.catwayNumber %></td>
-                  <td class="client-name"><%= reservation.clientName %></td>
-                  <td class="boat-name"><%= reservation.boatName %></td>
-                  <td>
+                  <td class="catway-number" data-label="Catway">
+                    <%= reservation.catwayNumber %>
+                  </td>
+                  <td class="client-name" data-label="Client">
+                    <%= reservation.clientName %>
+                  </td>
+                  <td class="boat-name" data-label="Bateau">
+                    <%= reservation.boatName %>
+                  </td>
+                  <td data-label="Début">
                     <%= new
                     Date(reservation.startDate).toLocaleDateString("fr-FR") %>
                   </td>
-                  <td>
+                  <td data-label="Fin">
                     <%= new
                     Date(reservation.endDate).toLocaleDateString("fr-FR") %>
                   </td>
-                  <td class="reservation-id"><%= reservation._id %></td>
+                  <td class="reservation-id" data-label="Identifiant">
+                    <%= reservation._id %>
+                  </td>
                   <td class="text-center">
                     <button
                       class="btn btn-sm btn-secondary show show-reservation"
