@@ -1,0 +1,107 @@
+/* TABLE RESPONSIVE */
+
+@media (max-width: 768px) {
+  input::placeholder {
+    font-size: 0.8rem;
+  }
+
+  table.responsive-table thead {
+    display: none;
+  }
+
+  table.responsive-table,
+  table.responsive-table tbody,
+  table.responsive-table tr,
+  table.responsive-table td {
+    display: block;
+    width: 100%;
+    font-size: 0.8rem;
+  }
+
+  table.responsive-table tr:first-child {
+    margin-top: 2rem;
+  }
+
+  table.responsive-table tr {
+    background: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+  }
+
+  table.responsive-table tr:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  table.responsive-table td {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+    height: 3rem;
+    padding: 0.5rem 0.5rem 0.5rem 45%;
+    position: relative;
+    border: none;
+    border-bottom: 1px solid #eee;
+    word-break: break-word;
+  }
+
+  table.responsive-table tr:hover td {
+    background-color: transparent;
+  }
+
+  table.responsive-table td:last-child {
+    border-bottom: none;
+    padding-left: 0;
+  }
+
+  table.responsive-table td::before {
+    content: attr(data-label);
+    position: absolute;
+    text-align: center;
+    left: 0;
+    width: 40%;
+    padding-left: 0.75rem;
+    font-weight: 600;
+    color: #495057;
+    white-space: normal;
+    line-height: 1.2;
+  }
+
+  table.responsive-table td:last-child {
+    text-align: center;
+    justify-self: center;
+    width: 100%;
+    align-items: center;
+    margin-top: 0.5rem;
+  }
+
+  table.responsive-table td:last-child button {
+    max-width: 30%;
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+
+  .show-catway,
+  .show-user,
+  .show-reservation {
+    opacity: 1;
+  }
+
+  .catway-number,
+  .catway-type {
+    text-align: left;
+  }
+
+  .footer-img img:first-child {
+    width: 30%;
+    height: 30%;
+  }
+
+  .footer-img img:last-child {
+    width: 10%;
+    height: 10%;
+  }
+}

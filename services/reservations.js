@@ -179,15 +179,22 @@ exports.updateReservation = async (catwayNumberParam, idReservation, data) => {
     throw error;
   }
 
+  console.log("Existing reservation : ", existingReservation);
+  console.log(
+    "Correspondance : ",
+    existingReservation.catwayNumber !== Number(catwayNumberParam)
+  );
+  console.log("Requested new catwayNumber : ", data.catwayNumber);
+
   // Check if the route corresponds to the actual reservation
 
-  if (existingReservation.catwayNumber !== Number(catwayNumberParam)) {
-    const error = new Error(
-      `Cette réservation n'appartient pas au catway ${catwayNumberParam} mais au catway ${existingReservation.catwayNumber}.`
-    );
-    error.statusCode = 403;
-    throw error;
-  }
+  // if (existingReservation.catwayNumber !== Number(catwayNumberParam)) {
+  //   const error = new Error(
+  //     `Cette réservation n'appartient pas au catway ${catwayNumberParam} mais au catway ${existingReservation.catwayNumber}.`
+  //   );
+  //   error.statusCode = 403;
+  //   throw error;
+  // }
 
   // Fusion of new and old data
   const updatedData = { ...existingReservation.toObject(), ...data };
@@ -266,6 +273,8 @@ exports.updateReservation = async (catwayNumberParam, idReservation, data) => {
   }
 
   // Updating the reservation with new data
+
+  console.log("Updating reservation with data : ", updatedData);
 
   const updatedReservation = await Reservation.findOneAndUpdate(
     { _id: new mongoose.Types.ObjectId(idReservation) },

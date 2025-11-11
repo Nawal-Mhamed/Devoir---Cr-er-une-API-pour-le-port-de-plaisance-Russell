@@ -141,6 +141,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const url = id ? `/catways/${id}` : "/catways";
       const method = id ? "PUT" : "POST";
 
+      console.log("🔹 Données envoyées :", data);
+      console.log("🔹 URL appelée :", url);
+      console.log("🔹 Méthode utilisée :", method);
+
       const res = await fetchWithAuth(url, {
         method,
         headers: { "Content-Type": "application/json" },

@@ -103,7 +103,7 @@ function displaySection(section, event) {
           <div class="mb-3">
             <p class="form-text">Les champs suivis d'une * sont obligatoires</p>
           </div>
-          <div class="d-grid d-md-block mx-auto col-6">
+          <div class="d-grid d-md-block mx-auto text-center">
             <button type="submit" class="btn btn-primary mx-auto">Se connecter</button>
           </div>
           </form>

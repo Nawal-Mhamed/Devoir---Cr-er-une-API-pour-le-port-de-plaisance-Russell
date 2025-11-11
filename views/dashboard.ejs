@@ -8,6 +8,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link rel="stylesheet" href="/stylesheets/responsive.css" />
     <title>Port de Plaisance Russell - Tableau de bord</title>
   </head>
   <body data-role="<%= user.role %>">
@@ -17,31 +18,40 @@
     </header>
 
     <!-- Dashboard content -->
-    <main id="content" class="p-5">
-      <h1 class="text-center mb-5">Tableau de bord</h1>
-
+    <main id="content" class="p-md-5 mb-5 container">
       <!-- Connected user data -->
 
-      <section id="dashboard-section">
-        <article class="card p-4 mb-4 mx-auto">
-          <div class="d-flex flex-row align-items-center">
+      <section
+        id="dashboard-section"
+        class="row mt-5 justify-content-center px-3 px-md-0"
+      >
+        <h1 class="text-center mb-5">Tableau de bord</h1>
+
+        <article class="card col-12 col-md-9 p-2 p-md-4 mb-4 mx-md-auto">
+          <div class="d-md-flex flex-row align-items-center text-center">
             <img
               src="https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2264922221.jpg"
               alt="Profil"
-              class="rounded-circle me-4 img-fluid"
+              class="rounded-circle me-md-4 img-fluid"
             />
 
             <div class="card-body">
-              <h2 class="card-title">Bonjour <%= user.username %> !</h2>
-              <p class="card-text">Nom d'utilisateur : <%= user.username %></p>
-              <p class="card-text">Email : <%= user.email %></p>
-              <p class="card-text">Role : <%= user.role %></p>
+              <h2 class="card-title mb-3">Bonjour <%= user.username %> !</h2>
+              <p class="card-text text-start">
+                <strong>Nom d'utilisateur :</strong> <%= user.username %>
+              </p>
+              <p class="card-text text-start">
+                <strong>Email :</strong> <%= user.email %>
+              </p>
+              <p class="card-text text-start mb-3">
+                <strong>Role :</strong> <%= user.role %>
+              </p>
               <a id="deconnexion" class="btn btn-danger" href="/logout"
                 >Se déconnecter</a
               >
             </div>
           </div>
-          <p class="ms-auto text-end text-muted small"><%= today %></p>
+          <p class="text-center text-md-end text-muted small"><%= today %></p>
         </article>
 
         <!-- Current reservations table -->
@@ -49,7 +59,9 @@
         <article class="mb-3">
           <h2 class="text-center mt-5">Réservations en cours</h2>
 
-          <table class="table table-striped table-hover">
+          <table
+            class="table responsive-table table-striped table-hover align-middle table-bordered"
+          >
             <thead>
               <tr>
                 <th>Catway</th>
@@ -69,13 +81,15 @@
               </tr>
               <% } else { %> <% activeReservations.forEach(reservation => { %>
               <tr>
-                <td><%= reservation.catwayNumber %></td>
-                <td><%= reservation.clientName %></td>
-                <td><%= reservation.boatName %></td>
-                <td>
+                <td data-label="Catway"><%= reservation.catwayNumber %></td>
+                <td data-label="Client"><%= reservation.clientName %></td>
+                <td data-label="Bateau"><%= reservation.boatName %></td>
+                <td data-label="Début">
                   <%= reservation.startDate.toLocaleDateString("fr-FR") %>
                 </td>
-                <td><%= reservation.endDate.toLocaleDateString("fr-FR") %></td>
+                <td data-label="Fin">
+                  <%= reservation.endDate.toLocaleDateString("fr-FR") %>
+                </td>
               </tr>
               <% }) %> <% } %>
             </tbody>
@@ -86,6 +100,9 @@
       <!-- Documentation -->
       <%- include('partials/documentation') %>
     </main>
+
+    <!-- Footer -->
+    <%- include('partials/footer') %>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 

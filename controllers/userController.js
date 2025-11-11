@@ -107,7 +107,7 @@ exports.updateUser = async (req, res) => {
  */
 exports.deleteUser = async (req, res) => {
   try {
-    if (req.user.email === req.params.email) {
+    if (req.userEmail === req.params.email) {
       return res
         .status(403)
         .json({ message: "Vous ne pouvez pas supprimer votre propre compte." });
