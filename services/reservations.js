@@ -73,7 +73,7 @@ exports.createReservation = async (data) => {
   const start = new Date(startDate);
   const end = new Date(endDate);
 
-  if (startDate < now.setHours(0, 0, 0, 0)) {
+  if (start < now.setHours(0, 0, 0, 0)) {
     const error = new Error(
       "La date de début ne peut pas être antérieure à la date du jour."
     );
