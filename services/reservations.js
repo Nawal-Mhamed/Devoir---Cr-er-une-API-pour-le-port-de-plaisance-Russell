@@ -1,4 +1,5 @@
 const Reservation = require("../models/reservation");
+const Catway = require("../models/catway");
 const mongoose = require("mongoose");
 
 /** Service for managing reservations.
@@ -79,17 +80,38 @@ exports.createReservation = async (data) => {
   const { catwayNumber, clientName, boatName, startDate, endDate } = data;
 
   if (!catwayNumber || !clientName || !boatName || !startDate || !endDate) {
-    const error = new Error(
-      "Les champs catwayNumber, clientName, boatName, startDate et endDate sont requis."
-    );
+    const error = new Error("Tous les champs sont requis.");
     error.statusCode = 400;
+    throw error;
+  }
+
+  // Checking catway existence
+
+  const catway = await Catway.findOne({ catwayNumber: catwayNumber });
+
+  console.log(catway);
+
+  if (!catway) {
+    const error = new Error(
+      `Il n'y a pas de catway n°${catwayNumber}. Veuillez en créer un ou changer le numéro de catway.`
+    );
+    error.statusCode = 404;
     throw error;
   }
 
   // Checking dates
 
+  const now = new Date();
   const start = new Date(startDate);
   const end = new Date(endDate);
+
+  if (startDate < now.setHours(0, 0, 0, 0)) {
+    const error = new Error(
+      "La date de début ne peut pas être antérieure à la date du jour."
+    );
+    error.statusCode = 400;
+    throw error;
+  }
 
   if (isNaN(start) || isNaN(end)) {
     const error = new Error("Les dates fournies ne sont pas valides.");
@@ -170,43 +192,66 @@ exports.updateReservation = async (catwayNumberParam, idReservation, data) => {
     delete data.createdAt;
   }
 
+  const { catwayNumber, clientName, boatName, startDate, endDate } = data;
+
+  console.log("[UPDATE DEBUG] Requête reçue :", {
+    catwayNumberParam,
+    idReservation,
+    body: data,
+  });
+
   // Check if reservation exists
 
   const existingReservation = await Reservation.findById(idReservation);
   if (!existingReservation) {
+    console.log("[UPDATE DEBUG] 1 - Réservation introuvable !");
     const error = new Error("Réservation introuvable.");
     error.statusCode = 404;
     throw error;
   }
 
-  console.log("Existing reservation : ", existingReservation);
-  console.log(
-    "Correspondance : ",
-    existingReservation.catwayNumber !== Number(catwayNumberParam)
-  );
-  console.log("Requested new catwayNumber : ", data.catwayNumber);
+  // Checking catway existence
+
+  const catway = await Catway.findOne({ catwayNumber: data.catwayNumber });
+
+  if (!catway) {
+    console.log("[UPDATE DEBUG] 1 - Catway introuvable !");
+    const error = new Error(
+      `Il n'y a pas de catway n°${catwayNumber}. Veuillez en créer un ou changer le numéro de catway.`
+    );
+    error.statusCode = 404;
+    throw error;
+  }
 
   // Check if the route corresponds to the actual reservation
 
-  // if (existingReservation.catwayNumber !== Number(catwayNumberParam)) {
-  //   const error = new Error(
-  //     `Cette réservation n'appartient pas au catway ${catwayNumberParam} mais au catway ${existingReservation.catwayNumber}.`
-  //   );
-  //   error.statusCode = 403;
-  //   throw error;
-  // }
+  if (existingReservation.catwayNumber !== Number(catwayNumberParam)) {
+    const error = new Error(
+      `Cette réservation n'appartient pas au catway ${catwayNumberParam} mais au catway ${existingReservation.catwayNumber}.`
+    );
+    error.statusCode = 403;
+    throw error;
+  }
 
   // Fusion of new and old data
   const updatedData = { ...existingReservation.toObject(), ...data };
-  const { catwayNumber, clientName, boatName, startDate, endDate } =
-    updatedData;
 
-  // Date conversion to avoid comparison errors
+  // Date conversion to avoid comparison errors + Check their possible existence
   const newStart = new Date(startDate);
   const newEnd = new Date(endDate);
 
+  const now = new Date();
+
   if (isNaN(newStart) || isNaN(newEnd)) {
     const error = new Error("Les dates fournies ne sont pas valides.");
+    error.statusCode = 400;
+    throw error;
+  }
+
+  if (newEnd < now.setHours(0, 0, 0, 0)) {
+    const error = new Error(
+      "La date de fin ne peut pas être antérieure à la date du jour."
+    );
     error.statusCode = 400;
     throw error;
   }
@@ -276,8 +321,8 @@ exports.updateReservation = async (catwayNumberParam, idReservation, data) => {
 
   console.log("Updating reservation with data : ", updatedData);
 
-  const updatedReservation = await Reservation.findOneAndUpdate(
-    { _id: new mongoose.Types.ObjectId(idReservation) },
+  const updatedReservation = await Reservation.findByIdAndUpdate(
+    idReservation,
     { $set: updatedData },
     { new: true, runValidators: true }
   );
