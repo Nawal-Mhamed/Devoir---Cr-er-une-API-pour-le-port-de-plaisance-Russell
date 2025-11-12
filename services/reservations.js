@@ -39,7 +39,12 @@ exports.getById = async (catwayNumber, idReservation) => {
 };
 
 /** Create a new reservation on a specified catway
- * @param {{catwayNumber: number, clientName: string, boatName: string, startDate: Date, endDate: Date}=} data
+ * @param {Object} data - Reservation data
+ * @param {number} data.catwayNumber
+ * @param {string} data.clientName
+ * @param {string} data.boatName
+ * @param {Date|string} data.startDate
+ * @param {Date|String} data.endDate
  * @returns {Promise<object>} Created reservation
  * @throws {Error} If reservation conflicts with existing reservations or required fields are missing
  */
@@ -147,7 +152,12 @@ exports.createReservation = async (data) => {
 /** Update a reservation by catway number and reservation ID
  * @param {number} catwayNumberParam
  * @param {string} idReservation
- * @param {{catwayNumber: number, clientName: string, boatName: string, startDate: Date, endDate: Date}=} data
+ * @param {Object} data - Updated reservation data
+ * @param {number=} data.catwayNumber
+ * @param {string=} data.clientName
+ * @param {string=} data.boatName
+ * @param {Data|string=} data.startDate
+ * @param {Data|string=} data.endDate
  * @returns {Promise<object>} Updated reservation
  * @throws {Error} If reservation not found or conflicts with existing reservations
  */

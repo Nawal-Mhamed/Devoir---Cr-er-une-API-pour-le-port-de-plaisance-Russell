@@ -125,8 +125,8 @@ exports.deleteUser = (email) => {
  * @returns {Promise<string>} JWT token
  * @throws {Error} If credentials are invalid
  */
-exports.loginUser = async ({ username, email, password }) => {
-  const existingUser = await User.findOne({ username, email });
+exports.loginUser = async ({ email, password }) => {
+  const existingUser = await User.findOne({ email });
 
   // Check if user exists
   if (!existingUser) {

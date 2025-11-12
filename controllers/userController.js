@@ -134,9 +134,12 @@ exports.loginUser = async (req, res) => {
 
     res.cookie("token", token, { httpOnly: true });
 
-    res.redirect("/dashboard");
+    res.json({ success: true, redirectUrl: "/dashboard" });
   } catch (err) {
-    res.status(401).send(err.message);
+    res.status(401).json({
+      success: false,
+      message: err.message,
+    });
   }
 };
 
