@@ -147,6 +147,20 @@ document.addEventListener("DOMContentLoaded", () => {
       startInput.value = editBtn.dataset.startdate;
       endInput.value = editBtn.dataset.enddate;
 
+      // Prevent the modification of the start date if the reservation period already began
+
+      const now = new Date();
+      const startDate = new Date(editBtn.dataset.startdate);
+
+      if (startDate <= now) {
+        startInput.disabled = true;
+        startInput.title =
+          "La date de début ne peut plus être modifiée car la réservation est en cours.";
+      } else {
+        startInput.disabled = false;
+        startInput.tiel = "";
+      }
+
       clearError();
       reservationModal.show();
     });
@@ -187,14 +201,28 @@ document.addEventListener("DOMContentLoaded", () => {
     // Determine API endpoint and method
 
     const pathParts = window.location.pathname.split("/");
-    const originalCatway = Number(pathParts[2]);
+
+    const originalCatway = pathParts[2];
     const baseCatway = data.catwayNumber;
 
-    const isUpdate = Boolean(id);
-    const url = isUpdate
-      ? `/catways/${originalCatway}/reservations/${id}`
+    console.log(originalCatway);
+    console.log(baseCatway);
+
+    const isReservationDetail =
+      pathParts.length === 5 &&
+      pathParts[1] === "catways" &&
+      pathParts[3] === "reservations" &&
+      pathParts[4] !== "";
+
+    const url = isReservationDetail
+      ? `/catways/${originalCatway}/reservations/${pathParts[4]}`
       : `/catways/${baseCatway}/reservations`;
-    const method = id ? "PUT" : "POST";
+
+    const method = isReservationDetail ? "PUT" : "POST";
+
+    console.log(
+      `[DEBUG] Méthode : ${method} | URL : ${url} | Catway initial : ${originalCatway} | Nouveau : ${baseCatway}`
+    );
 
     try {
       const res = await fetchWithAuth(url, {
@@ -214,7 +242,7 @@ document.addEventListener("DOMContentLoaded", () => {
       reservationModal.hide();
 
       // Redirect to the correct catway if catway number has changed
-      if (isUpdate && baseCatway !== originalCatway) {
+      if (isReservationDetail && baseCatway !== originalCatway) {
         window.location.href = `/catways/${data.catwayNumber}/reservations`;
       } else {
         location.reload();

@@ -156,7 +156,7 @@ exports.createReservation = async (req, res) => {
     res.status(201).json(reservation);
   } catch (err) {
     console.error(err);
-    if (err.statusCode === 400) {
+    if (err.statusCode === 400 || err.statusCode === 404) {
       res.status(400).json({ message: err.message });
     } else {
       res.status(500).json({ message: "Erreur serveur", error: err.message });
@@ -173,6 +173,11 @@ exports.createReservation = async (req, res) => {
 
 exports.updateReservation = async (req, res) => {
   try {
+    console.log("[UPDATE DEBUG] Requête reçue :", {
+      params: req.params,
+      body: req.body,
+    });
+
     const catwayNumber = Number(req.params.id);
     const idReservation = req.params.idReservation;
     const data = req.body;
@@ -183,17 +188,24 @@ exports.updateReservation = async (req, res) => {
       data
     );
 
-    if (!updatedReservation)
+    if (!updatedReservation) {
+      console.log("[UPDATE DEBUG] Aucune réservation trouvée avec cet ID");
       return res.status(404).json({ message: "Réservation introuvable." });
+    }
+    console.log("[UPDATE DEBUG] Aucune réservation trouvée avec cet ID");
     res.status(200).json(updatedReservation);
   } catch (err) {
     if (err.statusCode === 404) {
+      console.log("[UPDATE DEBUG] Aucune réservation trouvée avec cet ID");
       res.status(404).json({ message: err.message });
     } else if (err.statusCode === 403) {
+      console.log("[UPDATE DEBUG] Aucune réservation trouvée avec cet ID");
       res.status(403).json({ message: err.message });
     } else if (err.statusCode === 400) {
+      console.log("[UPDATE DEBUG] Aucune réservation trouvée avec cet ID");
       res.status(400).json({ message: err.message });
     } else {
+      console.log("[UPDATE DEBUG] Aucune réservation trouvée avec cet ID");
       res.status(500).json({ message: "Erreur serveur", error: err.message });
     }
   }
