@@ -39,7 +39,12 @@ exports.getById = async (catwayNumber, idReservation) => {
 };
 
 /** Create a new reservation on a specified catway
- * @param {{catwayNumber: number, clientName: string, boatName: string, startDate: Date, endDate: Date}=} data
+ * @param {Object} data - Reservation data
+ * @param {number} data.catwayNumber
+ * @param {string} data.clientName
+ * @param {string} data.boatName
+ * @param {Date|string} data.startDate
+ * @param {Date|String} data.endDate
  * @returns {Promise<object>} Created reservation
  * @throws {Error} If reservation conflicts with existing reservations or required fields are missing
  */
@@ -73,7 +78,7 @@ exports.createReservation = async (data) => {
   const start = new Date(startDate);
   const end = new Date(endDate);
 
-  if (startDate < now.setHours(0, 0, 0, 0)) {
+  if (start < now.setHours(0, 0, 0, 0)) {
     const error = new Error(
       "La date de début ne peut pas être antérieure à la date du jour."
     );
@@ -114,9 +119,7 @@ exports.createReservation = async (data) => {
 
   const sameClientConflict = await Reservation.findOne({
     clientName,
-    $or: [
-      { startDate: { $lt: Date(endDate) }, endDate: { $gt: Date(startDate) } },
-    ],
+    $or: [{ startDate: { $lt: end }, endDate: { $gt: start } }],
   });
 
   if (sameClientConflict) {
@@ -131,9 +134,7 @@ exports.createReservation = async (data) => {
 
   const sameBoatConflict = await Reservation.findOne({
     boatName,
-    $or: [
-      { startDate: { $lt: Date(endDate) }, endDate: { $gt: Date(startDate) } },
-    ],
+    $or: [{ startDate: { $lt: end }, endDate: { $gt: start } }],
   });
 
   if (sameBoatConflict) {
@@ -151,7 +152,12 @@ exports.createReservation = async (data) => {
 /** Update a reservation by catway number and reservation ID
  * @param {number} catwayNumberParam
  * @param {string} idReservation
- * @param {{catwayNumber: number, clientName: string, boatName: string, startDate: Date, endDate: Date}=} data
+ * @param {Object} data - Updated reservation data
+ * @param {number=} data.catwayNumber
+ * @param {string=} data.clientName
+ * @param {string=} data.boatName
+ * @param {Data|string=} data.startDate
+ * @param {Data|string=} data.endDate
  * @returns {Promise<object>} Updated reservation
  * @throws {Error} If reservation not found or conflicts with existing reservations
  */

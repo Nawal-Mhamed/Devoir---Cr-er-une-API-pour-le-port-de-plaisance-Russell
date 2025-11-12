@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www",
-    "dev": "nodemon ./bin/www",
-    "prod": "nodemon ./bin/www",
+    "start": "env-cmd -f ./env/.env nodemon ./bin/www",
+    "dev": "env-cmd -f ./env/.env.dev nodemon ./bin/www",
+    "prod": "env-cmd -f ./env/.env.prod nodemon ./bin/www",
     "jsdoc": "jsdoc -c jsdoc.json",
     "doc": "rm -rf public/docs/* && jsdoc -c jsdoc.json"
   },
