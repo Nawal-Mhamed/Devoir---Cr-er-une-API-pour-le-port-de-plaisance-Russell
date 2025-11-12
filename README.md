@@ -47,8 +47,8 @@ The data folder contain all the json files you'll need.
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/marina-russell.git
-cd marina-russell
+git clone https://github.com/Nawal-Mhamed/Devoir---Cr-er-une-API-pour-le-port-de-plaisance-Russell.git
+cd Devoir---Cr-er-une-API-pour-le-port-de-plaisance-Russell
 ```
 2. Install dependencies :
 ```bash
