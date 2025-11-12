@@ -38,12 +38,37 @@ mongoimport --db marinarusselldatabase --collection reservations --file data/res
 ```
 Or import them directly in your MongoDB database with the **"Add Data"** button > **"Import JSON or CSV File"**
 
-The data folder contain all the json files you'll need.
+The data folder contains all the json files you'll need.
 
 > After importing, the database will contain the sample users, catways and reservations used in this project.
 > You'll need it to be able to login in the database with the given accounts below.
 
+### Live Demo
+
+The application is deployed on Render and can be accessed via the following link:
+
+https://devoir-cr-er-une-api-pour-le-port-de.onrender.com
+
+> Use the accounts given below (**Default User Accounts**) to test the application.
+
 ### Running Locally
+
+> #### Using `env-cmd` to run the project locally
+> The project needs environment variables from the .env file to connect to MongoDB. If you start the app without env-cmd, it will fail. So, before following the next steps below, begin by these steps:
+> - Open your `package.json` file.
+> - Replace the "scripts" section (or add these scripts) so that environment variable are loaded automatically:
+> ```package.json
+> "scripts": {
+>   "start": "env-cmd -f ./env/.env nodemon ./bin/www",
+>   "dev": "env-cmd -f ./env/.env.dev nodemon ./bin/www",
+>   "prod": "env-cmd -f ./env/.env.prod nodemon ./bin/www",
+>   "jsdoc": "jsdoc -c jsdoc.json",
+>   "doc": "rm -rf public/docs/* && jsdoc -c jsdoc.json"
+> }
+> ```
+> Then you can continue with the next steps below.
+
+
 
 1. Clone the repository:
 ```bash
@@ -67,23 +92,12 @@ PORT=3000
 >```.env
 >MONGODB_URI=mongodb+srv://readWrite:password123456@marinarusselldatabase.oaba4n2.mongodb.net/?appName=MarinaRussellDatabase
 >```
-> ⚠️ The project uses env-cmd to load environment variables.
-> Make sure to start the application replacing the scripts in package.json with these one that include env-cmd:
-> ```package.json
-> "scripts": {
->    "start": "env-cmd -f ./env/.env nodemon ./bin/www",
->    "dev": "env-cmd -f ./env/.env.dev nodemon ./bin/www",
->    "prod": "env-cmd -f ./env/.env.prod nodemon ./bin/www",
->    "jsdoc": "jsdoc -c jsdoc.json",
->    "doc": "rm -rf public/docs/* && jsdoc -c jsdoc.json"
-> },
->  ```
-> Do not run `nodemon ./bin/www` directly, or the environment variables won't be loaded and the app will crash.
 
 4. Start the application:
 ```bash
 npm start
 ```
+
 5. Open your browser and go to:
 ```arduino
 http://localhost:3000
@@ -106,8 +120,8 @@ Use these accounts to test different roles and access levels.
 - **Password:** password123456
 
 > **Role differences:**
-> - "Administrators" can add, modify and delete catways, reservations en users.
-> - "Regular users" can only add reservations and see informations about a specific catway, reservation or user.
+> - "Administrators" can add, modify and delete catways, reservations and users.
+> - "Regular users" can only add reservations and see information about a specific catway, reservation or user.
 
 
 ---
@@ -137,7 +151,7 @@ Or just click on the "Documentation" link in the navbar of the project (always a
 - **Node.js** + **Express** for the backend
 - **MongoDB** + **Mongoose** for database management
 - **HTML5 / CSS3 / JavaScript** for frontend
-- **Bootstrap 5** for styling and responsive desing
+- **Bootstrap 5** for styling and responsive design
 - **JSDoc** for code documentation
 - **JWT** for authentication
 
