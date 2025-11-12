@@ -80,11 +80,7 @@ function displaySection(section, event) {
     main.innerHTML = `
     <section class="card my-5 p-5 mx-auto mw-100">
       <h2 class="text-center mb-5 card-title">Se connecter</h2>
-        <form method="post" action="/login">
-          <div class="mb-3">
-            <label for="username" class="form-label">Nom d'utilisateur *</label>
-            <input type="text" class="form-control" id="username" name="username" required />
-          </div>
+        <form method="post" action="/login" id="loginForm">
 
           <div class="mb-3">
             <label for="email" class="form-label">Email *</label>
@@ -112,9 +108,47 @@ function displaySection(section, event) {
             <button type="submit" class="btn btn-primary mx-auto">Se connecter</button>
           </div>
           </form>
+          <div id="errorBox" class="alert alert-danger mt-3 d-none"></div>
       </section>`;
 
     setActiveLink("connexion");
+
+    const form = document.getElementById("loginForm");
+    const errorBox = document.getElementById("errorBox");
+
+    if (form) {
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        errorBox.classList.add("d-none");
+        errorBox.textContent = "";
+
+        const data = {
+          email: form.email.value,
+          password: form.password.value,
+        };
+
+        try {
+          const response = await fetch("/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+          });
+
+          const result = await response.json();
+
+          if (result.success) {
+            window.location.href = result.redirectUrl;
+          } else {
+            errorBox.textContent = result.message;
+            errorBox.classList.remove("d-none");
+          }
+        } catch (err) {
+          errorBox.textContent =
+            "Erreur serveur. Veuillez réessayer plus tard.";
+          errorBox.classList.remove("d-none");
+        }
+      });
+    }
 
     // Documentation section
   } else {
@@ -139,3 +173,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => alert.remove(), 500);
   }, 3000);
 });
+
+// -----------------------------------------------------
+// Login alert wrong ids
+// -----------------------------------------------------
