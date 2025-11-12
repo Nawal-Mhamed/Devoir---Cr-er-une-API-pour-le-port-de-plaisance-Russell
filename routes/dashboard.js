@@ -10,6 +10,7 @@ const Reservation = require("../models/reservation");
  */
 
 /** Render dashboard if authenticated
+ * @name Render dashboard if authenticated
  * @route {GET} /dashboard
  */
 router.get("/dashboard", authMiddleware.verifyToken, async (req, res) => {

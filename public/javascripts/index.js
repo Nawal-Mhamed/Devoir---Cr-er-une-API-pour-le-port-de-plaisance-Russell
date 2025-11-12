@@ -6,6 +6,11 @@
 // home, login and documentation sections.
 // =========================================================================
 
+/**
+ * Utility functions for the home page
+ * @module homepage
+ */
+
 // -----------------------------------------------------
 // Active link management in navbar
 // -----------------------------------------------------

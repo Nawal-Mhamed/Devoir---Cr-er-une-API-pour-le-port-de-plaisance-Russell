@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>controllers/userController.js - Documentation</title>
+    <title>public/javascripts/buttons.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -37,7 +37,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">controllers/userController.js</h1>
+    <h1 class="page-title">public/javascripts/buttons.js</h1>
     
 
     
@@ -47,156 +47,130 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const userService = require("../services/users");
+            <pre class="prettyprint source linenums"><code>// ======================================================
+// GENEREIC BUTTONS MANAGEMENT ACCROSS THE APPLICATION
+// ======================================================
+//
+// Provides commons buttons behaviors across all pages:
+// - "Back" button
+// - "Show" buttons (show details of an item)
+// - "Delete" button
+// - Hiding admin-only buttons for non-admin users
+// ======================================================
 
-/** Controller for managing users
- * @module userController
+/** Buttons utilities for all pages
+ * @module buttons
  */
 
-/** Create a new user
- * @param {object} req - Express request object, req.body contains user data
- * @param {object} res - Express response object
- * @returns {Promise&lt;void>}
- * @throws {Error} If email is already used or server error occurs
+import { fetchWithAuth } from "./common.js";
+
+// ----------------------------------------------
+// "Back" button management
+// ----------------------------------------------
+
+/**
+ * Initialize a "Back" button that redirects to a specified URL
+ * @param {string} backBtnId - ID of the button element
+ * @param {string} url - URL to navigate to on click
  */
-exports.createUser = async (req, res) => {
-  try {
-    const user = await userService.createUser(req.body);
-    res.status(201).json(user);
-  } catch (err) {
-    if (err.statusCode === 400) {
-      res.status(400).json({ message: err.message });
-    } else {
-      res.status(500).json({ message: "Erreur serveur" });
-    }
-  }
-};
+export function initBackButton(backBtnId, url) {
+  const backBtn = document.getElementById(backBtnId);
+  if (!backBtn) return;
+  backBtn.addEventListener("click", () => {
+    window.location.href = url;
+  });
+}
 
-/** Get all users
- * @param {object} req - Express request object
- * @param {object} res - Express response object
- * @returns {Promise&lt;void>}
- * @throws {Error} If server error occurs
+// ----------------------------------------------
+// "View" buttons management
+// ----------------------------------------------
+
+/**
+ * Initialize "View" buttons for each row to redirect to a detail view
+ * @param {string} rowSelector - Selector for row elements
+ * @param {string} viewSelector - Selector for the "View" button inside the row
+ * @param {function} callback - Function to execute on click (receives button dataset)
  */
-exports.getAllUsers = async (req, res) => {
-  try {
-    const users = await userService.getAllUsers().sort({ createdAt: 1 }).lean();
-    res.status(200).render("users", { users, role: req.userRole });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Erreur serveur");
-  }
-};
-
-/** Get a user by email
- * @param {object} req - Express request object, req.params.email = target user's email
- * @param {object} res - Express response object
- * @returns {Promise&lt;void>}
- * @throws {Error} If user does not exist or server error occurs
- */
-exports.getByEmail = async (req, res) => {
-  try {
-    const user = await userService.getByEmail(req.params.email);
-    if (!user) {
-      return res.status(404).render("user", {
-        user: null,
-        errorMessage: `L'utilisateur est introuvable ou n'existe pas.`,
-        role: req.userRole,
-      });
-    }
-
-    const isOwnProfile = req.userEmail === user.email;
-
-    res
-      .status(200)
-      .render("user", { user: user, role: req.userRole, isOwnProfile });
-  } catch (err) {
-    console.error(err);
-    res.status(500).render("user", {
-      user: "null",
-      errorMessage: "Erreur serveur",
-      role: req.userRole,
-      isOwnProfile: false,
+export function initViewButtons(rowSelector, viewSelector, callback) {
+  const rows = document.querySelectorAll(rowSelector);
+  rows.forEach((row) => {
+    const btn = row.querySelector(viewSelector);
+    if (!btn) return;
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      callback(btn.dataset);
     });
-  }
-};
+  });
+}
 
-/** Update a user's information.
- * @param {object} req - Express request object, req.params.email = user's email / req.body = updated data
- * @param {object} res - Express response object
- * @returns {Promise&lt;void>}
- * @throws {Error} If user does not exist, email is already user or server error occurs
+// ----------------------------------------------
+// "Delete" buttons management
+// ----------------------------------------------
+
+/**
+ * Initialize "Delete" buttons for all entity types.
+ * Requires a confirmation modal to handle deletion.
+ * @param {Function} openConfirmModal - Function to open the confirmation modal
  */
-exports.updateUser = async (req, res) => {
-  try {
-    const updatedUser = await userService.updateUser(
-      req.params.email,
-      req.body
-    );
+export function initDeleteButton(openConfirmModal) {
+  // Mapping pour le message à afficher
+  const entityLabels = {
+    catway: "ce catway",
+    reservation: "cette réservation",
+    user: "cet utilisateur",
+  };
 
-    const { password, ...safeUser } = updatedUser.toObject();
+  document.querySelectorAll(".delete").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const entityType = btn.dataset.entityType;
+      const entityId = btn.dataset.id || btn.dataset.email;
+      const subId = btn.dataset.subId;
 
-    res
-      .status(200)
-      .json({ message: "Utilisateur mis à jour avec succès.", user: safeUser });
-  } catch (err) {
-    if (err.statusCode === 400 || err.statusCode === 404) {
-      res.status(err.statusCode).json({ message: err.message });
-    } else {
-      res.status(500).json({ message: "Erreur serveur", error: err.message });
-    }
-  }
-};
+      // Constructing the API call URL
+      let url =
+        entityType === "reservation" &amp;&amp; subId
+          ? `/catways/${entityId}/reservations/${subId}`
+          : `/${entityType}s/${entityId}`;
 
-/** Delete a user
- * @param {object} req - Express request object, req.params.email = email of user to delete
- * @param {object} res - Express response object
- * @returns {Promise&lt;void>}
- * @throws {Error} If user doesn't exist or server error occurs
+      // Constructing the message to show
+      const label = entityLabels[entityType] || "élément";
+      const message = `Voulez-vous vraiment supprimer ${label} ?`;
+
+      // Callback executed upon confirmation
+      openConfirmModal(message, async () => {
+        const res = await fetchWithAuth(url, { method: "DELETE" });
+        if (res.ok || res.status === 204) {
+          window.location.href =
+            entityType === "reservation" &amp;&amp; subId
+              ? `/catways/0/reservations`
+              : `/${entityType}s`;
+        } else {
+          const txt = await res.text();
+          throw new Error(txt || "Erreur serveur");
+        }
+      });
+    });
+  });
+}
+
+// --------------------------------------
+// Admin buttons visibility
+// --------------------------------------
+
+/**
+ * Hide admin-only buttons (edit/delete/add) for non-admin users
+ * The "add" button for the reservations is not concerned.
+ * @param {string} role - Current user's role.
  */
-exports.deleteUser = async (req, res) => {
-  try {
-    if (req.userEmail === req.params.email) {
-      return res
-        .status(403)
-        .json({ message: "Vous ne pouvez pas supprimer votre propre compte." });
-    }
-
-    const deletedUser = await userService.deleteUser(req.params.email);
-    if (!deletedUser)
-      return res.status(404).json({ message: "Utilisateur introuvable." });
-    res.status(204).send();
-  } catch (err) {
-    res.status(500).json({ message: "Erreur serveur", error: err.message });
+export function hideAdminButtons(role) {
+  if (role !== "administrateur") {
+    document
+      .querySelectorAll(".edit, .delete, #btnAddUser, #btnAddCatway")
+      .forEach((btn) => {
+        btn.style.display = "none";
+      });
   }
-};
-
-/** Login a user
- * @param {object} req - Express request object, req.body contains login credentials
- * @param {object} res - Express response object
- * @returns {Promise&lt;void>}
- * @throws {Error} If credentials are invalid or server error occurs
- */
-exports.loginUser = async (req, res) => {
-  try {
-    const token = await userService.loginUser(req.body);
-
-    res.cookie("token", token, { httpOnly: true });
-
-    res.redirect("/dashboard");
-  } catch (err) {
-    res.status(401).send(err.message);
-  }
-};
-
-/** Logout a user
- * @param {object} req - Express request object
- * @param {object} res - Express response object
- */
-exports.logoutUser = (req, res) => {
-  res.clearCookie("token");
-  res.redirect("/?logout=success");
-};
+}
 </code></pre>
         </article>
     </section>

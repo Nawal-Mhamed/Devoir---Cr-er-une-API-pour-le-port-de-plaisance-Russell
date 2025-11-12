@@ -21,38 +21,6 @@ exports.getReservationsByCatway = (catwayNumber) => {
   return Reservation.find({ catwayNumber });
 };
 
-/** Search reservations with flexible filters
- * - If catwayNumber === 0, catway filter is  ignored (all catways)
- * - Can filter by clientName (partial, case-insensitive), boatName (partial) and exact _id (idReservation)
- * @param {{catwayNumber: number, clientName?: string, boatName?: string, idReservation?: string}} filters
- * @returns {Promise<Array>} List of reservations matching filters
-
-*/
-exports.searchReservations = ({
-  catwayNumber,
-  clientName,
-  boatName,
-  idReservation,
-}) => {
-  const filter = {};
-
-  if (catwayNumber && Number(catwayNumber) !== 0) {
-    filter.catwayNumber = Number(catwayNumber);
-  }
-
-  if (idReservation) {
-    try {
-      filter._id = new mongoose.Types.ObjectId(idReservation);
-    } catch (e) {
-      return [];
-    }
-  }
-  if (clientName) filter.clientName = { $regex: new RegExp(clientName, "i") };
-  if (boatName) filter.boatName = { $regex: new RegExp(boatName, "i") };
-
-  return Reservation.find(filter).sort({ startDate: 1 });
-};
-
 /** Get a reservation by catway number and reservation ID.
  * @param {number} catwayNumber
  * @param {string} idReservation

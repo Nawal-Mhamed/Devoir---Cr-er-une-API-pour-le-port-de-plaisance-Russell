@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>controllers/userController.js - Documentation</title>
+    <title>public/javascripts/index.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -37,7 +37,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">controllers/userController.js</h1>
+    <h1 class="page-title">public/javascripts/index.js</h1>
     
 
     
@@ -47,156 +47,147 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const userService = require("../services/users");
+            <pre class="prettyprint source linenums"><code>// =========================================================================
+// MAIN NAVIGATION AND CONTENT SWITCHING
+// =========================================================================
+//
+// Handles dynamic content rendering and active link management for the
+// home, login and documentation sections.
+// =========================================================================
 
-/** Controller for managing users
- * @module userController
+/**
+ * Utility functions for the home page
+ * @module homepage
  */
 
-/** Create a new user
- * @param {object} req - Express request object, req.body contains user data
- * @param {object} res - Express response object
- * @returns {Promise&lt;void>}
- * @throws {Error} If email is already used or server error occurs
+// -----------------------------------------------------
+// Active link management in navbar
+// -----------------------------------------------------
+
+/**
+ * Updates the active link in the navbar.
+ * @param {string} activeId  - ID of the link to activate.
  */
-exports.createUser = async (req, res) => {
-  try {
-    const user = await userService.createUser(req.body);
-    res.status(201).json(user);
-  } catch (err) {
-    if (err.statusCode === 400) {
-      res.status(400).json({ message: err.message });
+function setActiveLink(activeId) {
+  const links = ["home", "connexion", "documentation"];
+  links.forEach((id) => {
+    const link = document.getElementById(id);
+    if (id === activeId) {
+      link.classList.add("active");
+      link.setAttribute("aria-current", "page");
     } else {
-      res.status(500).json({ message: "Erreur serveur" });
+      link.classList.remove("active");
+      link.removeAttribute("aria-current");
     }
-  }
-};
+  });
+}
 
-/** Get all users
- * @param {object} req - Express request object
- * @param {object} res - Express response object
- * @returns {Promise&lt;void>}
- * @throws {Error} If server error occurs
+// -----------------------------------------------------
+// Conditional section display management
+// -----------------------------------------------------
+
+/**
+ * Dynamically switches the main content section.
+ * @param {string} section  - Target section: "home", "login" or "documentation".
+ * @param {Event} event - Click event to prevent default navigation.
  */
-exports.getAllUsers = async (req, res) => {
-  try {
-    const users = await userService.getAllUsers().sort({ createdAt: 1 }).lean();
-    res.status(200).render("users", { users, role: req.userRole });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Erreur serveur");
+function displaySection(section, event) {
+  event.preventDefault();
+
+  const main = document.getElementById("content");
+
+  // Home section
+  if (section === "accueil") {
+    main.innerHTML = `      &lt;div
+        class="card w-75 mx-auto my-5 shadow p-3 mb-5 bg-body-tertiary rounded"
+      >
+        &lt;div class="card-body">
+          &lt;h1 class="card-title text-center my-5">Port de Plaisance Russel&lt;/h1>
+
+          &lt;section>
+            &lt;h2 class="card-subtitle mb-2 text-body-secondary text-center mb-5">
+              Bienvenue au Port de Plaisance Russel !
+            &lt;/h2>
+            &lt;article class="card-text">
+              &lt;p>
+                Ce site a été conçu afin de faciliter la gestion des
+                réservations de catway du Port de Plaisance Russell.
+              &lt;/p>
+              &lt;p>
+                Pour pouvoir l'utiliser, vous devez commencer par vous
+                &lt;a href="#" class="card-link" onclick="displaySection('connexion', event)">connecter&lt;/a> à la base de
+                données.
+              &lt;/p>
+            &lt;/article>
+          &lt;/section>
+        &lt;/div>
+      &lt;/div>`;
+    setActiveLink("home");
+
+    // Login section
+  } else if (section === "connexion") {
+    main.innerHTML = `
+    &lt;section class="card my-5 p-5 mx-auto mw-100">
+      &lt;h2 class="text-center mb-5 card-title">Se connecter&lt;/h2>
+        &lt;form method="post" action="/login">
+          &lt;div class="mb-3">
+            &lt;label for="username" class="form-label">Nom d'utilisateur *&lt;/label>
+            &lt;input type="text" class="form-control" id="username" name="username" required />
+          &lt;/div>
+
+          &lt;div class="mb-3">
+            &lt;label for="email" class="form-label">Email *&lt;/label>
+            &lt;input
+              type="email"
+              class="form-control"
+              id="email"
+              name="email"
+              ariaDescribedBy="emailHelp"
+              required
+            />
+            &lt;p id="emailHelp" class="form-text">
+              Nous ne communiquerons jamais votre adresse e-mail à des tiers.
+            &lt;/p>
+          &lt;/div>
+
+          &lt;div class="mb-3">
+            &lt;label for="password" class="form-label">Mot de passe *&lt;/label>
+            &lt;input type="password" class="form-control" id="password" name="password" required />
+          &lt;/div>
+          &lt;div class="mb-3">
+            &lt;p class="form-text">Les champs suivis d'une * sont obligatoires&lt;/p>
+          &lt;/div>
+          &lt;div class="d-grid d-md-block mx-auto text-center">
+            &lt;button type="submit" class="btn btn-primary mx-auto">Se connecter&lt;/button>
+          &lt;/div>
+          &lt;/form>
+      &lt;/section>`;
+
+    setActiveLink("connexion");
+
+    // Documentation section
+  } else {
+    const main = document.getElementById("content");
+
+    main.innerHTML = `&lt;iframe id="documentation" src="/docs/index.html" style="width:100%; height:80vh; border:none;">&lt;/iframe>`;
+    setActiveLink("documentation");
   }
-};
+}
 
-/** Get a user by email
- * @param {object} req - Express request object, req.params.email = target user's email
- * @param {object} res - Express response object
- * @returns {Promise&lt;void>}
- * @throws {Error} If user does not exist or server error occurs
- */
-exports.getByEmail = async (req, res) => {
-  try {
-    const user = await userService.getByEmail(req.params.email);
-    if (!user) {
-      return res.status(404).render("user", {
-        user: null,
-        errorMessage: `L'utilisateur est introuvable ou n'existe pas.`,
-        role: req.userRole,
-      });
-    }
+// -----------------------------------------------------
+// Logout alert fade-out
+// -----------------------------------------------------
 
-    const isOwnProfile = req.userEmail === user.email;
+document.addEventListener("DOMContentLoaded", () => {
+  const alert = document.getElementById("logoutAlert");
 
-    res
-      .status(200)
-      .render("user", { user: user, role: req.userRole, isOwnProfile });
-  } catch (err) {
-    console.error(err);
-    res.status(500).render("user", {
-      user: "null",
-      errorMessage: "Erreur serveur",
-      role: req.userRole,
-      isOwnProfile: false,
-    });
-  }
-};
+  if (!alert) return;
 
-/** Update a user's information.
- * @param {object} req - Express request object, req.params.email = user's email / req.body = updated data
- * @param {object} res - Express response object
- * @returns {Promise&lt;void>}
- * @throws {Error} If user does not exist, email is already user or server error occurs
- */
-exports.updateUser = async (req, res) => {
-  try {
-    const updatedUser = await userService.updateUser(
-      req.params.email,
-      req.body
-    );
-
-    const { password, ...safeUser } = updatedUser.toObject();
-
-    res
-      .status(200)
-      .json({ message: "Utilisateur mis à jour avec succès.", user: safeUser });
-  } catch (err) {
-    if (err.statusCode === 400 || err.statusCode === 404) {
-      res.status(err.statusCode).json({ message: err.message });
-    } else {
-      res.status(500).json({ message: "Erreur serveur", error: err.message });
-    }
-  }
-};
-
-/** Delete a user
- * @param {object} req - Express request object, req.params.email = email of user to delete
- * @param {object} res - Express response object
- * @returns {Promise&lt;void>}
- * @throws {Error} If user doesn't exist or server error occurs
- */
-exports.deleteUser = async (req, res) => {
-  try {
-    if (req.userEmail === req.params.email) {
-      return res
-        .status(403)
-        .json({ message: "Vous ne pouvez pas supprimer votre propre compte." });
-    }
-
-    const deletedUser = await userService.deleteUser(req.params.email);
-    if (!deletedUser)
-      return res.status(404).json({ message: "Utilisateur introuvable." });
-    res.status(204).send();
-  } catch (err) {
-    res.status(500).json({ message: "Erreur serveur", error: err.message });
-  }
-};
-
-/** Login a user
- * @param {object} req - Express request object, req.body contains login credentials
- * @param {object} res - Express response object
- * @returns {Promise&lt;void>}
- * @throws {Error} If credentials are invalid or server error occurs
- */
-exports.loginUser = async (req, res) => {
-  try {
-    const token = await userService.loginUser(req.body);
-
-    res.cookie("token", token, { httpOnly: true });
-
-    res.redirect("/dashboard");
-  } catch (err) {
-    res.status(401).send(err.message);
-  }
-};
-
-/** Logout a user
- * @param {object} req - Express request object
- * @param {object} res - Express response object
- */
-exports.logoutUser = (req, res) => {
-  res.clearCookie("token");
-  res.redirect("/?logout=success");
-};
+  setTimeout(() => {
+    alert.classList.add("fade-out");
+    setTimeout(() => alert.remove(), 500);
+  }, 3000);
+});
 </code></pre>
         </article>
     </section>

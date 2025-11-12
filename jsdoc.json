@@ -3,7 +3,13 @@
     "allowUnknownTags": true
   },
   "source": {
-    "include": ["controllers", "services", "routes", "models"],
+    "include": [
+      "controllers",
+      "services",
+      "routes",
+      "models",
+      "public/javascripts"
+    ],
     "includePattern": ".js$",
     "excludePattern": "(node_modules/|docs/)"
   },

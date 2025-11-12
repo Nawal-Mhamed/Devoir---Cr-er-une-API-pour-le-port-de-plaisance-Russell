@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>userController - Documentation</title>
+    <title>common - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -37,7 +37,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">userController</h1>
+    <h1 class="page-title">common</h1>
     
 
     
@@ -60,7 +60,7 @@
         <div class="container-overview">
         
             
-                <div class="description usertext">Controller for managing users</div>
+                <div class="description usertext">Shared utility functions</div>
             
 
             
@@ -72,13 +72,13 @@
 <dl class="details">
     
     <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li>Controller for managing users</li></ul></dd>
+    <dd class="tag-description"><ul class="dummy"><li>Shared utility functions</li></ul></dd>
     
 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controllers_userController.js.html">controllers/userController.js</a>, <a href="controllers_userController.js.html#line3">line 3</a>
+        <a href="public_javascripts_common.js.html">public/javascripts/common.js</a>, <a href="public_javascripts_common.js.html#line13">line 13</a>
     </li></ul></dd>
     
 
@@ -169,7 +169,7 @@
 
     
 
-    <h4 class="name" id=".createUser"><span class="type-signature type-signature-static">(static) </span>createUser<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span></h4>
+    <h4 class="name" id=".displaySection"><span class="type-signature type-signature-static">(static) </span>displaySection<span class="signature">(section)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -179,13 +179,13 @@
 <dl class="details">
     
     <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li>Create a new user</li></ul></dd>
+    <dd class="tag-description"><ul class="dummy"><li>Only shows the requested section and hides all others.</li></ul></dd>
     
 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controllers_userController.js.html">controllers/userController.js</a>, <a href="controllers_userController.js.html#line13">line 13</a>
+        <a href="public_javascripts_common.js.html">public/javascripts/common.js</a>, <a href="public_javascripts_common.js.html#line47">line 47</a>
     </li></ul></dd>
     
 
@@ -257,13 +257,13 @@
 
         <tr>
             
-                <td class="name"><code>req</code></td>
+                <td class="name"><code>section</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">string</span>
 
 
 
@@ -274,31 +274,7 @@
 
             
 
-            <td class="description last">Express request object, req.body contains user data</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>res</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Express response object</td>
+            <td class="description last">Section name (e.g. "users", "catways").</td>
         </tr>
 
     
@@ -318,41 +294,15 @@
 
 
 
-<h5 class="h5-throws">Throws:</h5>
-
-        
-
-<dl>
-    <dt>
-        <div class="param-desc usertext">
-        If email is already used or server error occurs
-        </div>
-    </dt>
-    <dd></dd>
-    <dt>
-        <dl class="param-type">
-            <dt>
-                Type
-            </dt>
-            <dd>
-                
-<span class="param-type">Error</span>
-
-
-
-            </dd>
-        </dl>
-    </dt>
-    <dd></dd>
-</dl>
-
-
-    
 
 
 <h5 class="h5-returns">Returns:</h5>
 
         
+<div class="param-desc">
+    - true if the section was found and displayed.
+</div>
+
 
 
 <dl class="param-type">
@@ -361,7 +311,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;void></span>
+<span class="param-type">boolean</span>
 
 
 
@@ -377,7 +327,7 @@
 
     
 
-    <h4 class="name" id=".deleteUser"><span class="type-signature type-signature-static">(static) </span>deleteUser<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span></h4>
+    <h4 class="name" id=".fetchWithAuth"><span class="type-signature type-signature-static">(static) </span>fetchWithAuth<span class="signature">(url, options)</span><span class="type-signature"> &rarr; {Promise.&lt;Response>}</span></h4>
 
     
 
@@ -387,13 +337,13 @@
 <dl class="details">
     
     <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li>Delete a user</li></ul></dd>
+    <dd class="tag-description"><ul class="dummy"><li>Wrapper around fetch() that includes session cookies.</li></ul></dd>
     
 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controllers_userController.js.html">controllers/userController.js</a>, <a href="controllers_userController.js.html#line108">line 108</a>
+        <a href="public_javascripts_common.js.html">public/javascripts/common.js</a>, <a href="public_javascripts_common.js.html#line174">line 174</a>
     </li></ul></dd>
     
 
@@ -465,13 +415,13 @@
 
         <tr>
             
-                <td class="name"><code>req</code></td>
+                <td class="name"><code>url</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">string</span>
 
 
 
@@ -482,20 +432,20 @@
 
             
 
-            <td class="description last">Express request object, req.params.email = email of user to delete</td>
+            <td class="description last">Target URL.</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>res</code></td>
+                <td class="name"><code>options</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">Object</span>
 
 
 
@@ -506,7 +456,7 @@
 
             
 
-            <td class="description last">Express response object</td>
+            <td class="description last">Fetch options (method, headers, etc.).</td>
         </tr>
 
     
@@ -526,41 +476,15 @@
 
 
 
-<h5 class="h5-throws">Throws:</h5>
-
-        
-
-<dl>
-    <dt>
-        <div class="param-desc usertext">
-        If user doesn't exist or server error occurs
-        </div>
-    </dt>
-    <dd></dd>
-    <dt>
-        <dl class="param-type">
-            <dt>
-                Type
-            </dt>
-            <dd>
-                
-<span class="param-type">Error</span>
-
-
-
-            </dd>
-        </dl>
-    </dt>
-    <dd></dd>
-</dl>
-
-
-    
 
 
 <h5 class="h5-returns">Returns:</h5>
 
         
+<div class="param-desc">
+    Fetch API Response.
+</div>
+
 
 
 <dl class="param-type">
@@ -569,7 +493,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;void></span>
+<span class="param-type">Promise.&lt;Response></span>
 
 
 
@@ -585,7 +509,7 @@
 
     
 
-    <h4 class="name" id=".getAllUsers"><span class="type-signature type-signature-static">(static) </span>getAllUsers<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span></h4>
+    <h4 class="name" id=".handleNavClick"><span class="type-signature type-signature-static">(static) </span>handleNavClick<span class="signature">(event)</span><span class="type-signature"></span></h4>
 
     
 
@@ -595,13 +519,13 @@
 <dl class="details">
     
     <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li>Get all users</li></ul></dd>
+    <dd class="tag-description"><ul class="dummy"><li>Prevents default navigation for internal links.</li></ul></dd>
     
 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controllers_userController.js.html">controllers/userController.js</a>, <a href="controllers_userController.js.html#line32">line 32</a>
+        <a href="public_javascripts_common.js.html">public/javascripts/common.js</a>, <a href="public_javascripts_common.js.html#line88">line 88</a>
     </li></ul></dd>
     
 
@@ -673,13 +597,13 @@
 
         <tr>
             
-                <td class="name"><code>req</code></td>
+                <td class="name"><code>event</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">MouseEvent</span>
 
 
 
@@ -690,31 +614,7 @@
 
             
 
-            <td class="description last">Express request object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>res</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Express response object</td>
+            <td class="description last">Click event on a navbar link.</td>
         </tr>
 
     
@@ -734,57 +634,8 @@
 
 
 
-<h5 class="h5-throws">Throws:</h5>
-
-        
-
-<dl>
-    <dt>
-        <div class="param-desc usertext">
-        If server error occurs
-        </div>
-    </dt>
-    <dd></dd>
-    <dt>
-        <dl class="param-type">
-            <dt>
-                Type
-            </dt>
-            <dd>
-                
-<span class="param-type">Error</span>
 
 
-
-            </dd>
-        </dl>
-    </dt>
-    <dd></dd>
-</dl>
-
-
-    
-
-
-<h5 class="h5-returns">Returns:</h5>
-
-        
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise.&lt;void></span>
-
-
-
-    </dd>
-</dl>
-
-    
 
 
 
@@ -793,7 +644,7 @@
 
     
 
-    <h4 class="name" id=".getByEmail"><span class="type-signature type-signature-static">(static) </span>getByEmail<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span></h4>
+    <h4 class="name" id=".initMultiFilter"><span class="type-signature type-signature-static">(static) </span>initMultiFilter<span class="signature">(rowSelector, filters)</span><span class="type-signature"></span></h4>
 
     
 
@@ -803,13 +654,13 @@
 <dl class="details">
     
     <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li>Get a user by email</li></ul></dd>
+    <dd class="tag-description"><ul class="dummy"><li>Enables multi-field filtering on a table.</li></ul></dd>
     
 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controllers_userController.js.html">controllers/userController.js</a>, <a href="controllers_userController.js.html#line48">line 48</a>
+        <a href="public_javascripts_common.js.html">public/javascripts/common.js</a>, <a href="public_javascripts_common.js.html#line137">line 137</a>
     </li></ul></dd>
     
 
@@ -881,13 +732,13 @@
 
         <tr>
             
-                <td class="name"><code>req</code></td>
+                <td class="name"><code>rowSelector</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">string</span>
 
 
 
@@ -898,20 +749,20 @@
 
             
 
-            <td class="description last">Express request object, req.params.email = target user's email</td>
+            <td class="description last">Selector for rows/items to filter.</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>res</code></td>
+                <td class="name"><code>filters</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">Object</span>
 
 
 
@@ -922,7 +773,7 @@
 
             
 
-            <td class="description last">Express response object</td>
+            <td class="description last">Mapping of keys to input DOM elements for each criterion.</td>
         </tr>
 
     
@@ -942,57 +793,8 @@
 
 
 
-<h5 class="h5-throws">Throws:</h5>
-
-        
-
-<dl>
-    <dt>
-        <div class="param-desc usertext">
-        If user does not exist or server error occurs
-        </div>
-    </dt>
-    <dd></dd>
-    <dt>
-        <dl class="param-type">
-            <dt>
-                Type
-            </dt>
-            <dd>
-                
-<span class="param-type">Error</span>
 
 
-
-            </dd>
-        </dl>
-    </dt>
-    <dd></dd>
-</dl>
-
-
-    
-
-
-<h5 class="h5-returns">Returns:</h5>
-
-        
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise.&lt;void></span>
-
-
-
-    </dd>
-</dl>
-
-    
 
 
 
@@ -1001,7 +803,7 @@
 
     
 
-    <h4 class="name" id=".loginUser"><span class="type-signature type-signature-static">(static) </span>loginUser<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span></h4>
+    <h4 class="name" id=".initTableFilter"><span class="type-signature type-signature-static">(static) </span>initTableFilter<span class="signature">(inputId, rowSelector, getters)</span><span class="type-signature"></span></h4>
 
     
 
@@ -1011,13 +813,13 @@
 <dl class="details">
     
     <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li>Login a user</li></ul></dd>
+    <dd class="tag-description"><ul class="dummy"><li>Enables single-field filtering on a table.</li></ul></dd>
     
 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controllers_userController.js.html">controllers/userController.js</a>, <a href="controllers_userController.js.html#line131">line 131</a>
+        <a href="public_javascripts_common.js.html">public/javascripts/common.js</a>, <a href="public_javascripts_common.js.html#line113">line 113</a>
     </li></ul></dd>
     
 
@@ -1089,13 +891,13 @@
 
         <tr>
             
-                <td class="name"><code>req</code></td>
+                <td class="name"><code>inputId</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">string</span>
 
 
 
@@ -1106,20 +908,20 @@
 
             
 
-            <td class="description last">Express request object, req.body contains login credentials</td>
+            <td class="description last">ID of the search input element.</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>res</code></td>
+                <td class="name"><code>rowSelector</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">string</span>
 
 
 
@@ -1130,7 +932,31 @@
 
             
 
-            <td class="description last">Express response object</td>
+            <td class="description last">Selector for rows/items to filter.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>getters</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Key/value mapping of functions to extract searchable fields.</td>
         </tr>
 
     
@@ -1150,57 +976,8 @@
 
 
 
-<h5 class="h5-throws">Throws:</h5>
-
-        
-
-<dl>
-    <dt>
-        <div class="param-desc usertext">
-        If credentials are invalid or server error occurs
-        </div>
-    </dt>
-    <dd></dd>
-    <dt>
-        <dl class="param-type">
-            <dt>
-                Type
-            </dt>
-            <dd>
-                
-<span class="param-type">Error</span>
 
 
-
-            </dd>
-        </dl>
-    </dt>
-    <dd></dd>
-</dl>
-
-
-    
-
-
-<h5 class="h5-returns">Returns:</h5>
-
-        
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise.&lt;void></span>
-
-
-
-    </dd>
-</dl>
-
-    
 
 
 
@@ -1209,7 +986,7 @@
 
     
 
-    <h4 class="name" id=".logoutUser"><span class="type-signature type-signature-static">(static) </span>logoutUser<span class="signature">(req, res)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".setActiveLink"><span class="type-signature type-signature-static">(static) </span>setActiveLink<span class="signature">(activeId)</span><span class="type-signature"></span></h4>
 
     
 
@@ -1219,13 +996,13 @@
 <dl class="details">
     
     <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li>Logout a user</li></ul></dd>
+    <dd class="tag-description"><ul class="dummy"><li>Updates the active link in the navigation bar</li></ul></dd>
     
 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controllers_userController.js.html">controllers/userController.js</a>, <a href="controllers_userController.js.html#line147">line 147</a>
+        <a href="public_javascripts_common.js.html">public/javascripts/common.js</a>, <a href="public_javascripts_common.js.html#line26">line 26</a>
     </li></ul></dd>
     
 
@@ -1297,13 +1074,13 @@
 
         <tr>
             
-                <td class="name"><code>req</code></td>
+                <td class="name"><code>activeId</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">string</span>
 
 
 
@@ -1314,31 +1091,7 @@
 
             
 
-            <td class="description last">Express request object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>res</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Express response object</td>
+            <td class="description last">ID of the link to activate.</td>
         </tr>
 
     
@@ -1360,214 +1113,6 @@
 
 
 
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".updateUser"><span class="type-signature type-signature-static">(static) </span>updateUser<span class="signature">(req, res)</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-    
-    <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li>Update a user's information.</li></ul></dd>
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controllers_userController.js.html">controllers/userController.js</a>, <a href="controllers_userController.js.html#line81">line 81</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5 class="h5-parameters">Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>req</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Express request object, req.params.email = user's email / req.body = updated data</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>res</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Express response object</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5 class="h5-throws">Throws:</h5>
-
-        
-
-<dl>
-    <dt>
-        <div class="param-desc usertext">
-        If user does not exist, email is already user or server error occurs
-        </div>
-    </dt>
-    <dd></dd>
-    <dt>
-        <dl class="param-type">
-            <dt>
-                Type
-            </dt>
-            <dd>
-                
-<span class="param-type">Error</span>
-
-
-
-            </dd>
-        </dl>
-    </dt>
-    <dd></dd>
-</dl>
-
-
-    
-
-
-<h5 class="h5-returns">Returns:</h5>
-
-        
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise.&lt;void></span>
-
-
-
-    </dd>
-</dl>
-
-    
 
 
 

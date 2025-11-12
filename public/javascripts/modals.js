@@ -6,6 +6,11 @@
 // and delete confirmations across all pages.
 // ======================================================
 
+/**
+ * Shared bootstrap modals
+ * @module modals
+ */
+
 // -----------------------------------------------------
 // Generic form modals (Add / Edit)
 // -----------------------------------------------------

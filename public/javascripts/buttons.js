@@ -9,6 +9,10 @@
 // - Hiding admin-only buttons for non-admin users
 // ======================================================
 
+/** Buttons utilities for all pages
+ * @module buttons
+ */
+
 import { fetchWithAuth } from "./common.js";
 
 // ----------------------------------------------

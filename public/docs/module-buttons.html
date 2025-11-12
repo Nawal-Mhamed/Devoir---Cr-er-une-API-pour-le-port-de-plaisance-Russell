@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>controllers/userController.js - Documentation</title>
+    <title>buttons - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -37,169 +37,754 @@
 
 <div id="main">
     
-    <h1 class="page-title">controllers/userController.js</h1>
+    <h1 class="page-title">buttons</h1>
     
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>const userService = require("../services/users");
+        
+            
+        
+    
+</header>
 
-/** Controller for managing users
- * @module userController
- */
+<article>
+    
+        <div class="container-overview">
+        
+            
+                <div class="description usertext">Buttons utilities for all pages</div>
+            
 
-/** Create a new user
- * @param {object} req - Express request object, req.body contains user data
- * @param {object} res - Express response object
- * @returns {Promise&lt;void>}
- * @throws {Error} If email is already used or server error occurs
- */
-exports.createUser = async (req, res) => {
-  try {
-    const user = await userService.createUser(req.body);
-    res.status(201).json(user);
-  } catch (err) {
-    if (err.statusCode === 400) {
-      res.status(400).json({ message: err.message });
-    } else {
-      res.status(500).json({ message: "Erreur serveur" });
-    }
-  }
-};
+            
+                
 
-/** Get all users
- * @param {object} req - Express request object
- * @param {object} res - Express response object
- * @returns {Promise&lt;void>}
- * @throws {Error} If server error occurs
- */
-exports.getAllUsers = async (req, res) => {
-  try {
-    const users = await userService.getAllUsers().sort({ createdAt: 1 }).lean();
-    res.status(200).render("users", { users, role: req.userRole });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Erreur serveur");
-  }
-};
 
-/** Get a user by email
- * @param {object} req - Express request object, req.params.email = target user's email
- * @param {object} res - Express response object
- * @returns {Promise&lt;void>}
- * @throws {Error} If user does not exist or server error occurs
- */
-exports.getByEmail = async (req, res) => {
-  try {
-    const user = await userService.getByEmail(req.params.email);
-    if (!user) {
-      return res.status(404).render("user", {
-        user: null,
-        errorMessage: `L'utilisateur est introuvable ou n'existe pas.`,
-        role: req.userRole,
-      });
-    }
 
-    const isOwnProfile = req.userEmail === user.email;
 
-    res
-      .status(200)
-      .render("user", { user: user, role: req.userRole, isOwnProfile });
-  } catch (err) {
-    console.error(err);
-    res.status(500).render("user", {
-      user: "null",
-      errorMessage: "Erreur serveur",
-      role: req.userRole,
-      isOwnProfile: false,
-    });
-  }
-};
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li>Buttons utilities for all pages</li></ul></dd>
+    
 
-/** Update a user's information.
- * @param {object} req - Express request object, req.params.email = user's email / req.body = updated data
- * @param {object} res - Express response object
- * @returns {Promise&lt;void>}
- * @throws {Error} If user does not exist, email is already user or server error occurs
- */
-exports.updateUser = async (req, res) => {
-  try {
-    const updatedUser = await userService.updateUser(
-      req.params.email,
-      req.body
-    );
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="public_javascripts_buttons.js.html">public/javascripts/buttons.js</a>, <a href="public_javascripts_buttons.js.html#line12">line 12</a>
+    </li></ul></dd>
+    
 
-    const { password, ...safeUser } = updatedUser.toObject();
+    
 
-    res
-      .status(200)
-      .json({ message: "Utilisateur mis à jour avec succès.", user: safeUser });
-  } catch (err) {
-    if (err.statusCode === 400 || err.statusCode === 404) {
-      res.status(err.statusCode).json({ message: err.message });
-    } else {
-      res.status(500).json({ message: "Erreur serveur", error: err.message });
-    }
-  }
-};
+    
 
-/** Delete a user
- * @param {object} req - Express request object, req.params.email = email of user to delete
- * @param {object} res - Express response object
- * @returns {Promise&lt;void>}
- * @throws {Error} If user doesn't exist or server error occurs
- */
-exports.deleteUser = async (req, res) => {
-  try {
-    if (req.userEmail === req.params.email) {
-      return res
-        .status(403)
-        .json({ message: "Vous ne pouvez pas supprimer votre propre compte." });
-    }
+    
 
-    const deletedUser = await userService.deleteUser(req.params.email);
-    if (!deletedUser)
-      return res.status(404).json({ message: "Utilisateur introuvable." });
-    res.status(204).send();
-  } catch (err) {
-    res.status(500).json({ message: "Erreur serveur", error: err.message });
-  }
-};
+    
 
-/** Login a user
- * @param {object} req - Express request object, req.body contains login credentials
- * @param {object} res - Express response object
- * @returns {Promise&lt;void>}
- * @throws {Error} If credentials are invalid or server error occurs
- */
-exports.loginUser = async (req, res) => {
-  try {
-    const token = await userService.loginUser(req.body);
+    
 
-    res.cookie("token", token, { httpOnly: true });
+    
 
-    res.redirect("/dashboard");
-  } catch (err) {
-    res.status(401).send(err.message);
-  }
-};
+    
 
-/** Logout a user
- * @param {object} req - Express request object
- * @param {object} res - Express response object
- */
-exports.logoutUser = (req, res) => {
-  res.clearCookie("token");
-  res.redirect("/?logout=success");
-};
-</code></pre>
-        </article>
-    </section>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+        
+        </div>
+    
+
+    
+
+    
+
+    
+    
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".hideAdminButtons"><span class="type-signature type-signature-static">(static) </span>hideAdminButtons<span class="signature">(role)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li>Hide admin-only buttons (edit/delete/add) for non-admin usersThe "add" button for the reservations is not concerned.</li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="public_javascripts_buttons.js.html">public/javascripts/buttons.js</a>, <a href="public_javascripts_buttons.js.html#line116">line 116</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>role</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Current user's role.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".initBackButton"><span class="type-signature type-signature-static">(static) </span>initBackButton<span class="signature">(backBtnId, url)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li>Initialize a "Back" button that redirects to a specified URL</li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="public_javascripts_buttons.js.html">public/javascripts/buttons.js</a>, <a href="public_javascripts_buttons.js.html#line27">line 27</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>backBtnId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">ID of the button element</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>url</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">URL to navigate to on click</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".initDeleteButton"><span class="type-signature type-signature-static">(static) </span>initDeleteButton<span class="signature">(openConfirmModal)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li>Initialize "Delete" buttons for all entity types.Requires a confirmation modal to handle deletion.</li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="public_javascripts_buttons.js.html">public/javascripts/buttons.js</a>, <a href="public_javascripts_buttons.js.html#line66">line 66</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>openConfirmModal</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Function to open the confirmation modal</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".initViewButtons"><span class="type-signature type-signature-static">(static) </span>initViewButtons<span class="signature">(rowSelector, viewSelector, callback)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li>Initialize "View" buttons for each row to redirect to a detail view</li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="public_javascripts_buttons.js.html">public/javascripts/buttons.js</a>, <a href="public_javascripts_buttons.js.html#line45">line 45</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>rowSelector</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Selector for row elements</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>viewSelector</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Selector for the "View" button inside the row</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Function to execute on click (receives button dataset)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 

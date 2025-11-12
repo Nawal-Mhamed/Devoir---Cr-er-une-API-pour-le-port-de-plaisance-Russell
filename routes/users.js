@@ -45,7 +45,7 @@ router.put(
 
 /** Delete a user
  * @name Delete a user
- * @route DELETE /users/{email}
+ * @route {DELETE} /users/{email}
  * @routeparam {string} :email - Email de l'utilisateur
  */
 router.delete(

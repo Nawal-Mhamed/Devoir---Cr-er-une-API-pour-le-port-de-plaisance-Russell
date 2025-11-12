@@ -8,6 +8,11 @@
 // - Sets up all "Delete" buttons with proper behavior
 // ======================================================
 
+/**
+ * Main script for the app
+ * @module main
+ */
+
 import { hideAdminButtons, initDeleteButton } from "./buttons.js";
 import { initConfirmDeleteModal } from "./modals.js";
 import { handleNavClick } from "./common.js";

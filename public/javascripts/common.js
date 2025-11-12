@@ -10,6 +10,11 @@
 // - Fetch requests with session authentication
 // ======================================================
 
+/**
+ * Shared utility functions
+ * @module common
+ */
+
 // -----------------------------------------------------
 // Active link management in navbar
 // -----------------------------------------------------
