@@ -32,9 +32,9 @@ To run this project locally or prepare for hosting, you will need:
 To get started with the API, you can import the provided sample data into your local MongoDB instance:
 
 ```bash
-mongoimport --db marina_russell --collection users --file data/users.json --jsonArray
-mongoimport --db marina_russell --collection catways --file data/catways.json --jsonArray
-mongoimport --db marina_russell --collection reservations --file data/reservations.json --jsonArray
+mongoimport --db marinarusselldatabase --collection users --file data/users.json --jsonArray
+mongoimport --db marinarusselldatabase --collection catways --file data/catways.json --jsonArray
+mongoimport --db marinarusselldatabase --collection reservations --file data/reservations.json --jsonArray
 ```
 Or import them directly in your MongoDB database with the **"Add Data"** button > **"Import JSON or CSV File"**
 
@@ -60,6 +60,12 @@ MONGODB_URI=your_mongodb_connection_string
 SECRET_KEY=your_secret_key
 PORT=3000
 ```
+> ⚠️ If you don't have any MongoDB account, you can use the provided readWrite account for testing:
+>```.env
+>MONGODB_URI=mongodb+srv://readWrite:password123456@marinarusselldatabase.oaba4n2.mongodb.net/?appName=MarinaRussellDatabase
+>```
+>
+
 4. Start the application:
 ```bash
 npm start
