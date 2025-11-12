@@ -114,9 +114,7 @@ exports.createReservation = async (data) => {
 
   const sameClientConflict = await Reservation.findOne({
     clientName,
-    $or: [
-      { startDate: { $lt: Date(endDate) }, endDate: { $gt: Date(startDate) } },
-    ],
+    $or: [{ startDate: { $lt: end }, endDate: { $gt: start } }],
   });
 
   if (sameClientConflict) {
@@ -131,9 +129,7 @@ exports.createReservation = async (data) => {
 
   const sameBoatConflict = await Reservation.findOne({
     boatName,
-    $or: [
-      { startDate: { $lt: Date(endDate) }, endDate: { $gt: Date(startDate) } },
-    ],
+    $or: [{ startDate: { $lt: end }, endDate: { $gt: start } }],
   });
 
   if (sameBoatConflict) {
