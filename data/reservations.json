@@ -1,0 +1,199 @@
+[{
+  "_id": {
+    "$oid": "68f554f0a9112f0ffb3aeba0"
+  },
+  "catwayNumber": 2,
+  "clientName": "John Doe",
+  "boatName": "Groeland",
+  "startDate": {
+    "$date": "2024-05-18T06:00:00.000Z"
+  },
+  "endDate": {
+    "$date": "2024-11-30T06:00:00.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68f554f0a9112f0ffb3aeba1"
+  },
+  "catwayNumber": 3,
+  "clientName": "Margareth Wurtz",
+  "boatName": "Sirène",
+  "startDate": {
+    "$date": "2024-06-20T06:00:00.000Z"
+  },
+  "endDate": {
+    "$date": "2024-08-27T06:00:00.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68f554f0a9112f0ffb3aeba2"
+  },
+  "catwayNumber": 1,
+  "clientName": "Ralph Laurent",
+  "boatName": "Surcouf",
+  "startDate": {
+    "$date": "2026-02-02T00:00:00.000Z"
+  },
+  "endDate": {
+    "$date": "2026-02-13T00:00:00.000Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-12T14:07:44.937Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68f554f0a9112f0ffb3aeba3"
+  },
+  "catwayNumber": 11,
+  "clientName": "Jack Sparrow",
+  "boatName": "Black perl",
+  "startDate": {
+    "$date": "2024-08-13T06:00:00.000Z"
+  },
+  "endDate": {
+    "$date": "2024-09-13T06:00:00.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68f554f0a9112f0ffb3aeba4"
+  },
+  "catwayNumber": 13,
+  "clientName": "Jacky Snow",
+  "boatName": "Léandra",
+  "startDate": {
+    "$date": "2024-09-18T06:00:00.000Z"
+  },
+  "endDate": {
+    "$date": "2024-12-23T06:00:00.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68f6aee8b1768c940616faa2"
+  },
+  "catwayNumber": 9,
+  "clientName": "Stéphane",
+  "boatName": "Sirène",
+  "startDate": {
+    "$date": "2024-12-20T00:00:00.000Z"
+  },
+  "endDate": {
+    "$date": "2026-12-25T00:00:00.000Z"
+  },
+  "createdAt": {
+    "$date": "2025-10-20T21:51:36.723Z"
+  },
+  "updatedAt": {
+    "$date": "2025-10-21T13:18:36.501Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68f78fb45372f72b97096d83"
+  },
+  "catwayNumber": 11,
+  "clientName": "Caroline",
+  "boatName": "Black perl",
+  "startDate": {
+    "$date": "2024-12-20T00:00:00.000Z"
+  },
+  "endDate": {
+    "$date": "2026-12-25T00:00:00.000Z"
+  },
+  "createdAt": {
+    "$date": "2025-10-21T13:50:44.889Z"
+  },
+  "updatedAt": {
+    "$date": "2025-10-21T13:52:59.168Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68ffa0e77c6ba657ca3a8c34"
+  },
+  "catwayNumber": 4,
+  "clientName": "Molière",
+  "boatName": "L'Entourloupe",
+  "startDate": {
+    "$date": "2025-11-27T00:00:00.000Z"
+  },
+  "endDate": {
+    "$date": "2026-05-27T00:00:00.000Z"
+  },
+  "createdAt": {
+    "$date": "2025-10-27T16:42:15.010Z"
+  },
+  "updatedAt": {
+    "$date": "2025-10-27T16:42:15.010Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6910d21a10ddb8dc5707747f"
+  },
+  "catwayNumber": 5,
+  "clientName": "Ariel Sirène",
+  "boatName": "L'Entourloupe",
+  "startDate": {
+    "$date": "2028-06-07T00:00:00.000Z"
+  },
+  "endDate": {
+    "$date": "2028-09-12T00:00:00.000Z"
+  },
+  "createdAt": {
+    "$date": "2025-11-09T17:40:42.634Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-09T17:40:42.634Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69113bbb8eb30e331fdc1fdd"
+  },
+  "catwayNumber": 14,
+  "clientName": "Molière",
+  "boatName": "L'Entourloupe",
+  "startDate": {
+    "$date": "2027-12-12T00:00:00.000Z"
+  },
+  "endDate": {
+    "$date": "2028-10-12T00:00:00.000Z"
+  },
+  "createdAt": {
+    "$date": "2025-11-10T01:11:23.879Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-10T01:11:23.879Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6911faf9f49acd53cc3abade"
+  },
+  "catwayNumber": 5,
+  "clientName": "Stéphanie Laurence",
+  "boatName": "Titanic",
+  "startDate": {
+    "$date": "2025-11-20T00:00:00.000Z"
+  },
+  "endDate": {
+    "$date": "2025-12-14T00:00:00.000Z"
+  },
+  "createdAt": {
+    "$date": "2025-11-10T14:47:21.476Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-10T14:47:21.476Z"
+  },
+  "__v": 0
+}]

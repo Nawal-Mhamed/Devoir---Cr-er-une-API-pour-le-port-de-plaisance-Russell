@@ -1,0 +1,80 @@
+[{
+  "_id": {
+    "$oid": "68f648ff6d30819b99e8551d"
+  },
+  "username": "Molière",
+  "email": "moliere@jbp.com",
+  "password": "$2b$10$H.W.rr7DQ4JttDQEZSavdeMreLR4LY4IvzNuXsnLyM0hZbw6AKarC",
+  "createdAt": {
+    "$date": "2025-10-20T14:36:47.722Z"
+  },
+  "updatedAt": {
+    "$date": "2025-10-25T22:12:20.782Z"
+  },
+  "__v": 0,
+  "role": "administrateur"
+},
+{
+  "_id": {
+    "$oid": "68f686cd37f4fdfbe79c24e6"
+  },
+  "username": "John Doe",
+  "email": "jdoe@mail.com",
+  "password": "$2b$10$vUK6JCZ49gLARz0nrojTPOZnm.Kw9/a2C1M4wZUiRGx0TJoQ7nFoC",
+  "createdAt": {
+    "$date": "2025-10-20T19:00:29.859Z"
+  },
+  "updatedAt": {
+    "$date": "2025-10-20T19:01:14.037Z"
+  },
+  "__v": 0,
+  "role": "administrateur"
+},
+{
+  "_id": {
+    "$oid": "690e23589dcbd5dcabe34cf2"
+  },
+  "username": "Patati Patata",
+  "email": "patati@patata.com",
+  "password": "$2b$10$ZhKHjcVO4C2tlPO5kdyYhuQs46/uDK.4xO7RziY0LZKwxOH6kqtBy",
+  "createdAt": {
+    "$date": "2025-11-07T16:50:32.003Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T17:55:51.928Z"
+  },
+  "__v": 0,
+  "role": "utilisateur"
+},
+{
+  "_id": {
+    "$oid": "69120c95df85a445b974ad0a"
+  },
+  "username": "Jane Doe",
+  "email": "janedoe@mail.com",
+  "password": "$2b$10$ELPMt3Ff83T4DPrVz0kneum0cApKht3TTEy5dAvExzoj11TZmI7HS",
+  "role": "utilisateur",
+  "createdAt": {
+    "$date": "2025-11-10T16:02:29.609Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-10T16:02:29.609Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6914a06340e1a9ced22988ad"
+  },
+  "username": "TestUser",
+  "email": "testuser@test.com",
+  "password": "$2b$10$a245HD1Gb.F68GqAP48nuOvqZX.PsWdmJ2SSobIwJBBcJzEx3HVru",
+  "role": "utilisateur",
+  "createdAt": {
+    "$date": "2025-11-12T14:57:39.117Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-12T14:57:39.117Z"
+  },
+  "__v": 0
+}]
