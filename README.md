@@ -54,8 +54,11 @@ cd Devoir---Cr-er-une-API-pour-le-port-de-plaisance-Russell
 ```bash
 npm install
 ```
-3. Set up environment variables (create a `.env` file in the root):
+3. Create a .env file in the env folder with the following content:
 ```.env
+NODE_ENV=template
+APP_NAME=Russell Marina Database
+API_URL=127.0.0.1
 MONGODB_URI=your_mongodb_connection_string
 SECRET_KEY=your_secret_key
 PORT=3000
@@ -64,7 +67,18 @@ PORT=3000
 >```.env
 >MONGODB_URI=mongodb+srv://readWrite:password123456@marinarusselldatabase.oaba4n2.mongodb.net/?appName=MarinaRussellDatabase
 >```
->
+> ⚠️ The project uses env-cmd to load environment variables.
+> Make sure to start the application replacing the scripts in package.json with these one that include env-cmd:
+> ```package.json
+> "scripts": {
+>    "start": "env-cmd -f ./env/.env nodemon ./bin/www",
+>    "dev": "env-cmd -f ./env/.env.dev nodemon ./bin/www",
+>    "prod": "env-cmd -f ./env/.env.prod nodemon ./bin/www",
+>    "jsdoc": "jsdoc -c jsdoc.json",
+>    "doc": "rm -rf public/docs/* && jsdoc -c jsdoc.json"
+> },
+>  ```
+> Do not run `nodemon ./bin/www` directly, or the environment variables won't be loaded and the app will crash.
 
 4. Start the application:
 ```bash
